@@ -256,12 +256,14 @@ export default function Home() {
             >
               Start New Game
             </button>
-            <button
-              onClick={handleStartDevGame}
-              className="w-full mt-3 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              Start Dev Game
-            </button>
+            {process.env.NEXT_PUBLIC_DEV_MODE === "1" && (
+              <button
+                onClick={handleStartDevGame}
+                className="w-full mt-3 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                Start Dev Game
+              </button>
+            )}
           </div>
         </div>
       )}
