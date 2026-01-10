@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { PlayerSetup } from "@/components/PlayerSetup";
 import { CategorySetup } from "@/components/CategorySetup";
 import { GameBoard } from "@/components/GameBoard";
-import { QuestionModal } from "@/components/QuestionModal";
+import { QuestionModal, QuestionResult } from "@/components/QuestionModal";
+import { AudioControls } from "@/components/AudioControls";
 import {
   GameState,
   Player,
@@ -12,12 +13,25 @@ import {
   Question,
 } from "@/types/game";
 import { saveGameState, loadGameState, clearGameState, createInitialState } from "@/lib/storage";
+import { useGameAudio } from "@/hooks/useGameAudio";
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
+
+  // Check if all questions are answered (game over)
+  const isGameOver = gameState.phase === "playing" &&
+    gameState.questions.length > 0 &&
+    gameState.questions.every((q) => q.answered);
+
+  // Audio hook
+  const { playPointsGainSound, playPointsLoseSound } = useGameAudio({
+    phase: gameState.phase,
+    hasSelectedQuestion: !!gameState.selectedQuestion,
+    isGameOver,
+  });
 
   // Load saved game state on mount
   useEffect(() => {
@@ -80,20 +94,36 @@ export default function Home() {
     }));
   };
 
-  const handleQuestionComplete = (correct: boolean) => {
+  const handleQuestionComplete = (result: QuestionResult) => {
     const { selectedQuestion, players, currentPlayerIndex } = gameState;
     if (!selectedQuestion) return;
 
-    const updatedPlayers = [...players];
-    const pointChange = correct ? selectedQuestion.points : -selectedQuestion.points;
-    updatedPlayers[currentPlayerIndex] = {
-      ...updatedPlayers[currentPlayerIndex],
-      score: updatedPlayers[currentPlayerIndex].score + pointChange,
-    };
+    let updatedPlayers = [...players];
+    let answeredBy: string | undefined;
+    let correct: boolean | undefined;
+
+    if (result.type === "answered") {
+      // Someone answered - update their score
+      const pointChange = result.correct ? selectedQuestion.points : -selectedQuestion.points;
+      updatedPlayers[result.playerIndex] = {
+        ...updatedPlayers[result.playerIndex],
+        score: updatedPlayers[result.playerIndex].score + pointChange,
+      };
+      answeredBy = players[result.playerIndex].id;
+      correct = result.correct;
+
+      // Play points sound
+      if (result.correct) {
+        playPointsGainSound();
+      } else {
+        playPointsLoseSound();
+      }
+    }
+    // If result.type === "skipped", no score changes, just mark as answered
 
     const updatedQuestions = gameState.questions.map((q) =>
       q.id === selectedQuestion.id
-        ? { ...q, answered: true, answeredBy: players[currentPlayerIndex].id, correct }
+        ? { ...q, answered: true, answeredBy, correct }
         : q
     );
 
@@ -105,6 +135,29 @@ export default function Home() {
       questions: updatedQuestions,
       currentPlayerIndex: nextPlayerIndex,
       selectedQuestion: null,
+    }));
+  };
+
+  const handleQuestionRegenerate = (newQuestion: string, newAnswer: string) => {
+    const { selectedQuestion } = gameState;
+    if (!selectedQuestion) return;
+
+    // Update the question in the questions array
+    const updatedQuestions = gameState.questions.map((q) =>
+      q.id === selectedQuestion.id
+        ? { ...q, question: newQuestion, answer: newAnswer }
+        : q
+    );
+
+    // Also update the selected question
+    setGameState((prev) => ({
+      ...prev,
+      questions: updatedQuestions,
+      selectedQuestion: {
+        ...selectedQuestion,
+        question: newQuestion,
+        answer: newAnswer,
+      },
     }));
   };
 
@@ -125,6 +178,12 @@ export default function Home() {
   const handleNewGame = () => {
     clearGameState();
     setGameState(createInitialState());
+  };
+
+  // Get category for the selected question
+  const getSelectedCategory = (): Category | undefined => {
+    if (!gameState.selectedQuestion) return undefined;
+    return gameState.categories[gameState.selectedQuestion.categoryIndex];
   };
 
   if (loading) {
@@ -187,14 +246,20 @@ export default function Home() {
         />
       )}
 
-      {gameState.selectedQuestion && (
+      {gameState.selectedQuestion && getSelectedCategory() && (
         <QuestionModal
           question={gameState.selectedQuestion}
-          currentPlayer={gameState.players[gameState.currentPlayerIndex]}
+          category={getSelectedCategory()!}
+          players={gameState.players}
+          currentPlayerIndex={gameState.currentPlayerIndex}
           onComplete={handleQuestionComplete}
+          onRegenerate={handleQuestionRegenerate}
           onClose={handleCloseQuestion}
         />
       )}
+
+      {/* Audio Controls */}
+      <AudioControls />
     </main>
   );
 }

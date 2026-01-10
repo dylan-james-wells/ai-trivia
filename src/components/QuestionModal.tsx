@@ -1,16 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { Question, Player } from "@/types/game";
+import { useState, useEffect } from "react";
+import { Question, Player, Category } from "@/types/game";
+import { audioManager } from "@/lib/audio";
 
 interface QuestionModalProps {
   question: Question;
-  currentPlayer: Player;
-  onComplete: (correct: boolean) => void;
+  category: Category;
+  players: Player[];
+  currentPlayerIndex: number;
+  onComplete: (result: QuestionResult) => void;
+  onRegenerate: (newQuestion: string, newAnswer: string) => void;
   onClose: () => void;
 }
 
-type ModalPhase = "question" | "evaluating" | "judging" | "result";
+export type QuestionResult =
+  | { type: "answered"; correct: boolean; playerIndex: number }
+  | { type: "skipped" }; // Everyone passed, no points awarded
+
+type ModalPhase = "question" | "evaluating" | "judging" | "result" | "regenerating" | "revealed";
 
 interface EvaluationResult {
   correct: boolean;
@@ -21,14 +29,28 @@ interface EvaluationResult {
 
 export function QuestionModal({
   question,
-  currentPlayer,
+  category,
+  players,
+  currentPlayerIndex,
   onComplete,
+  onRegenerate,
   onClose,
 }: QuestionModalProps) {
   const [phase, setPhase] = useState<ModalPhase>("question");
   const [userAnswer, setUserAnswer] = useState("");
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
   const [error, setError] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState(question.question);
+  const [currentAnswer, setCurrentAnswer] = useState(question.answer);
+
+  // Track which players have passed (for "don't know" feature)
+  const [passedPlayerIndices, setPassedPlayerIndices] = useState<number[]>([]);
+  const [answeringPlayerIndex, setAnsweringPlayerIndex] = useState(currentPlayerIndex);
+
+  // Track the final result for display
+  const [finalResult, setFinalResult] = useState<{ correct: boolean; playerIndex: number } | null>(null);
+
+  const currentPlayer = players[answeringPlayerIndex];
 
   const submitAnswer = async () => {
     if (!userAnswer.trim()) {
@@ -44,8 +66,8 @@ export function QuestionModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: question.question,
-          correctAnswer: question.answer,
+          question: currentQuestion,
+          correctAnswer: currentAnswer,
           userAnswer: userAnswer.trim(),
         }),
       });
@@ -58,6 +80,13 @@ export function QuestionModal({
 
       setEvaluation(data);
       setPhase("judging");
+
+      // Play AI evaluation sound and pause music until returning to board
+      if (data.correct) {
+        audioManager.playSfxAndPauseMusic("correct");
+      } else {
+        audioManager.playSfxAndPauseMusic("incorrect");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to evaluate answer");
       setPhase("question");
@@ -65,10 +94,72 @@ export function QuestionModal({
   };
 
   const handleModeratorDecision = (correct: boolean) => {
+    setFinalResult({ correct, playerIndex: answeringPlayerIndex });
     setPhase("result");
     setTimeout(() => {
-      onComplete(correct);
+      onComplete({ type: "answered", correct, playerIndex: answeringPlayerIndex });
     }, 2000);
+  };
+
+  const handleDontKnow = () => {
+    const newPassedIndices = [...passedPlayerIndices, answeringPlayerIndex];
+    setPassedPlayerIndices(newPassedIndices);
+
+    // Find next player who hasn't passed
+    const remainingPlayers = players.filter((_, i) => !newPassedIndices.includes(i));
+
+    if (remainingPlayers.length === 0) {
+      // Everyone has passed - reveal answer, no points awarded
+      setPhase("revealed");
+    } else {
+      // Find the next player index (cycling through)
+      let nextIndex = (answeringPlayerIndex + 1) % players.length;
+      while (newPassedIndices.includes(nextIndex)) {
+        nextIndex = (nextIndex + 1) % players.length;
+      }
+      setAnsweringPlayerIndex(nextIndex);
+      setUserAnswer("");
+      setError("");
+    }
+  };
+
+  const handleRevealedContinue = () => {
+    onComplete({ type: "skipped" });
+  };
+
+  const handleRegenerate = async () => {
+    setPhase("regenerating");
+    setError("");
+
+    try {
+      const response = await fetch("/api/regenerate-question", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: category.name,
+          difficulty: question.difficulty,
+          points: question.points,
+          oldQuestion: currentQuestion,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to regenerate question");
+      }
+
+      setCurrentQuestion(data.question);
+      setCurrentAnswer(data.answer);
+      onRegenerate(data.question, data.answer);
+      setUserAnswer("");
+      setPassedPlayerIndices([]);
+      setAnsweringPlayerIndex(currentPlayerIndex);
+      setPhase("question");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to regenerate question");
+      setPhase("question");
+    }
   };
 
   return (
@@ -89,8 +180,13 @@ export function QuestionModal({
         {/* Question */}
         <div className="mb-6">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">
-            {question.question}
+            {currentQuestion}
           </h3>
+          {passedPlayerIndices.length > 0 && phase === "question" && (
+            <p className="text-sm text-gray-500">
+              Passed: {passedPlayerIndices.map(i => players[i].name).join(", ")}
+            </p>
+          )}
         </div>
 
         {/* Answer Input Phase */}
@@ -106,12 +202,34 @@ export function QuestionModal({
               autoFocus
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={submitAnswer}
+                className="flex-1 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Submit Answer
+              </button>
+              <button
+                onClick={handleDontKnow}
+                className="py-3 px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                Don&apos;t Know
+              </button>
+            </div>
             <button
-              onClick={submitAnswer}
-              className="w-full mt-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              onClick={handleRegenerate}
+              className="w-full mt-2 py-2 text-gray-500 hover:text-gray-700 text-sm underline"
             >
-              Submit Answer
+              Regenerate Question
             </button>
+          </div>
+        )}
+
+        {/* Regenerating Phase */}
+        {phase === "regenerating" && (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Generating a new question...</p>
           </div>
         )}
 
@@ -128,7 +246,7 @@ export function QuestionModal({
           <div>
             <div className="mb-4 p-4 bg-gray-100 rounded-lg">
               <p className="text-gray-900">
-                <strong>Player&apos;s Answer:</strong> {userAnswer}
+                <strong>{currentPlayer.name}&apos;s Answer:</strong> {userAnswer}
               </p>
               <p className="text-gray-900 mt-2">
                 <strong>Correct Answer:</strong> {evaluation.correctAnswer}
@@ -153,21 +271,21 @@ export function QuestionModal({
             </div>
 
             <div className="border-t pt-4">
-              <p className="text-center text-gray-600 mb-4">
-                <strong>Moderator:</strong> Do you accept this judgment?
+              <p className="text-center text-gray-900 font-semibold mb-4">
+                Moderator: Was {currentPlayer.name}&apos;s answer correct?
               </p>
               <div className="flex gap-4">
                 <button
                   onClick={() => handleModeratorDecision(true)}
-                  className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
                 >
-                  Correct
+                  Yes, Correct (+${question.points})
                 </button>
                 <button
                   onClick={() => handleModeratorDecision(false)}
-                  className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
                 >
-                  Incorrect
+                  No, Incorrect (-${question.points})
                 </button>
               </div>
             </div>
@@ -175,16 +293,39 @@ export function QuestionModal({
         )}
 
         {/* Result Phase */}
-        {phase === "result" && (
+        {phase === "result" && finalResult && (
           <div className="text-center py-8">
+            <p className="text-gray-600 mb-2">{players[finalResult.playerIndex].name}</p>
             <div
               className={`text-4xl mb-4 ${
-                evaluation?.correct ? "text-green-600" : "text-red-600"
+                finalResult.correct ? "text-green-600" : "text-red-600"
               }`}
             >
-              {evaluation?.correct ? "+" : "-"}${question.points}
+              {finalResult.correct ? "+" : "-"}${question.points}
             </div>
             <p className="text-gray-600">Moving to next player...</p>
+          </div>
+        )}
+
+        {/* Revealed Phase (everyone passed) */}
+        {phase === "revealed" && (
+          <div className="text-center py-8">
+            <p className="text-gray-600 mb-4">Nobody knew the answer!</p>
+            <div className="p-4 bg-blue-100 rounded-lg mb-6">
+              <p className="text-gray-900">
+                <strong>The correct answer was:</strong>
+              </p>
+              <p className="text-2xl text-blue-800 font-semibold mt-2">
+                {currentAnswer}
+              </p>
+            </div>
+            <p className="text-gray-500 mb-4">No points awarded or deducted</p>
+            <button
+              onClick={handleRevealedContinue}
+              className="py-3 px-8 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Continue
+            </button>
           </div>
         )}
       </div>
