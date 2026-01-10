@@ -19,6 +19,7 @@ Download royalty-free audio from [Pixabay](https://pixabay.com/music/) and place
 | `sfx-incorrect.mp3` | AI evaluates answer as incorrect | [Wrong buzzer](https://pixabay.com/sound-effects/search/wrong%20buzzer/) |
 | `sfx-points-gain.mp3` | Moderator confirms correct (points awarded) | [Success sound](https://pixabay.com/sound-effects/search/success/) |
 | `sfx-points-lose.mp3` | Moderator confirms incorrect (points lost) | [Fail sound](https://pixabay.com/sound-effects/search/fail/) |
+| `sfx-nobody-knows.mp3` | Everyone passed, answer revealed | [Disappointed](https://pixabay.com/sound-effects/search/disappointed/) or [Sad trombone](https://pixabay.com/sound-effects/search/trombone/) |
 
 ## Recommended Tracks from Pixabay
 

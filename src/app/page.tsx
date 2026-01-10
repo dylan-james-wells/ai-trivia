@@ -13,7 +13,7 @@ import {
   Question,
 } from "@/types/game";
 import { saveGameState, loadGameState, clearGameState, createInitialState } from "@/lib/storage";
-import { useGameAudio } from "@/hooks/useGameAudio";
+import { audioManager, MusicTrack } from "@/lib/audio";
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -26,12 +26,25 @@ export default function Home() {
     gameState.questions.length > 0 &&
     gameState.questions.every((q) => q.answered);
 
-  // Audio hook
-  const { playPointsGainSound, playPointsLoseSound } = useGameAudio({
-    phase: gameState.phase,
-    hasSelectedQuestion: !!gameState.selectedQuestion,
-    isGameOver,
-  });
+  // Determine current music track based on game state
+  const getCurrentTrack = (): MusicTrack => {
+    if (gameState.phase === "setup" || gameState.phase === "categories") {
+      return "setup";
+    } else if (gameState.phase === "playing") {
+      if (isGameOver) {
+        return "victory";
+      } else if (gameState.selectedQuestion) {
+        return "question";
+      } else {
+        return "board";
+      }
+    } else if (gameState.phase === "finished") {
+      return "victory";
+    }
+    return "none";
+  };
+
+  const currentTrack = getCurrentTrack();
 
   // Load saved game state on mount
   useEffect(() => {
@@ -111,13 +124,6 @@ export default function Home() {
       };
       answeredBy = players[result.playerIndex].id;
       correct = result.correct;
-
-      // Play points sound
-      if (result.correct) {
-        playPointsGainSound();
-      } else {
-        playPointsLoseSound();
-      }
     }
     // If result.type === "skipped", no score changes, just mark as answered
 
@@ -158,13 +164,6 @@ export default function Home() {
         question: newQuestion,
         answer: newAnswer,
       },
-    }));
-  };
-
-  const handleCloseQuestion = () => {
-    setGameState((prev) => ({
-      ...prev,
-      selectedQuestion: null,
     }));
   };
 
@@ -254,12 +253,11 @@ export default function Home() {
           currentPlayerIndex={gameState.currentPlayerIndex}
           onComplete={handleQuestionComplete}
           onRegenerate={handleQuestionRegenerate}
-          onClose={handleCloseQuestion}
         />
       )}
 
       {/* Audio Controls */}
-      <AudioControls />
+      <AudioControls currentTrack={currentTrack} />
     </main>
   );
 }

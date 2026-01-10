@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAnthropicClient, MODEL } from "@/lib/anthropic";
 import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
+import { parseAIJson } from "@/lib/parse-json";
 
 export async function POST(request: Request) {
   // Rate limiting
@@ -39,7 +40,11 @@ export async function POST(request: Request) {
 Determine if this is a valid trivia category. A valid category:
 1. Is recognizable as a coherent topic (not random gibberish like "asdfgh" or "dsjkdsalkj")
 2. Could have trivia questions written about it
-3. Is not offensive or inappropriate
+
+IMPORTANT: Be permissive! This is a trivia game for adults. Topics like history, war, weapons, alcohol, gambling, true crime, and other mature subjects are perfectly acceptable. The only things to reject are:
+- Pure gibberish/nonsense text
+- Explicit sexual content
+- Content promoting illegal activity against specific people
 
 Respond in JSON format:
 {
@@ -58,7 +63,7 @@ Only respond with the JSON, no other text.`,
       throw new Error("Unexpected response type");
     }
 
-    const result = JSON.parse(content.text);
+    const result = parseAIJson<{ valid: boolean; interpretation: string; reason?: string }>(content.text);
 
     return NextResponse.json({
       valid: result.valid,

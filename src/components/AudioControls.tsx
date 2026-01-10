@@ -1,9 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { audioManager } from "@/lib/audio";
+import { audioManager, MusicTrack } from "@/lib/audio";
 
-export function AudioControls() {
+interface AudioControlsProps {
+  currentTrack: MusicTrack;
+}
+
+export function AudioControls({ currentTrack }: AudioControlsProps) {
   const [isMuted, setIsMuted] = useState(true);
   const [showVolume, setShowVolume] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.3);
@@ -21,16 +25,33 @@ export function AudioControls() {
     if (savedSfxVol !== null) setSfxVolume(parseFloat(savedSfxVol));
   }, []);
 
+  // Update music when track changes (only if initialized and not muted)
+  useEffect(() => {
+    if (isInitialized && !isMuted) {
+      audioManager.playMusic(currentTrack);
+    }
+  }, [currentTrack, isInitialized, isMuted]);
+
   const handleToggleMute = () => {
     // Initialize audio on first interaction
     if (!isInitialized) {
       audioManager.initialize();
       setIsInitialized(true);
+      // Start playing the current track immediately
+      audioManager.setMuted(false);
+      audioManager.playMusic(currentTrack);
+      setIsMuted(false);
+      return;
     }
 
     const newMuted = !isMuted;
     setIsMuted(newMuted);
     audioManager.setMuted(newMuted);
+
+    // If unmuting, start playing the current track
+    if (!newMuted) {
+      audioManager.playMusic(currentTrack);
+    }
   };
 
   const handleMusicVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {

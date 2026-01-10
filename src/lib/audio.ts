@@ -2,7 +2,7 @@
 // Audio files should be placed in /public/audio/
 
 export type MusicTrack = 'setup' | 'board' | 'question' | 'victory' | 'none';
-export type SoundEffect = 'correct' | 'incorrect' | 'points-gain' | 'points-lose';
+export type SoundEffect = 'correct' | 'incorrect' | 'points-gain' | 'points-lose' | 'nobody-knows';
 
 // Configure audio file paths here - easy to swap out later
 export const AUDIO_CONFIG = {
@@ -17,6 +17,7 @@ export const AUDIO_CONFIG = {
     incorrect: '/audio/sfx-incorrect.mp3',   // AI says incorrect
     'points-gain': '/audio/sfx-points-gain.mp3', // Moderator confirms correct
     'points-lose': '/audio/sfx-points-lose.mp3', // Moderator confirms incorrect
+    'nobody-knows': '/audio/sfx-nobody-knows.mp3', // Everyone passed, answer revealed
   },
   // Default volumes (0-1)
   defaultMusicVolume: 0.3,

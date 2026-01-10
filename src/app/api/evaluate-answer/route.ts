@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAnthropicClient, MODEL } from "@/lib/anthropic";
 import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
+import { parseAIJson } from "@/lib/parse-json";
 
 export async function POST(request: Request) {
   // Rate limiting
@@ -57,7 +58,7 @@ Only respond with the JSON, no other text.`,
       throw new Error("Unexpected response type");
     }
 
-    const result = JSON.parse(content.text);
+    const result = parseAIJson<{ correct: boolean; explanation: string; confidence: string }>(content.text);
 
     return NextResponse.json({
       correct: result.correct,

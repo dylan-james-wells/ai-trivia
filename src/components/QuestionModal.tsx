@@ -11,7 +11,6 @@ interface QuestionModalProps {
   currentPlayerIndex: number;
   onComplete: (result: QuestionResult) => void;
   onRegenerate: (newQuestion: string, newAnswer: string) => void;
-  onClose: () => void;
 }
 
 export type QuestionResult =
@@ -34,7 +33,6 @@ export function QuestionModal({
   currentPlayerIndex,
   onComplete,
   onRegenerate,
-  onClose,
 }: QuestionModalProps) {
   const [phase, setPhase] = useState<ModalPhase>("question");
   const [userAnswer, setUserAnswer] = useState("");
@@ -94,6 +92,13 @@ export function QuestionModal({
   };
 
   const handleModeratorDecision = (correct: boolean) => {
+    // Play sound immediately on button press
+    if (correct) {
+      audioManager.playSfx("points-gain");
+    } else {
+      audioManager.playSfx("points-lose");
+    }
+
     setFinalResult({ correct, playerIndex: answeringPlayerIndex });
     setPhase("result");
     setTimeout(() => {
@@ -110,6 +115,7 @@ export function QuestionModal({
 
     if (remainingPlayers.length === 0) {
       // Everyone has passed - reveal answer, no points awarded
+      audioManager.playSfxAndPauseMusic("nobody-knows");
       setPhase("revealed");
     } else {
       // Find the next player index (cycling through)
@@ -169,12 +175,6 @@ export function QuestionModal({
         <div className="flex justify-between items-center mb-4">
           <span className="text-blue-600 font-bold">${question.points}</span>
           <span className="text-gray-600">{currentPlayer.name}&apos;s turn</span>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-xl"
-          >
-            &times;
-          </button>
         </div>
 
         {/* Question */}

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAnthropicClient, MODEL } from "@/lib/anthropic";
 import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
+import { parseAIJson } from "@/lib/parse-json";
 import { POINTS_PER_DIFFICULTY, QUESTIONS_PER_CATEGORY } from "@/types/game";
 
 export async function POST(request: Request) {
@@ -59,7 +60,8 @@ Respond in JSON format:
 
 Generate exactly ${6 * QUESTIONS_PER_CATEGORY} questions total (${QUESTIONS_PER_CATEGORY} per category).
 Each answer should be a clear, concise answer that a human moderator can judge.
-Only respond with the JSON, no other text.`,
+
+CRITICAL: Respond with ONLY the raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT include \`\`\`json or \`\`\` markers. Just the pure JSON starting with { and ending with }.`,
         },
       ],
     });
@@ -69,7 +71,7 @@ Only respond with the JSON, no other text.`,
       throw new Error("Unexpected response type");
     }
 
-    const result = JSON.parse(content.text);
+    const result = parseAIJson<{ questions: Array<{ categoryIndex: number; difficulty: number; points: number; question: string; answer: string }> }>(content.text);
 
     // Add IDs and answered status to questions
     const questions = result.questions.map((q: { categoryIndex: number; difficulty: number; points: number; question: string; answer: string }, index: number) => ({
