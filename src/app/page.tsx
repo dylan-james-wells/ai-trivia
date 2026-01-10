@@ -28,7 +28,7 @@ export default function Home() {
 
   // Determine current music track based on game state
   const getCurrentTrack = (): MusicTrack => {
-    if (gameState.phase === "setup" || gameState.phase === "categories") {
+    if (gameState.phase === "menu" || gameState.phase === "setup" || gameState.phase === "categories") {
       return "setup";
     } else if (gameState.phase === "playing") {
       if (isGameOver) {
@@ -167,7 +167,21 @@ export default function Home() {
     }));
   };
 
+  const handleBackToMenu = () => {
+    setGameState((prev) => ({
+      ...prev,
+      phase: "menu",
+    }));
+  };
+
   const handleBackToPlayers = () => {
+    setGameState((prev) => ({
+      ...prev,
+      phase: "setup",
+    }));
+  };
+
+  const handleStartGame = () => {
     setGameState((prev) => ({
       ...prev,
       phase: "setup",
@@ -198,12 +212,12 @@ export default function Home() {
       <header className="text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold mb-2">AI Trivia</h1>
         <p className="text-blue-300">Jeopardy-style game powered by AI</p>
-        {gameState.phase !== "setup" && (
+        {gameState.phase !== "menu" && (
           <button
             onClick={handleNewGame}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
           >
-            New Game
+            Main Menu
           </button>
         )}
       </header>
@@ -224,8 +238,25 @@ export default function Home() {
         </div>
       )}
 
+      {gameState.phase === "menu" && (
+        <div className="max-w-md mx-auto text-center">
+          <div className="bg-white/10 backdrop-blur rounded-lg p-8">
+            <h2 className="text-2xl font-bold mb-6">Welcome to AI Trivia!</h2>
+            <p className="text-blue-200 mb-8">
+              A Jeopardy-style trivia game where AI generates questions and judges your answers.
+            </p>
+            <button
+              onClick={handleStartGame}
+              className="w-full py-4 bg-blue-600 text-white text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Start New Game
+            </button>
+          </div>
+        </div>
+      )}
+
       {gameState.phase === "setup" && (
-        <PlayerSetup onComplete={handlePlayersComplete} />
+        <PlayerSetup onComplete={handlePlayersComplete} onBack={handleBackToMenu} />
       )}
 
       {gameState.phase === "categories" && (

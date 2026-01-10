@@ -5,9 +5,10 @@ import { Player } from "@/types/game";
 
 interface PlayerSetupProps {
   onComplete: (players: Player[]) => void;
+  onBack: () => void;
 }
 
-export function PlayerSetup({ onComplete }: PlayerSetupProps) {
+export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [newPlayerName, setNewPlayerName] = useState("");
   const [error, setError] = useState("");
@@ -91,13 +92,21 @@ export function PlayerSetup({ onComplete }: PlayerSetupProps) {
         </div>
       )}
 
-      <button
-        onClick={handleSubmit}
-        disabled={players.length < 2}
-        className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-      >
-        Continue to Categories ({players.length}/2 minimum)
-      </button>
+      <div className="flex gap-4">
+        <button
+          onClick={onBack}
+          className="px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+        >
+          Back
+        </button>
+        <button
+          onClick={handleSubmit}
+          disabled={players.length < 2}
+          className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          Continue to Categories ({players.length}/2 minimum)
+        </button>
+      </div>
     </div>
   );
 }

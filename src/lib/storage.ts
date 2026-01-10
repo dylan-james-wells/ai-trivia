@@ -25,7 +25,7 @@ export function clearGameState(): void {
 
 export function createInitialState(): GameState {
   return {
-    phase: "setup",
+    phase: "menu",
     players: [],
     categories: [],
     questions: [],

@@ -23,7 +23,7 @@ export interface Category {
 }
 
 export interface GameState {
-  phase: 'setup' | 'categories' | 'playing' | 'finished';
+  phase: 'menu' | 'setup' | 'categories' | 'playing' | 'finished';
   players: Player[];
   categories: Category[];
   questions: Question[];
