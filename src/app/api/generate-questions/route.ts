@@ -61,6 +61,8 @@ Respond in JSON format:
 Generate exactly ${6 * QUESTIONS_PER_CATEGORY} questions total (${QUESTIONS_PER_CATEGORY} per category).
 Each answer should be a clear, concise answer that a human moderator can judge.
 
+IMPORTANT: Do NOT use Jeopardy-style "What is..." or "Who is..." answer format. Answers should be plain and direct (e.g., "Blade Runner" not "What is Blade Runner?").
+
 CRITICAL: Respond with ONLY the raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT include \`\`\`json or \`\`\` markers. Just the pure JSON starting with { and ending with }.`,
         },
       ],

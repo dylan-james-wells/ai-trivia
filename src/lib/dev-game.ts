@@ -3,6 +3,7 @@ import { GameState, Player, Category, Question } from "@/types/game";
 const devPlayers: Player[] = [
   { id: "player-1", name: "Player 1", score: 0 },
   { id: "player-2", name: "Player 2", score: 0 },
+  { id: "player-3", name: "Player 3", score: 0 },
 ];
 
 const devCategories: Category[] = [
@@ -40,7 +41,7 @@ const devQuestions: Question[] = [
   { id: "q-15", categoryIndex: 3, difficulty: 1, points: 200, question: "What block-building survival game created by Markus Persson was officially released in 2011?", answer: "Minecraft", answered: false },
   { id: "q-16", categoryIndex: 3, difficulty: 2, points: 400, question: "In what 2017 Nintendo game do you play as Link in the kingdom of Hyrule?", answer: "The Legend of Zelda: Breath of the Wild", answered: false },
   { id: "q-17", categoryIndex: 3, difficulty: 3, points: 600, question: "What 2015 CD Projekt Red game features a monster hunter named Geralt of Rivia?", answer: "The Witcher 3: Wild Hunt", answered: false },
-  { id: "q-18", categoryIndex: 3, difficulty: 4, points: 800, question: "What indie game released in 2017 tasks players with dating skeleton brothers and other monsters?", answer: "Undertale (Note: Undertale was 2015, but the question refers to it)", answered: false },
+  { id: "q-18", categoryIndex: 3, difficulty: 4, points: 800, question: "What 2015 indie RPG lets players choose to spare or kill every enemy, featuring characters like Sans and Papyrus?", answer: "Undertale", answered: false },
   { id: "q-19", categoryIndex: 3, difficulty: 5, points: 1000, question: "What 2019 FromSoftware game won Game of the Year and is set in Sengoku-era Japan?", answer: "Sekiro: Shadows Die Twice", answered: false },
 
   // Category 4: Movies 1980-1989

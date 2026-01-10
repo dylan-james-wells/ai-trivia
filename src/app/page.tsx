@@ -261,7 +261,7 @@ export default function Home() {
                 onClick={handleStartDevGame}
                 className="w-full mt-3 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
               >
-                Start Dev Game
+                Start Demo Game
               </button>
             )}
           </div>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getAnthropicClient, MODEL } from "@/lib/anthropic";
 import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 import { parseAIJson } from "@/lib/parse-json";
+import { fuzzyMatchAnswer } from "@/lib/fuzzy-match";
 
 export async function POST(request: Request) {
   // Rate limiting
@@ -22,6 +23,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Question, correct answer, and user answer are required" }, { status: 400 });
     }
 
+    // First, try fuzzy text matching (fast, no API call)
+    const fuzzyResult = fuzzyMatchAnswer(userAnswer, correctAnswer);
+
+    if (fuzzyResult.isMatch) {
+      // Fuzzy match succeeded - skip AI evaluation
+      return NextResponse.json({
+        correct: true,
+        explanation: `Answer matched with ${fuzzyResult.score}% confidence.`,
+        confidence: "high",
+        correctAnswer,
+        remaining: rateLimit.remaining,
+        matchType: "fuzzy",
+      });
+    }
+
+    // Fuzzy match failed - use AI to double-check
     const client = getAnthropicClient();
 
     const response = await client.messages.create({
@@ -66,6 +83,7 @@ Only respond with the JSON, no other text.`,
       confidence: result.confidence,
       correctAnswer,
       remaining: rateLimit.remaining,
+      matchType: "ai",
     });
   } catch (error) {
     console.error("Error evaluating answer:", error);

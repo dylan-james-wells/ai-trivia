@@ -17,7 +17,7 @@ export type QuestionResult =
   | { type: "answered"; correct: boolean; playerIndex: number }
   | { type: "skipped" }; // Everyone passed, no points awarded
 
-type ModalPhase = "question" | "evaluating" | "judging" | "result" | "regenerating" | "revealed";
+type ModalPhase = "question" | "selecting" | "evaluating" | "judging" | "result" | "regenerating" | "revealed";
 
 interface EvaluationResult {
   correct: boolean;
@@ -110,23 +110,35 @@ export function QuestionModal({
     const newPassedIndices = [...passedPlayerIndices, answeringPlayerIndex];
     setPassedPlayerIndices(newPassedIndices);
 
-    // Find next player who hasn't passed
+    // Find remaining players who haven't passed
     const remainingPlayers = players.filter((_, i) => !newPassedIndices.includes(i));
 
     if (remainingPlayers.length === 0) {
       // Everyone has passed - reveal answer, no points awarded
       audioManager.playSfxAndPauseMusic("nobody-knows");
       setPhase("revealed");
+    } else if (players.length > 2) {
+      // More than 2 players - show selection screen
+      setPhase("selecting");
     } else {
-      // Find the next player index (cycling through)
-      let nextIndex = (answeringPlayerIndex + 1) % players.length;
-      while (newPassedIndices.includes(nextIndex)) {
-        nextIndex = (nextIndex + 1) % players.length;
-      }
+      // Only 2 players - auto-select the other player
+      const nextIndex = newPassedIndices.includes(0) ? 1 : 0;
       setAnsweringPlayerIndex(nextIndex);
       setUserAnswer("");
       setError("");
     }
+  };
+
+  const handleSelectPlayer = (playerIndex: number) => {
+    setAnsweringPlayerIndex(playerIndex);
+    setUserAnswer("");
+    setError("");
+    setPhase("question");
+  };
+
+  const handleNobodyWantsToAnswer = () => {
+    audioManager.playSfxAndPauseMusic("nobody-knows");
+    setPhase("revealed");
   };
 
   const handleRevealedContinue = () => {
@@ -222,6 +234,41 @@ export function QuestionModal({
             >
               Regenerate Question
             </button>
+          </div>
+        )}
+
+        {/* Player Selection Phase (3+ players) */}
+        {phase === "selecting" && (
+          <div>
+            <p className="text-center text-gray-700 mb-4">
+              {currentPlayer.name} doesn&apos;t know. Who wants to answer?
+            </p>
+            {passedPlayerIndices.length > 0 && (
+              <p className="text-sm text-gray-500 text-center mb-4">
+                Passed: {passedPlayerIndices.map(i => players[i].name).join(", ")}
+              </p>
+            )}
+            <div className="space-y-2">
+              {players.map((player, index) => {
+                const hasPassed = passedPlayerIndices.includes(index);
+                if (hasPassed) return null;
+                return (
+                  <button
+                    key={player.id}
+                    onClick={() => handleSelectPlayer(index)}
+                    className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  >
+                    {player.name}
+                  </button>
+                );
+              })}
+              <button
+                onClick={handleNobodyWantsToAnswer}
+                className="w-full py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                Nobody Knows
+              </button>
+            </div>
           </div>
         )}
 
