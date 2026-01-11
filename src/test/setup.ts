@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
 // Mock Audio API for browser audio tests
