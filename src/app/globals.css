@@ -346,3 +346,8 @@
   border: 2px solid var(--kc-border);
   border-radius: 0.75em;
 }
+
+/* React Tooltip z-index */
+.react-tooltip {
+  z-index: 9999 !important;
+}

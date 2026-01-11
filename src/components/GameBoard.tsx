@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Tooltip } from "react-tooltip";
 import { Category, Question, Player, POINTS_PER_DIFFICULTY } from "@/types/game";
 import { KeyboardButton } from "@/components/KeyboardButton";
@@ -9,25 +9,24 @@ import { KeyboardContainer } from "@/components/KeyboardContainer";
 interface CategoryHeaderProps {
   category: Category;
   index: number;
+  onOverflowChange: (index: number, isOverflowing: boolean) => void;
 }
 
-function CategoryHeader({ category, index }: CategoryHeaderProps) {
+function CategoryHeader({ category, index, onOverflowChange }: CategoryHeaderProps) {
   const textRef = useRef<HTMLSpanElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const tooltipId = `category-tooltip-${index}`;
 
   useEffect(() => {
     const checkOverflow = () => {
       const el = textRef.current;
       if (el) {
-        setIsOverflowing(el.scrollWidth > el.clientWidth);
+        onOverflowChange(index, el.scrollWidth > el.clientWidth);
       }
     };
 
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
-  }, [category.name]);
+  }, [category.name, index, onOverflowChange]);
 
   return (
     <KeyboardContainer
@@ -39,14 +38,11 @@ function CategoryHeader({ category, index }: CategoryHeaderProps) {
       <span
         ref={textRef}
         className="category-header-text text-white font-bold text-sm text-center w-full"
-        data-tooltip-id={isOverflowing ? tooltipId : undefined}
+        data-tooltip-id="category-tooltip"
         data-tooltip-content={category.name}
       >
         {category.name}
       </span>
-      {isOverflowing && (
-        <Tooltip id={tooltipId} place="top" />
-      )}
     </KeyboardContainer>
   );
 }
@@ -67,6 +63,19 @@ export function GameBoard({
   onSelectQuestion,
 }: GameBoardProps) {
   const currentPlayer = players[currentPlayerIndex];
+  const [overflowingCategories, setOverflowingCategories] = useState<Set<number>>(new Set());
+
+  const handleOverflowChange = useCallback((index: number, isOverflowing: boolean) => {
+    setOverflowingCategories(prev => {
+      const next = new Set(prev);
+      if (isOverflowing) {
+        next.add(index);
+      } else {
+        next.delete(index);
+      }
+      return next;
+    });
+  }, []);
 
   const getQuestion = (categoryIndex: number, difficulty: number) => {
     return questions.find(
@@ -78,6 +87,9 @@ export function GameBoard({
 
   return (
     <div className="max-w-6xl mx-auto">
+      {overflowingCategories.size > 0 && (
+        <Tooltip id="category-tooltip" place="top" positionStrategy="fixed" />
+      )}
       {/* Scoreboard */}
       <div className="mb-6 flex flex-wrap gap-4 justify-center">
         {players.map((player, index) => (
@@ -115,7 +127,12 @@ export function GameBoard({
       <div className="grid grid-cols-6 gap-2 md:gap-4">
         {/* Category Headers */}
         {categories.map((category, index) => (
-          <CategoryHeader key={index} category={category} index={index} />
+          <CategoryHeader
+            key={index}
+            category={category}
+            index={index}
+            onOverflowChange={handleOverflowChange}
+          />
         ))}
 
         {/* Question Cells */}
