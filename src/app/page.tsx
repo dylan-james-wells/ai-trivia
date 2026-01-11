@@ -214,22 +214,24 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12">
-      <header className="text-center mb-8">
+    <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12 relative">
+      <header className="text-center mb-8 relative">
         <h1 className="text-4xl md:text-5xl font-bold mb-2">AI Trivia</h1>
         <p className="text-blue-300">Jeopardy-style game powered by AI</p>
         {gameState.phase === "playing" && (
-          <KeyboardButton
-            onClick={handleNewGame}
-            bgColor="#ef4444"
-            hoverBgColor="#dc2626"
-            borderColor="#b91c1c"
-            shadowBgColor="#dc2626"
-            textColor="#ffffff"
-            fontSize="0.875rem"
-          >
-            Main Menu
-          </KeyboardButton>
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 z-20">
+            <KeyboardButton
+              onClick={handleNewGame}
+              bgColor="#ef4444"
+              hoverBgColor="#dc2626"
+              borderColor="#b91c1c"
+              shadowBgColor="#dc2626"
+              textColor="#ffffff"
+              fontSize="0.75rem"
+            >
+              Menu
+            </KeyboardButton>
+          </div>
         )}
       </header>
 
