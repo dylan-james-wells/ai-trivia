@@ -24,7 +24,7 @@ export function KeyboardInput({
   shadowOpacity = 0.5,
   textColor = "#111827",
   fontSize = "1rem",
-  focusRingColor,
+  focusRingColor = 'rgba(255,255,255,1)',
   ...inputProps
 }: KeyboardInputProps) {
   return (

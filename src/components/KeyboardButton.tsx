@@ -16,7 +16,6 @@ interface KeyboardButtonProps {
   shadowOpacity?: number;
   textColor?: string;
   fontSize?: string;
-  focusRingColor?: string;
 }
 
 export function KeyboardButton({
@@ -33,7 +32,6 @@ export function KeyboardButton({
   shadowOpacity = 0.5,
   textColor = "#382b22",
   fontSize = "1rem",
-  focusRingColor,
 }: KeyboardButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -68,7 +66,6 @@ export function KeyboardButton({
           "--kb-shadow-opacity": shadowOpacity,
           "--kb-text": textColor,
           "--kb-font-size": fontSize,
-          ...(focusRingColor && { "--kb-focus-ring": focusRingColor }),
         } as React.CSSProperties
       }
     >
