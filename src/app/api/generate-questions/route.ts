@@ -2,14 +2,8 @@ import { NextResponse } from "next/server";
 import { getAnthropicClient, MODEL } from "@/lib/anthropic";
 import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 import { parseAIJson } from "@/lib/parse-json";
+import { getRandomLetterSets } from "@/lib/random-letters";
 import { POINTS_PER_DIFFICULTY, QUESTIONS_PER_CATEGORY } from "@/types/game";
-
-// Get N random letters for variety constraint
-function getRandomLetters(count: number): string[] {
-  const letters = "ABCDEFGHIJKLMNOPRSTW".split(""); // Skip rare letters Q, U, V, X, Y, Z
-  const shuffled = letters.sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
-}
 
 export async function POST(request: Request) {
   // Rate limiting
@@ -78,7 +72,9 @@ For example: If generating 70s movies and you think "Taxi Driver" - that's top 5
 
 The goal is "interesting trivia night" not "everyone's first guess." Second-tier well-known works make for better questions.
 
-STARTING LETTER CONSTRAINT: For entertainment categories (music, movies, TV, books, etc.) AND nature/animal categories, at least 2 of the 5 answers must start with one of these letters: ${getRandomLetters(3).join(", ")}. This forces variety - if your first instinct doesn't match, find an alternative that does.
+STARTING LETTER CONSTRAINT: For entertainment categories (music, movies, TV, books, etc.) AND nature/animal categories, you must follow these rules:
+- At least 2 of the 5 answers must start with a letter from SET A: ${(() => { const sets = getRandomLetterSets(3); return `${sets.set1.join(", ")}\n- At least 2 of the 5 answers must start with a letter from SET B: ${sets.set2.join(", ")}`; })()}
+This forces variety - if your first instinct doesn't match either set, find alternatives that do.
 
 Random seed for this generation: ${Math.floor(Math.random() * 10000)}
 

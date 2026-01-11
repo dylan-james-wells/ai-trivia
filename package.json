@@ -1,12 +1,16 @@
 {
   "name": "ai-trivia",
   "version": "1.0.0",
+  "type": "module",
   "description": "AI-powered Jeopardy-style trivia game",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
@@ -14,6 +18,7 @@
     "@types/node": "^25.0.6",
     "@types/react": "^19.2.8",
     "autoprefixer": "^10.4.23",
+    "fuzzball": "^2.2.3",
     "next": "^16.1.1",
     "postcss": "^8.5.6",
     "react": "^19.2.3",
@@ -21,6 +26,11 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@vitejs/plugin-react": "^5.1.2",
+    "jsdom": "^27.4.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
   }
 }
