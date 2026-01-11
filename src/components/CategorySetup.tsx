@@ -98,7 +98,7 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
       </h2>
 
       {categories.length < TOTAL_CATEGORIES && !pendingCategory && (
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="flex gap-2 items-start">
             <KeyboardInput
               type="text"
@@ -128,7 +128,7 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
       )}
 
       {pendingCategory && (
-        <div className="mb-6">
+        <div className="mb-8">
           <KeyboardContainer
             bgColor="#fefce8"
             borderColor="#ca8a04"
@@ -170,7 +170,7 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
       )}
 
       {categories.length > 0 && (
-        <div className="mb-6">
+        <div className="mb-8">
           <h3 className="font-semibold mb-2">
             Categories ({categories.length}/{TOTAL_CATEGORIES}):
           </h3>

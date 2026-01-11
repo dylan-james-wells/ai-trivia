@@ -245,6 +245,12 @@
   display: block;
   width: 100%;
   margin-bottom: 0.75em;
+
+  &.player > .keyboard-container {
+    padding-top: .5em;
+    padding-bottom: .75em;
+    padding-right: .5em;
+  }
 }
 
 .keyboard-container-wrapper::before {

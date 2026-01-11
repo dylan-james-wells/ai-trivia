@@ -95,8 +95,7 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           <ul className="space-y-2">
             {players.map((player) => (
               <li key={player.id} className="mb-6">
-                <KeyboardContainer
-                >
+                <KeyboardContainer className="player">
                   <span className="text-gray-900">{player.name}</span>
                   <KeyboardButton
                     onClick={() => removePlayer(player.id)}
