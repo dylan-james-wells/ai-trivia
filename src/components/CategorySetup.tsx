@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Category, TOTAL_CATEGORIES } from "@/types/game";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { KeyboardInput } from "@/components/KeyboardInput";
+import { KeyboardContainer } from "@/components/KeyboardContainer";
 
 interface CategorySetupProps {
   onComplete: (categories: Category[]) => void;
@@ -127,38 +128,44 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
       )}
 
       {pendingCategory && (
-        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <h3 className="font-semibold text-yellow-800 mb-2">Confirm Category</h3>
-          <p className="text-gray-900 mb-2">
-            <strong>You entered:</strong> {pendingCategory.name}
-          </p>
-          <p className="text-gray-700 mb-4">
-            <strong>AI interpretation:</strong> {pendingCategory.interpretation}
-          </p>
-          <div className="flex gap-2">
-            <KeyboardButton
-              onClick={confirmCategory}
-              bgColor="#22c55e"
-              hoverBgColor="#16a34a"
-              borderColor="#15803d"
-              shadowBgColor="#16a34a"
-              shadowColor="#14532d"
-              textColor="#ffffff"
-            >
-              Confirm
-            </KeyboardButton>
-            <KeyboardButton
-              onClick={rejectCategory}
-              bgColor="#ef4444"
-              hoverBgColor="#dc2626"
-              borderColor="#b91c1c"
-              shadowBgColor="#dc2626"
-              shadowColor="#991b1b"
-              textColor="#ffffff"
-            >
-              Try Again
-            </KeyboardButton>
-          </div>
+        <div className="mb-6">
+          <KeyboardContainer
+            bgColor="#fefce8"
+            borderColor="#ca8a04"
+            shadowBgColor="#fef9c3"
+          >
+            <div className="flex-1">
+              <h3 className="font-semibold text-gray-900 mb-2">Confirm Category</h3>
+              <p className="text-gray-900 mb-1">
+                <strong>You entered:</strong> {pendingCategory.name}
+              </p>
+              <p className="text-gray-700 mb-3">
+                <strong>AI interpretation:</strong> {pendingCategory.interpretation}
+              </p>
+              <div className="flex gap-2">
+                <KeyboardButton
+                  onClick={confirmCategory}
+                  bgColor="#22c55e"
+                  hoverBgColor="#16a34a"
+                  borderColor="#15803d"
+                  shadowBgColor="#16a34a"
+                  textColor="#ffffff"
+                >
+                  Confirm
+                </KeyboardButton>
+                <KeyboardButton
+                  onClick={rejectCategory}
+                  bgColor="#ef4444"
+                  hoverBgColor="#dc2626"
+                  borderColor="#b91c1c"
+                  shadowBgColor="#dc2626"
+                  textColor="#ffffff"
+                >
+                  Try Again
+                </KeyboardButton>
+              </div>
+            </div>
+          </KeyboardContainer>
         </div>
       )}
 
