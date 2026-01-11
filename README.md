@@ -1,5 +1,7 @@
 # AI Trivia
 
+**[Play the demo](https://ai-trivia-rose.vercel.app/)**
+
 A Jeopardy-style trivia game powered by Claude AI. Players choose categories, AI generates questions, and answers are evaluated using fuzzy text matching with AI fallback.
 
 ## Features
