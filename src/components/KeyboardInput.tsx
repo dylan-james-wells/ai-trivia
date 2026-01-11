@@ -12,6 +12,7 @@ interface KeyboardInputProps
   shadowOpacity?: number;
   textColor?: string;
   fontSize?: string;
+  focusRingColor?: string;
 }
 
 export function KeyboardInput({
@@ -23,6 +24,7 @@ export function KeyboardInput({
   shadowOpacity = 0.5,
   textColor = "#111827",
   fontSize = "1rem",
+  focusRingColor,
   ...inputProps
 }: KeyboardInputProps) {
   return (
@@ -37,6 +39,7 @@ export function KeyboardInput({
           "--ki-shadow-opacity": shadowOpacity,
           "--ki-text": textColor,
           "--ki-font-size": fontSize,
+          ...(focusRingColor && { "--ki-focus-ring": focusRingColor }),
         } as React.CSSProperties
       }
     >
