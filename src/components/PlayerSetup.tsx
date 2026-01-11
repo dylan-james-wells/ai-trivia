@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Player } from "@/types/game";
 import { RaisedTextButton } from "@/components/RaisedTextButton";
 import { KeyboardButton } from "@/components/KeyboardButton";
+import { KeyboardInput } from "@/components/KeyboardInput";
 
 interface PlayerSetupProps {
   onComplete: (players: Player[]) => void;
@@ -52,15 +53,15 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
       <h2 className="text-2xl font-bold mb-6 text-center">Player Setup</h2>
 
       <div className="mb-6">
-        <div className="flex gap-2">
-          <input
+        <div className="flex gap-2 items-start">
+          <KeyboardInput
             type="text"
             value={newPlayerName}
             onChange={(e) => setNewPlayerName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addPlayer()}
             placeholder="Enter player name"
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
             maxLength={30}
+            className="flex-1"
           />
           <KeyboardButton
             onClick={addPlayer}

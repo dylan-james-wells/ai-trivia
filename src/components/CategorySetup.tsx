@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Category, TOTAL_CATEGORIES } from "@/types/game";
 import { RaisedTextButton } from "@/components/RaisedTextButton";
 import { KeyboardButton } from "@/components/KeyboardButton";
+import { KeyboardInput } from "@/components/KeyboardInput";
 
 interface CategorySetupProps {
   onComplete: (categories: Category[]) => void;
@@ -98,16 +99,16 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
 
       {categories.length < TOTAL_CATEGORIES && !pendingCategory && (
         <div className="mb-6">
-          <div className="flex gap-2">
-            <input
+          <div className="flex gap-2 items-start">
+            <KeyboardInput
               type="text"
               value={currentCategory}
               onChange={(e) => setCurrentCategory(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !loading && validateCategory()}
               placeholder="Enter a trivia category (e.g., 'World History', '90s Movies')"
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               maxLength={100}
               disabled={loading}
+              className="flex-1"
             />
             <KeyboardButton
               onClick={validateCategory}
