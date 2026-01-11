@@ -186,8 +186,6 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
           <RaisedTextButton
             onClick={handleComplete}
             className="flex-1"
-            color="#22c55e"
-            shadowColor="#15803d"
           >
             Generate Questions
           </RaisedTextButton>

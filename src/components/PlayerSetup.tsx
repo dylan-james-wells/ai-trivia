@@ -104,8 +104,6 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           <RaisedTextButton
             onClick={handleSubmit}
             className="flex-1"
-            color="#22c55e"
-            shadowColor="#15803d"
           >
             Continue to Categories
           </RaisedTextButton>

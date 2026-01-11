@@ -245,7 +245,7 @@ export default function Home() {
       )}
 
       {gameState.phase === "menu" && (
-        <div className="max-w-md mx-auto text-center">
+        <div className="max-w-lg mx-auto text-center">
           <div className="bg-white/10 backdrop-blur rounded-lg p-8">
             <h2 className="text-2xl font-bold mb-6">Welcome to AI Trivia!</h2>
             <p className="text-blue-200 mb-8">
@@ -254,8 +254,6 @@ export default function Home() {
             <RaisedTextButton
               onClick={handleStartGame}
               className="w-full"
-              color="#3b82f6"
-              shadowColor="#1e40af"
             >
               Start New Game
             </RaisedTextButton>
@@ -263,8 +261,6 @@ export default function Home() {
               <RaisedTextButton
                 onClick={handleStartDevGame}
                 className="w-full mt-3"
-                color="#9ca3af"
-                shadowColor="#4b5563"
               >
                 Start Demo Game
               </RaisedTextButton>

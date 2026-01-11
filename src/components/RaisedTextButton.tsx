@@ -20,7 +20,7 @@ export function RaisedTextButton({
   return (
     <button
       onClick={onClick}
-      className={`raised-text-button group relative rounded-2xl px-6 py-3 text-transparent transition-colors duration-200 ${className}`}
+      className={`raised-text-button group relative rounded-2xl px-6 py-3 text-transparent transition-colors duration-200 cursor-pointer ${className}`}
       style={
         {
           "--rtb-color": color,
@@ -29,14 +29,14 @@ export function RaisedTextButton({
       }
     >
       {/* Shadow text layer */}
-      <span className="raised-text-shadow inline-block text-3xl font-black transition-all duration-200">
+      <span className="raised-text-shadow inline-block text-5xl font-black transition-all duration-200">
         {children}
       </span>
 
       {/* Glare text layer */}
       <span
         aria-hidden="true"
-        className="raised-text-glare absolute inset-3 z-10 inline-block text-3xl font-black transition-all duration-200"
+        className="raised-text-glare absolute inset-3 z-10 inline-block text-5xl font-black transition-all duration-200"
       >
         {children}
       </span>

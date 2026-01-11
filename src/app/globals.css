@@ -40,7 +40,7 @@
 .raised-text-button {
   --rtb-hover: 0.4;
   --rtb-pos: 0;
-  --rtb-font-size: 1.875rem; /* text-3xl */
+  --rtb-font-size: 3rem; /* text-5xl */
 }
 
 .raised-text-button:hover {

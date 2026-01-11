@@ -219,8 +219,6 @@ export function QuestionModal({
               <RaisedTextButton
                 onClick={submitAnswer}
                 className="flex-1"
-                color="#3b82f6"
-                shadowColor="#1e40af"
               >
                 Submit Answer
               </RaisedTextButton>
@@ -328,16 +326,12 @@ export function QuestionModal({
                 <RaisedTextButton
                   onClick={() => handleModeratorDecision(true)}
                   className="flex-1"
-                  color="#22c55e"
-                  shadowColor="#15803d"
                 >
                   Yes, Correct (+${question.points})
                 </RaisedTextButton>
                 <RaisedTextButton
                   onClick={() => handleModeratorDecision(false)}
                   className="flex-1"
-                  color="#ef4444"
-                  shadowColor="#b91c1c"
                 >
                   No, Incorrect (-${question.points})
                 </RaisedTextButton>
@@ -376,8 +370,6 @@ export function QuestionModal({
             <p className="text-gray-500 mb-4">No points awarded or deducted</p>
             <RaisedTextButton
               onClick={handleRevealedContinue}
-              color="#3b82f6"
-              shadowColor="#1e40af"
             >
               Continue
             </RaisedTextButton>
