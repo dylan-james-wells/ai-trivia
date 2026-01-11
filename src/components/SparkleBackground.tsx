@@ -21,7 +21,7 @@ function generateSparkle(id: number): Sparkle {
     y: Math.random() * 100,
     scale: 0.8 + Math.random() * 0.45, // 0.8 to 1.25, similar to CodePen
     delay: Math.floor(Math.random() * 5) + 1,
-    size: 8 + Math.random() * 8, // 8px to 16px - much smaller like the CodePen
+    size: 16 + Math.random() * 16, // 16px to 32px
   };
 }
 
