@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Player } from "@/types/game";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { KeyboardInput } from "@/components/KeyboardInput";
+import { KeyboardContainer } from "@/components/KeyboardContainer";
 
 interface PlayerSetupProps {
   onComplete: (players: Player[]) => void;
@@ -72,8 +73,6 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
             placeholder="Enter player name"
             maxLength={30}
             className="flex-1"
-            shadowOpacity={0.1}
-            shadowColor="black"
           />
           <KeyboardButton
             onClick={addPlayer}
@@ -83,8 +82,6 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
             borderColor="#1d4ed8"
             shadowBgColor="#1e40af"
             textColor="#ffffff"
-            shadowOpacity={0.1}
-            shadowColor="black"
           >
             Add
           </KeyboardButton>
@@ -93,28 +90,26 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
       </div>
 
       {players.length > 0 && (
-        <div className="mb-6">
+        <div className="mb-8">
           <h3 className="font-semibold mb-2">Players ({players.length}):</h3>
           <ul className="space-y-2">
             {players.map((player) => (
-              <li
-                key={player.id}
-                className="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-lg"
-              >
-                <span className="text-gray-900">{player.name}</span>
-                <KeyboardButton
-                  onClick={() => removePlayer(player.id)}
-                  bgColor="#fee2e2"
-                  hoverBgColor="#fecaca"
-                  borderColor="#dc2626"
-                  shadowBgColor="#fca5a5"
-                  textColor="#dc2626"
-                  fontSize="0.75rem"
-                  shadowOpacity={0.1}
-                  shadowColor="black"
+              <li key={player.id} className="mb-6">
+                <KeyboardContainer
                 >
-                  Remove
-                </KeyboardButton>
+                  <span className="text-gray-900">{player.name}</span>
+                  <KeyboardButton
+                    onClick={() => removePlayer(player.id)}
+                    bgColor="#fee2e2"
+                    hoverBgColor="#fecaca"
+                    borderColor="#dc2626"
+                    shadowBgColor="#fca5a5"
+                    textColor="#dc2626"
+                    fontSize="0.75rem"
+                  >
+                    Remove
+                  </KeyboardButton>
+                </KeyboardContainer>
               </li>
             ))}
           </ul>
@@ -129,21 +124,17 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           borderColor="#9ca3af"
           shadowBgColor="#d1d5db"
           textColor="#374151"
-          shadowOpacity={0.1}
-          shadowColor="black"
         >
           Back
         </KeyboardButton>
         {players.length >= 2 ? (
           <KeyboardButton
             onClick={handleSubmit}
-            bgColor="#facc15"
-            hoverBgColor="#eab308"
-            borderColor="#ca8a04"
-            shadowBgColor="#eab308"
-            textColor="#422006"
-            shadowOpacity={0.1}
-            shadowColor="black"
+            bgColor="#ef4444"
+            hoverBgColor="#dc2626"
+            borderColor="#b91c1c"
+            shadowBgColor="#dc2626"
+            textColor="#ffffff"
             className="flex-1"
           >
             Continue

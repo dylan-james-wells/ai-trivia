@@ -214,11 +214,11 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4 md:p-8">
+    <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12">
       <header className="text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold mb-2">AI Trivia</h1>
-        <p className="text-blue-300 mb-6">Jeopardy-style game powered by AI</p>
-        {gameState.phase !== "menu" && (
+        <p className="text-blue-300">Jeopardy-style game powered by AI</p>
+        {/* {gameState.phase !== "menu" && (
           <KeyboardButton
             onClick={handleNewGame}
             bgColor="#ef4444"
@@ -226,13 +226,11 @@ export default function Home() {
             borderColor="#b91c1c"
             shadowBgColor="#dc2626"
             textColor="#ffffff"
-            shadowOpacity={0.1}
-            shadowColor="black"
             fontSize="0.875rem"
           >
             Main Menu
           </KeyboardButton>
-        )}
+        )} */}
       </header>
 
       {error && (
@@ -253,20 +251,18 @@ export default function Home() {
 
       {gameState.phase === "menu" && (
         <div className="max-w-lg mx-auto text-center">
-          <div className="bg-white/10 backdrop-blur rounded-lg p-8">
+          <div className="p-8">
             <h2 className="text-2xl font-bold mb-6">Welcome to AI Trivia!</h2>
             <p className="text-blue-200 mb-8">
               A Jeopardy-style trivia game where AI generates questions and judges your answers.
             </p>
             <KeyboardButton
               onClick={handleStartGame}
-              bgColor="#facc15"
-              hoverBgColor="#eab308"
-              borderColor="#ca8a04"
-              shadowBgColor="#eab308"
-              textColor="#422006"
-              shadowOpacity={0.1}
-              shadowColor="black"
+              bgColor="#ef4444"
+              hoverBgColor="#dc2626"
+              borderColor="#b91c1c"
+              shadowBgColor="#dc2626"
+              textColor="#ffffff"
               className="w-full"
             >
               Start New Game
@@ -274,13 +270,11 @@ export default function Home() {
             {process.env.NEXT_PUBLIC_DEV_MODE === "1" && (
               <KeyboardButton
                 onClick={handleStartDevGame}
-                bgColor="#facc15"
-                hoverBgColor="#eab308"
-                borderColor="#ca8a04"
-                shadowBgColor="#eab308"
-                textColor="#422006"
-                shadowOpacity={0.1}
-                shadowColor="black"
+                bgColor="#ef4444"
+                hoverBgColor="#dc2626"
+                borderColor="#b91c1c"
+                shadowBgColor="#dc2626"
+                textColor="#ffffff"
                 className="w-full mt-3"
               >
                 Start Demo Game

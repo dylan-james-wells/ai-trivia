@@ -203,14 +203,14 @@
 .keyboard-input-wrapper::before {
   position: absolute;
   content: "";
-  width: 100%;
+  width: calc(100% - .3em);
   height: 100%;
   top: 0;
-  left: 0;
+  left: .15em;
   background: var(--ki-shadow-bg);
   border-radius: 0.75em;
   box-shadow: 0 0 0 2px var(--ki-border), 0 0.625em 0 0 color-mix(in srgb, var(--ki-shadow) calc(var(--ki-shadow-opacity, 0.5) * 100%), transparent);
-  transform: translateY(0.75em);
+  transform: translateY(0.65em);
   pointer-events: none;
 }
 
@@ -237,4 +237,40 @@
 
 .keyboard-input:focus {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--ki-focus-ring, var(--ki-border)) 40%, transparent);
+}
+
+/* Keyboard Container Styles */
+.keyboard-container-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 0.75em;
+}
+
+.keyboard-container-wrapper::before {
+  position: absolute;
+  content: "";
+  width: calc(100% - .3em);
+  height: 100%;
+  top: 0;
+  left: .15em;
+  background: var(--kc-shadow-bg, #e5e7eb);
+  border-radius: 0.75em;
+  box-shadow: 0 0 0 2px var(--kc-border, #d1d5db), 0 0.625em 0 0 color-mix(in srgb, var(--kc-shadow, #9ca3af) calc(var(--kc-shadow-opacity, 0.5) * 100%), transparent);
+  transform: translateY(0.75em);
+  pointer-events: none;
+}
+
+.keyboard-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5em 1.5em;
+  padding-right: .5em;
+  padding-bottom: .75em;
+  background: var(--kc-bg, #ffffff);
+  border: 2px solid var(--kc-border, #d1d5db);
+  border-radius: 0.75em;
 }

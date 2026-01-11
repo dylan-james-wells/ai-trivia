@@ -218,13 +218,11 @@ export function QuestionModal({
             <div className="flex gap-2 mt-4 items-center">
               <KeyboardButton
                 onClick={submitAnswer}
-                bgColor="#facc15"
-                hoverBgColor="#eab308"
-                borderColor="#ca8a04"
-                shadowBgColor="#eab308"
-                textColor="#422006"
-                shadowOpacity={0.1}
-                shadowColor="black"
+                bgColor="#ef4444"
+                hoverBgColor="#dc2626"
+                borderColor="#b91c1c"
+                shadowBgColor="#dc2626"
+                textColor="#ffffff"
                 className="flex-1"
               >
                 Submit Answer
@@ -235,7 +233,6 @@ export function QuestionModal({
                 hoverBgColor="#d1d5db"
                 borderColor="#9ca3af"
                 shadowBgColor="#d1d5db"
-                shadowColor="#9ca3af"
                 textColor="#374151"
               >
                 Don&apos;t Know
@@ -247,7 +244,6 @@ export function QuestionModal({
               hoverBgColor="#e5e7eb"
               borderColor="#d1d5db"
               shadowBgColor="#e5e7eb"
-              shadowColor="#d1d5db"
               textColor="#6b7280"
               fontSize="0.75rem"
               className="w-full mt-2"
@@ -280,7 +276,6 @@ export function QuestionModal({
                     hoverBgColor="#2563eb"
                     borderColor="#1d4ed8"
                     shadowBgColor="#1e40af"
-                    shadowColor="#1e3a8a"
                     textColor="#ffffff"
                     className="w-full"
                   >
@@ -294,7 +289,6 @@ export function QuestionModal({
                 hoverBgColor="#d1d5db"
                 borderColor="#9ca3af"
                 shadowBgColor="#d1d5db"
-                shadowColor="#9ca3af"
                 textColor="#374151"
                 className="w-full"
               >
@@ -356,26 +350,22 @@ export function QuestionModal({
               <div className="flex gap-4 items-center">
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(true)}
-                  bgColor="#facc15"
-                  hoverBgColor="#eab308"
-                  borderColor="#ca8a04"
-                  shadowBgColor="#eab308"
-                  textColor="#422006"
-                  shadowOpacity={0.1}
-                  shadowColor="black"
+                  bgColor="#ef4444"
+                  hoverBgColor="#dc2626"
+                  borderColor="#b91c1c"
+                  shadowBgColor="#dc2626"
+                  textColor="#ffffff"
                   className="flex-1"
                 >
                   Yes, Correct (+${question.points})
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(false)}
-                  bgColor="#facc15"
-                  hoverBgColor="#eab308"
-                  borderColor="#ca8a04"
-                  shadowBgColor="#eab308"
-                  textColor="#422006"
-                  shadowOpacity={0.1}
-                  shadowColor="black"
+                  bgColor="#ef4444"
+                  hoverBgColor="#dc2626"
+                  borderColor="#b91c1c"
+                  shadowBgColor="#dc2626"
+                  textColor="#ffffff"
                   className="flex-1"
                 >
                   No, Incorrect (-${question.points})
@@ -415,13 +405,11 @@ export function QuestionModal({
             <p className="text-gray-500 mb-4">No points awarded or deducted</p>
             <KeyboardButton
               onClick={handleRevealedContinue}
-              bgColor="#facc15"
-              hoverBgColor="#eab308"
-              borderColor="#ca8a04"
-              shadowBgColor="#eab308"
-              textColor="#422006"
-              shadowOpacity={0.1}
-              shadowColor="black"
+              bgColor="#ef4444"
+              hoverBgColor="#dc2626"
+              borderColor="#b91c1c"
+              shadowBgColor="#dc2626"
+              textColor="#ffffff"
             >
               Continue
             </KeyboardButton>

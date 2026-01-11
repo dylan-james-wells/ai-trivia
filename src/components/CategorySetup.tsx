@@ -122,7 +122,7 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
               {loading ? "Checking..." : "Add"}
             </KeyboardButton>
           </div>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
         </div>
       )}
 
@@ -204,7 +204,6 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
           hoverBgColor="#d1d5db"
           borderColor="#9ca3af"
           shadowBgColor="#d1d5db"
-          shadowColor="#9ca3af"
           textColor="#374151"
         >
           Back
@@ -212,13 +211,11 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
         {categories.length === TOTAL_CATEGORIES ? (
           <KeyboardButton
             onClick={handleComplete}
-            bgColor="#facc15"
-            hoverBgColor="#eab308"
-            borderColor="#ca8a04"
-            shadowBgColor="#eab308"
-            textColor="#422006"
-            shadowOpacity={0.1}
-            shadowColor="black"
+            bgColor="#ef4444"
+            hoverBgColor="#dc2626"
+            borderColor="#b91c1c"
+            shadowBgColor="#dc2626"
+            textColor="#ffffff"
             className="flex-1"
           >
             Generate Questions
