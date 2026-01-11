@@ -55,6 +55,16 @@ Download royalty-free audio from [Pixabay](https://pixabay.com/music/) and place
 | `board-music.mp3` | FallPromar | [Lofi Music Chill](https://pixabay.com/music/beats-lofi-music-chill-421750/) |
 | `victory-music.mp3` | BackgroundMusicForVideos | [Victory Nomination Winner Champion Music](https://pixabay.com/music/main-title-victory-nomination-winner-champion-music-249655/) |
 
+## Sound Effect Credits
+
+| File | Artist | Link |
+|------|--------|------|
+| `sfx-correct.mp3` | Sheyvan | [Orchestral Victory Fanfare](https://freesound.org/people/Sheyvan/sounds/470083/) |
+| `sfx-incorrect.mp3` | -Andreas | [Wrong Answer](https://freesound.org/people/-Andreas/sounds/648462/) |
+| `sfx-points-gain.mp3` | InspectorJ | [Power Up, Bright, A.wav](https://freesound.org/people/InspectorJ/sounds/411460/) |
+| `sfx-points-lose.mp3` | DrMrSir | [Power Down.wav](https://freesound.org/people/DrMrSir/sounds/529558/) |
+| `sfx-nobody-knows.mp3` | YoshikaMiyafuji | [Fail Sound (Wa-Wa-Wah, with Staccato)](https://freesound.org/people/YoshikaMiyafuji/sounds/835112/) |
+
 ## Notes
 - All Pixabay audio is royalty-free and requires no attribution
 - Music files should ideally loop seamlessly
