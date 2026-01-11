@@ -1,8 +1,55 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
+import { Tooltip } from "react-tooltip";
 import { Category, Question, Player, POINTS_PER_DIFFICULTY } from "@/types/game";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { KeyboardContainer } from "@/components/KeyboardContainer";
+
+interface CategoryHeaderProps {
+  category: Category;
+  index: number;
+}
+
+function CategoryHeader({ category, index }: CategoryHeaderProps) {
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const tooltipId = `category-tooltip-${index}`;
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      const el = textRef.current;
+      if (el) {
+        setIsOverflowing(el.scrollWidth > el.clientWidth);
+      }
+    };
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [category.name]);
+
+  return (
+    <KeyboardContainer
+      className="category-header"
+      bgColor="#1e40af"
+      borderColor="#1e3a8a"
+      shadowBgColor="#1e3a8a"
+    >
+      <span
+        ref={textRef}
+        className="category-header-text text-white font-bold text-sm text-center w-full"
+        data-tooltip-id={isOverflowing ? tooltipId : undefined}
+        data-tooltip-content={category.name}
+      >
+        {category.name}
+      </span>
+      {isOverflowing && (
+        <Tooltip id={tooltipId} place="top" />
+      )}
+    </KeyboardContainer>
+  );
+}
 
 interface GameBoardProps {
   categories: Category[];
@@ -68,17 +115,7 @@ export function GameBoard({
       <div className="grid grid-cols-6 gap-2 md:gap-4">
         {/* Category Headers */}
         {categories.map((category, index) => (
-          <KeyboardContainer
-            key={index}
-            className="category-header"
-            bgColor="#1e40af"
-            borderColor="#1e3a8a"
-            shadowBgColor="#1e3a8a"
-          >
-            <span className="text-white font-bold text-sm text-center w-full">
-              {category.name}
-            </span>
-          </KeyboardContainer>
+          <CategoryHeader key={index} category={category} index={index} />
         ))}
 
         {/* Question Cells */}

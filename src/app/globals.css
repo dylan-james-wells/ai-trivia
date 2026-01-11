@@ -270,6 +270,15 @@
   &.category-header > .keyboard-container {
     padding: 0.75em 0.5em;
     justify-content: center;
+    overflow: hidden;
+  }
+
+  &.category-header .category-header-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
   }
 }
 
