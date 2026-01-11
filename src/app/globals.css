@@ -200,13 +200,14 @@
   position: absolute;
   content: "";
   width: 100%;
-  height: calc(100% - 0.75em);
-  top: 0.75em;
+  height: 100%;
+  top: 0;
   left: 0;
   background: var(--ki-shadow-bg);
   border-radius: 0.75em;
   border: 2px solid var(--ki-border);
   box-shadow: 0 0.625em 0 0 color-mix(in srgb, var(--ki-shadow) calc(var(--ki-shadow-opacity, 0.5) * 100%), transparent);
+  transform: translateY(0.75em);
   pointer-events: none;
 }
 
