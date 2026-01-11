@@ -78,7 +78,7 @@ For example: If generating 70s movies and you think "Taxi Driver" - that's top 5
 
 The goal is "interesting trivia night" not "everyone's first guess." Second-tier well-known works make for better questions.
 
-STARTING LETTER CONSTRAINT: For each category, at least 2 of the 5 answers must start with one of these letters: ${getRandomLetters(3).join(", ")}. This forces variety - if your first instinct doesn't match, find an alternative that does.
+STARTING LETTER CONSTRAINT: For entertainment categories (music, movies, TV, books, etc.) AND nature/animal categories, at least 2 of the 5 answers must start with one of these letters: ${getRandomLetters(3).join(", ")}. This forces variety - if your first instinct doesn't match, find an alternative that does.
 
 Random seed for this generation: ${Math.floor(Math.random() * 10000)}
 
