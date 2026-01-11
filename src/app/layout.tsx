@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SparkleBackground } from "@/components/SparkleBackground";
 
 export const metadata: Metadata = {
   title: "AI Trivia - Jeopardy Style Game",
@@ -13,8 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-950 text-white">
-        {children}
+      <body className="min-h-screen text-white">
+        <SparkleBackground />
+        <div className="relative z-10">{children}</div>
       </body>
     </html>
   );
