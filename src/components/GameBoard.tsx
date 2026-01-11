@@ -1,6 +1,8 @@
 "use client";
 
 import { Category, Question, Player, POINTS_PER_DIFFICULTY } from "@/types/game";
+import { KeyboardButton } from "@/components/KeyboardButton";
+import { KeyboardContainer } from "@/components/KeyboardContainer";
 
 interface GameBoardProps {
   categories: Category[];
@@ -63,15 +65,22 @@ export function GameBoard({
       )}
 
       {/* Game Board Grid */}
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 gap-4">
         {/* Category Headers */}
         {categories.map((category, index) => (
-          <div
+          <KeyboardContainer
             key={index}
-            className="bg-blue-800 text-white p-3 text-center font-bold rounded-t-lg text-sm"
+            className="category-header"
+            bgColor="#1e40af"
+            borderColor="#1e3a8a"
+            shadowBgColor="#1e3a8a"
+            shadowColor="#172554"
+            shadowOpacity={0.3}
           >
-            {category.name}
-          </div>
+            <span className="text-white font-bold text-sm text-center w-full">
+              {category.name}
+            </span>
+          </KeyboardContainer>
         ))}
 
         {/* Question Cells */}
@@ -81,18 +90,22 @@ export function GameBoard({
             const isAnswered = question?.answered;
 
             return (
-              <button
+              <KeyboardButton
                 key={`${categoryIndex}-${difficultyIndex}`}
                 onClick={() => question && !isAnswered && onSelectQuestion(question)}
                 disabled={isAnswered || !question}
-                className={`p-4 text-xl font-bold rounded transition-colors ${
-                  isAnswered
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-blue-600 text-yellow-300 hover:bg-blue-700 cursor-pointer"
-                }`}
+                bgColor={isAnswered ? "#d1d5db" : "#3b82f6"}
+                hoverBgColor={isAnswered ? "#d1d5db" : "#2563eb"}
+                borderColor={isAnswered ? "#9ca3af" : "#1d4ed8"}
+                shadowBgColor={isAnswered ? "#9ca3af" : "#1e40af"}
+                shadowColor={isAnswered ? "#6b7280" : "#1e3a8a"}
+                shadowOpacity={isAnswered ? 0.2 : 0.3}
+                textColor={isAnswered ? "#9ca3af" : "#fde047"}
+                fontSize="1.25rem"
+                className="w-full question-cell"
               >
                 {isAnswered ? "" : `$${points}`}
-              </button>
+              </KeyboardButton>
             );
           })
         ))}

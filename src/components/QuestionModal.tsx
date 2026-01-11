@@ -215,7 +215,7 @@ export function QuestionModal({
               autoFocus
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-            <div className="flex gap-2 mt-4 items-center">
+            <div className="flex gap-2 mt-4 mb-2 items-center">
               <KeyboardButton
                 onClick={submitAnswer}
                 bgColor="#ef4444"
@@ -240,11 +240,11 @@ export function QuestionModal({
             </div>
             <KeyboardButton
               onClick={handleRegenerate}
-              bgColor="#f3f4f6"
-              hoverBgColor="#e5e7eb"
-              borderColor="#d1d5db"
-              shadowBgColor="#e5e7eb"
-              textColor="#6b7280"
+              bgColor="#3b82f6"
+              hoverBgColor="#2563eb"
+              borderColor="#1d4ed8"
+              shadowBgColor="#1e40af"
+              textColor="#ffffff"
               fontSize="0.75rem"
               className="w-full mt-2"
             >

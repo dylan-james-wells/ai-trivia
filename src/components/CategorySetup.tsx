@@ -176,28 +176,27 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
           </h3>
           <ul className="space-y-2">
             {categories.map((category, index) => (
-              <li
-                key={index}
-                className="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-lg"
-              >
-                <div>
-                  <span className="font-medium text-gray-900">{category.name}</span>
-                  {category.aiInterpretation && (
-                    <p className="text-sm text-gray-600">{category.aiInterpretation}</p>
-                  )}
-                </div>
-                <KeyboardButton
-                  onClick={() => removeCategory(index)}
-                  bgColor="#fee2e2"
-                  hoverBgColor="#fecaca"
-                  borderColor="#dc2626"
-                  shadowBgColor="#fca5a5"
-                  shadowColor="#f87171"
-                  textColor="#dc2626"
-                  fontSize="0.75rem"
-                >
-                  Remove
-                </KeyboardButton>
+              <li key={index} className="mb-6">
+                <KeyboardContainer className="category">
+                  <div>
+                    <span className="font-medium text-gray-900">{category.name}</span>
+                    {category.aiInterpretation && (
+                      <p className="text-sm text-gray-600">{category.aiInterpretation}</p>
+                    )}
+                  </div>
+                  <KeyboardButton
+                    onClick={() => removeCategory(index)}
+                    bgColor="#fee2e2"
+                    hoverBgColor="#fecaca"
+                    borderColor="#dc2626"
+                    shadowBgColor="#fca5a5"
+                    shadowColor="#f87171"
+                    textColor="#dc2626"
+                    fontSize="0.75rem"
+                  >
+                    Remove
+                  </KeyboardButton>
+                </KeyboardContainer>
               </li>
             ))}
           </ul>
