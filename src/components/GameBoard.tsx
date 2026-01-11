@@ -9,10 +9,11 @@ import { KeyboardContainer } from "@/components/KeyboardContainer";
 interface CategoryHeaderProps {
   category: Category;
   index: number;
+  isOverflowing: boolean;
   onOverflowChange: (index: number, isOverflowing: boolean) => void;
 }
 
-function CategoryHeader({ category, index, onOverflowChange }: CategoryHeaderProps) {
+function CategoryHeader({ category, index, isOverflowing, onOverflowChange }: CategoryHeaderProps) {
   const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -38,8 +39,8 @@ function CategoryHeader({ category, index, onOverflowChange }: CategoryHeaderPro
       <span
         ref={textRef}
         className="category-header-text text-white font-bold text-sm text-center w-full"
-        data-tooltip-id="category-tooltip"
-        data-tooltip-content={category.name}
+        data-tooltip-id={isOverflowing ? "category-tooltip" : undefined}
+        data-tooltip-content={isOverflowing ? category.name : undefined}
       >
         {category.name}
       </span>
@@ -131,6 +132,7 @@ export function GameBoard({
             key={index}
             category={category}
             index={index}
+            isOverflowing={overflowingCategories.has(index)}
             onOverflowChange={handleOverflowChange}
           />
         ))}
