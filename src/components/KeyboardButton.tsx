@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 interface KeyboardButtonProps {
   children: ReactNode;
@@ -35,12 +35,29 @@ export function KeyboardButton({
   fontSize = "1rem",
   focusRingColor,
 }: KeyboardButtonProps) {
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      setIsPressed(true);
+    }
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      setIsPressed(false);
+    }
+  };
+
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`keyboard-button ${disabled ? "keyboard-button-disabled" : ""} ${className}`}
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+      onBlur={() => setIsPressed(false)}
+      className={`keyboard-button ${disabled ? "keyboard-button-disabled" : ""} ${isPressed ? "keyboard-button-pressed" : ""} ${className}`}
       style={
         {
           "--kb-bg": bgColor,

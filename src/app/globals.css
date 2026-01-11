@@ -161,12 +161,14 @@
   transform: translate3d(0, 0.5em, -1em);
 }
 
-.keyboard-button:active {
+.keyboard-button:active,
+.keyboard-button-pressed {
   background: var(--kb-hover-bg);
   transform: translate(0em, 0.75em);
 }
 
-.keyboard-button:active::before {
+.keyboard-button:active::before,
+.keyboard-button-pressed::before {
   box-shadow: 0 0 0 2px var(--kb-border), 0 0 color-mix(in srgb, var(--kb-shadow) calc(var(--kb-shadow-opacity, 1) * 100%), transparent);
   transform: translate3d(0, 0, -1em);
 }
