@@ -92,11 +92,11 @@ export function GameBoard({
                 key={`${categoryIndex}-${difficultyIndex}`}
                 onClick={() => question && !isAnswered && onSelectQuestion(question)}
                 disabled={isAnswered || !question}
-                bgColor={isAnswered ? "#d1d5db" : "#3b82f6"}
-                hoverBgColor={isAnswered ? "#d1d5db" : "#2563eb"}
-                borderColor={isAnswered ? "#9ca3af" : "#1d4ed8"}
-                shadowBgColor={isAnswered ? "#9ca3af" : "#1e40af"}
-                textColor={isAnswered ? "#9ca3af" : "#fde047"}
+                bgColor={isAnswered ? "#1e3a5f" : "#3b82f6"}
+                hoverBgColor={isAnswered ? "#1e3a5f" : "#2563eb"}
+                borderColor={isAnswered ? "#172d4d" : "#1d4ed8"}
+                shadowBgColor={isAnswered ? "#172d4d" : "#1e40af"}
+                textColor={isAnswered ? "#3b5998" : "#fde047"}
                 fontSize="1.25rem"
                 className="w-full question-cell"
               >
