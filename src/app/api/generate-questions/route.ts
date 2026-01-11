@@ -63,7 +63,15 @@ Each answer should be a clear, concise answer that a human moderator can judge.
 
 IMPORTANT: Do NOT use Jeopardy-style "What is..." or "Who is..." answer format. Answers should be plain and direct (e.g., "Blade Runner" not "What is Blade Runner?").
 
-VARIETY: For entertainment categories (music, movies, TV, books, etc.), favor mid-level popularity subjects over the most obvious choices. Avoid defaulting to the same well-known answers every time (e.g., not every 80s movie category needs Back to the Future). Reserve the most iconic/famous answers for easier questions occasionally, but prioritize interesting, lesser-known-but-still-recognizable subjects for medium and hard questions.
+VARIETY IS CRITICAL: For entertainment categories (music, movies, TV, books, etc.), actively resist defaulting to the most famous/canonical choices.
+
+When you think of an answer, ask yourself: "Is this one of the top 5 most famous examples in this category?" If yes, give yourself only a 10% chance of using it - mentally roll a d10, and only use it on a 1. Otherwise, dig deeper and find something from the second or third tier of popularity - still recognizable, but not the obvious choice.
+
+For example: If generating 70s movies and you think "Taxi Driver" - that's top 5 famous, so 90% of the time pick something else like Network, Dog Day Afternoon, or Chinatown instead. Same for Sound of Music (60s), Lion King (90s), Back to the Future (80s), etc.
+
+The goal is "interesting trivia night" not "everyone's first guess." Second-tier well-known works make for better questions.
+
+Random seed for this generation: ${Math.floor(Math.random() * 10000)}
 
 CRITICAL: Respond with ONLY the raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT include \`\`\`json or \`\`\` markers. Just the pure JSON starting with { and ending with }.`,
         },
