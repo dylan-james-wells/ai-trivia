@@ -15,6 +15,7 @@ import {
 import { saveGameState, loadGameState, clearGameState, createInitialState } from "@/lib/storage";
 import { audioManager, MusicTrack } from "@/lib/audio";
 import { createDevGameState } from "@/lib/dev-game";
+import { RaisedTextButton } from "@/components/RaisedTextButton";
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -250,19 +251,23 @@ export default function Home() {
             <p className="text-blue-200 mb-8">
               A Jeopardy-style trivia game where AI generates questions and judges your answers.
             </p>
-            <button
+            <RaisedTextButton
               onClick={handleStartGame}
-              className="w-full py-4 bg-blue-600 text-white text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+              className="w-full"
+              color="#3b82f6"
+              shadowColor="#1e40af"
             >
               Start New Game
-            </button>
+            </RaisedTextButton>
             {process.env.NEXT_PUBLIC_DEV_MODE === "1" && (
-              <button
+              <RaisedTextButton
                 onClick={handleStartDevGame}
-                className="w-full mt-3 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors"
+                className="w-full mt-3"
+                color="#9ca3af"
+                shadowColor="#4b5563"
               >
                 Start Demo Game
-              </button>
+              </RaisedTextButton>
             )}
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Category, TOTAL_CATEGORIES } from "@/types/game";
+import { RaisedTextButton } from "@/components/RaisedTextButton";
 
 interface CategorySetupProps {
   onComplete: (categories: Category[]) => void;
@@ -174,20 +175,30 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
         </div>
       )}
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
         <button
           onClick={onBack}
           className="px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
         >
           Back
         </button>
-        <button
-          onClick={handleComplete}
-          disabled={categories.length !== TOTAL_CATEGORIES}
-          className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          Generate Questions
-        </button>
+        {categories.length === TOTAL_CATEGORIES ? (
+          <RaisedTextButton
+            onClick={handleComplete}
+            className="flex-1"
+            color="#22c55e"
+            shadowColor="#15803d"
+          >
+            Generate Questions
+          </RaisedTextButton>
+        ) : (
+          <button
+            disabled
+            className="flex-1 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed"
+          >
+            Generate Questions ({categories.length}/{TOTAL_CATEGORIES})
+          </button>
+        )}
       </div>
     </div>
   );

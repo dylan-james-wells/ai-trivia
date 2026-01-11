@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 /* Sparkle Background Animations */
 @keyframes sparkle {
   0% {
@@ -38,4 +34,65 @@ body {
 
 .animate-gradient-shift {
   animation: gradient-shift 15s ease infinite;
+}
+
+/* Raised Text Button Styles */
+.raised-text-button {
+  --rtb-hover: 0.4;
+  --rtb-pos: 0;
+  --rtb-font-size: 1.875rem; /* text-3xl */
+}
+
+.raised-text-button:hover {
+  --rtb-hover: 1;
+  --rtb-pos: 1;
+}
+
+.raised-text-button:active {
+  --rtb-hover: 0;
+}
+
+.raised-text-button:active .raised-text-glare {
+  --rtb-hover: 0;
+  --rtb-pos: 1;
+}
+
+.raised-text-shadow {
+  text-shadow:
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.00)) calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.00)) var(--rtb-shadow),
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.02)) calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.02)) var(--rtb-shadow),
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.04)) calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.04)) var(--rtb-shadow),
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.06)) calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.06)) var(--rtb-shadow),
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.08)) calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.08)) var(--rtb-shadow),
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.10)) calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.10)) var(--rtb-shadow);
+  transform: translate(
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.10)),
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.10))
+  );
+}
+
+.raised-text-glare {
+  background:
+    linear-gradient(
+      108deg,
+      transparent 0% 55%,
+      hsl(0 0% 100% / 0.75) 55% 60%,
+      transparent 60% 70%,
+      hsl(0 0% 100% / 0.75) 70% 85%,
+      transparent 85% 100%
+    ) calc(var(--rtb-pos) * -200%) 0% / 200% 100%,
+    var(--rtb-color);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  transform: translate(
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * 0.10)),
+    calc(var(--rtb-hover) * (var(--rtb-font-size) * -0.10))
+  );
+  transition: transform 0.2s, background-position 0s;
+}
+
+.raised-text-button:hover .raised-text-glare {
+  transition: transform 0.2s, background-position 1.5s 0.25s;
 }

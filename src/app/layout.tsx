@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
+import { Play } from "next/font/google";
 import "./globals.css";
 import { SparkleBackground } from "@/components/SparkleBackground";
+
+const play = Play({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 export const metadata: Metadata = {
   title: "AI Trivia - Jeopardy Style Game",
@@ -14,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen text-white">
+      <body className={`min-h-screen text-white ${play.className}`}>
         <SparkleBackground />
         <div className="relative z-10">{children}</div>
       </body>

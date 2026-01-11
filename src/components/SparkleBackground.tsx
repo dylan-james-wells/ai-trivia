@@ -2,42 +2,49 @@
 
 import { useEffect, useState, useCallback } from "react";
 
-interface Sparkle {
-  id: number;
+interface SparkleData {
   x: number;
   y: number;
   scale: number;
-  delay: number;
   size: number;
 }
 
 const SPARKLE_COUNT = 20;
 const DELAY_STEP = 0.15;
 
-function generateSparkle(id: number): Sparkle {
+function generateSparkleData(): SparkleData {
   return {
-    id,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    scale: 0.8 + Math.random() * 0.45, // 0.8 to 1.25, similar to CodePen
-    delay: Math.floor(Math.random() * 5) + 1,
-    size: 16 + Math.random() * 16, // 16px to 32px
+    scale: 0.8 + Math.random() * 0.45,
+    size: 16 + Math.random() * 16,
   };
 }
 
-interface SparkleIconProps {
-  className?: string;
-  style?: React.CSSProperties;
-}
+function Sparkle({ delay }: { delay: number }) {
+  const [data, setData] = useState<SparkleData>(generateSparkleData);
 
-function SparkleIcon({ className, style }: SparkleIconProps) {
+  const handleAnimationIteration = useCallback(() => {
+    setData(generateSparkleData());
+  }, []);
+
   return (
     <svg
       viewBox="0 0 96 96"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      style={style}
+      className="absolute text-white/30 animate-sparkle"
+      style={
+        {
+          top: `${data.y}%`,
+          left: `${data.x}%`,
+          width: `${data.size}px`,
+          height: `${data.size}px`,
+          "--sparkle-scale": data.scale,
+          "--sparkle-delay": `${DELAY_STEP * delay}s`,
+        } as React.CSSProperties
+      }
+      onAnimationIteration={handleAnimationIteration}
     >
       <path
         d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"
@@ -48,21 +55,11 @@ function SparkleIcon({ className, style }: SparkleIconProps) {
 }
 
 export function SparkleBackground() {
-  const [sparkles, setSparkles] = useState<Sparkle[]>([]);
-
-  const regenerateSparkles = useCallback(() => {
-    setSparkles(
-      Array.from({ length: SPARKLE_COUNT }, (_, i) => generateSparkle(i))
-    );
-  }, []);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    regenerateSparkles();
-
-    // Regenerate sparkles periodically to keep the effect fresh
-    const interval = setInterval(regenerateSparkles, 10000);
-    return () => clearInterval(interval);
-  }, [regenerateSparkles]);
+    setMounted(true);
+  }, []);
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -78,23 +75,10 @@ export function SparkleBackground() {
 
       {/* Layer 2: Sparkle Container */}
       <div className="absolute inset-0">
-        {sparkles.map((sparkle) => (
-          <SparkleIcon
-            key={sparkle.id}
-            className="absolute text-white/30 animate-sparkle"
-            style={
-              {
-                top: `${sparkle.y}%`,
-                left: `${sparkle.x}%`,
-                width: `${sparkle.size}px`,
-                height: `${sparkle.size}px`,
-                "--sparkle-scale": sparkle.scale,
-                "--sparkle-delay": `${DELAY_STEP * sparkle.delay}s`,
-                transform: "translate(-50%, -50%) scale(0)",
-              } as React.CSSProperties
-            }
-          />
-        ))}
+        {mounted &&
+          Array.from({ length: SPARKLE_COUNT }, (_, i) => (
+            <Sparkle key={i} delay={(i % 5) + 1} />
+          ))}
       </div>
 
       {/* Layer 3: Glass Overlay */}
@@ -103,7 +87,7 @@ export function SparkleBackground() {
         style={{
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
-          backdropFilter: "blur(0.5px)",
+          backdropFilter: "blur(2.5px)",
         }}
       />
     </div>

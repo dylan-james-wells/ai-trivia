@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Question, Player, Category } from "@/types/game";
 import { audioManager } from "@/lib/audio";
+import { RaisedTextButton } from "@/components/RaisedTextButton";
 
 interface QuestionModalProps {
   question: Question;
@@ -214,13 +215,15 @@ export function QuestionModal({
               autoFocus
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-            <div className="flex gap-2 mt-4">
-              <button
+            <div className="flex gap-2 mt-4 items-center">
+              <RaisedTextButton
                 onClick={submitAnswer}
-                className="flex-1 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex-1"
+                color="#3b82f6"
+                shadowColor="#1e40af"
               >
                 Submit Answer
-              </button>
+              </RaisedTextButton>
               <button
                 onClick={handleDontKnow}
                 className="py-3 px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
@@ -321,19 +324,23 @@ export function QuestionModal({
               <p className="text-center text-gray-900 font-semibold mb-4">
                 Moderator: Was {currentPlayer.name}&apos;s answer correct?
               </p>
-              <div className="flex gap-4">
-                <button
+              <div className="flex gap-4 items-center">
+                <RaisedTextButton
                   onClick={() => handleModeratorDecision(true)}
-                  className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                  className="flex-1"
+                  color="#22c55e"
+                  shadowColor="#15803d"
                 >
                   Yes, Correct (+${question.points})
-                </button>
-                <button
+                </RaisedTextButton>
+                <RaisedTextButton
                   onClick={() => handleModeratorDecision(false)}
-                  className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
+                  className="flex-1"
+                  color="#ef4444"
+                  shadowColor="#b91c1c"
                 >
                   No, Incorrect (-${question.points})
-                </button>
+                </RaisedTextButton>
               </div>
             </div>
           </div>
@@ -367,12 +374,13 @@ export function QuestionModal({
               </p>
             </div>
             <p className="text-gray-500 mb-4">No points awarded or deducted</p>
-            <button
+            <RaisedTextButton
               onClick={handleRevealedContinue}
-              className="py-3 px-8 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              color="#3b82f6"
+              shadowColor="#1e40af"
             >
               Continue
-            </button>
+            </RaisedTextButton>
           </div>
         )}
       </div>

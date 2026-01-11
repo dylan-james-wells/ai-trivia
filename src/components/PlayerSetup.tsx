@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Player } from "@/types/game";
+import { RaisedTextButton } from "@/components/RaisedTextButton";
 
 interface PlayerSetupProps {
   onComplete: (players: Player[]) => void;
@@ -92,20 +93,30 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
         </div>
       )}
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
         <button
           onClick={onBack}
           className="px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
         >
           Back
         </button>
-        <button
-          onClick={handleSubmit}
-          disabled={players.length < 2}
-          className="flex-1 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          Continue to Categories ({players.length}/2 minimum)
-        </button>
+        {players.length >= 2 ? (
+          <RaisedTextButton
+            onClick={handleSubmit}
+            className="flex-1"
+            color="#22c55e"
+            shadowColor="#15803d"
+          >
+            Continue to Categories
+          </RaisedTextButton>
+        ) : (
+          <button
+            disabled
+            className="flex-1 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed"
+          >
+            Continue to Categories ({players.length}/2 minimum)
+          </button>
+        )}
       </div>
     </div>
   );
