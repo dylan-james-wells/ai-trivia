@@ -117,7 +117,6 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
               hoverBgColor="#2563eb"
               borderColor="#1d4ed8"
               shadowBgColor="#1e40af"
-              shadowColor="#1e3a8a"
               textColor="#ffffff"
             >
               {loading ? "Checking..." : "Add"}
@@ -190,7 +189,6 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
                     hoverBgColor="#fecaca"
                     borderColor="#dc2626"
                     shadowBgColor="#fca5a5"
-                    shadowColor="#f87171"
                     textColor="#dc2626"
                     fontSize="0.75rem"
                   >

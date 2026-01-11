@@ -74,8 +74,6 @@ export function GameBoard({
             bgColor="#1e40af"
             borderColor="#1e3a8a"
             shadowBgColor="#1e3a8a"
-            shadowColor="#172554"
-            shadowOpacity={0.3}
           >
             <span className="text-white font-bold text-sm text-center w-full">
               {category.name}
@@ -98,8 +96,6 @@ export function GameBoard({
                 hoverBgColor={isAnswered ? "#d1d5db" : "#2563eb"}
                 borderColor={isAnswered ? "#9ca3af" : "#1d4ed8"}
                 shadowBgColor={isAnswered ? "#9ca3af" : "#1e40af"}
-                shadowColor={isAnswered ? "#6b7280" : "#1e3a8a"}
-                shadowOpacity={isAnswered ? 0.2 : 0.3}
                 textColor={isAnswered ? "#9ca3af" : "#fde047"}
                 fontSize="1.25rem"
                 className="w-full question-cell"

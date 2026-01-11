@@ -173,18 +173,22 @@
 
 .keyboard-button-disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 1;
+  pointer-events: none;
 }
 
 .keyboard-button-disabled:hover,
-.keyboard-button-disabled:active {
+.keyboard-button-disabled:active,
+.keyboard-button-disabled:focus-visible {
   transform: none;
   background: var(--kb-bg);
 }
 
+.keyboard-button-disabled::before,
 .keyboard-button-disabled:hover::before,
-.keyboard-button-disabled:active::before {
-  box-shadow: 0 0 0 2px var(--kb-border), 0 0.625em 0 0 var(--kb-shadow);
+.keyboard-button-disabled:active::before,
+.keyboard-button-disabled:focus-visible::before {
+  box-shadow: 0 0 0 2px var(--kb-border), 0 0.625em 0 0 color-mix(in srgb, var(--kb-shadow) calc(var(--kb-shadow-opacity, 1) * 100%), transparent);
   transform: translate3d(0, 0.75em, -1em);
 }
 
