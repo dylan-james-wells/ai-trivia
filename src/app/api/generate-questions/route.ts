@@ -63,6 +63,8 @@ Each answer should be a clear, concise answer that a human moderator can judge.
 
 IMPORTANT: Do NOT use Jeopardy-style "What is..." or "Who is..." answer format. Answers should be plain and direct (e.g., "Blade Runner" not "What is Blade Runner?").
 
+VARIETY: For entertainment categories (music, movies, TV, books, etc.), favor mid-level popularity subjects over the most obvious choices. Avoid defaulting to the same well-known answers every time (e.g., not every 80s movie category needs Back to the Future). Reserve the most iconic/famous answers for easier questions occasionally, but prioritize interesting, lesser-known-but-still-recognizable subjects for medium and hard questions.
+
 CRITICAL: Respond with ONLY the raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT include \`\`\`json or \`\`\` markers. Just the pure JSON starting with { and ending with }.`,
         },
       ],
