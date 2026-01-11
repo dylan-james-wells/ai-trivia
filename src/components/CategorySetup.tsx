@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Category, TOTAL_CATEGORIES } from "@/types/game";
 import { RaisedTextButton } from "@/components/RaisedTextButton";
+import { KeyboardButton } from "@/components/KeyboardButton";
 
 interface CategorySetupProps {
   onComplete: (categories: Category[]) => void;
@@ -108,13 +109,18 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
               maxLength={100}
               disabled={loading}
             />
-            <button
+            <KeyboardButton
               onClick={validateCategory}
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400"
+              bgColor="#3b82f6"
+              hoverBgColor="#2563eb"
+              borderColor="#1d4ed8"
+              shadowBgColor="#1e40af"
+              shadowColor="#1e3a8a"
+              textColor="#ffffff"
             >
               {loading ? "Checking..." : "Add"}
-            </button>
+            </KeyboardButton>
           </div>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
@@ -130,18 +136,28 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
             <strong>AI interpretation:</strong> {pendingCategory.interpretation}
           </p>
           <div className="flex gap-2">
-            <button
+            <KeyboardButton
               onClick={confirmCategory}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              bgColor="#22c55e"
+              hoverBgColor="#16a34a"
+              borderColor="#15803d"
+              shadowBgColor="#16a34a"
+              shadowColor="#14532d"
+              textColor="#ffffff"
             >
               Confirm
-            </button>
-            <button
+            </KeyboardButton>
+            <KeyboardButton
               onClick={rejectCategory}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              bgColor="#ef4444"
+              hoverBgColor="#dc2626"
+              borderColor="#b91c1c"
+              shadowBgColor="#dc2626"
+              shadowColor="#991b1b"
+              textColor="#ffffff"
             >
               Try Again
-            </button>
+            </KeyboardButton>
           </div>
         </div>
       )}
@@ -163,12 +179,18 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
                     <p className="text-sm text-gray-600">{category.aiInterpretation}</p>
                   )}
                 </div>
-                <button
+                <KeyboardButton
                   onClick={() => removeCategory(index)}
-                  className="text-red-500 hover:text-red-700"
+                  bgColor="#fee2e2"
+                  hoverBgColor="#fecaca"
+                  borderColor="#dc2626"
+                  shadowBgColor="#fca5a5"
+                  shadowColor="#f87171"
+                  textColor="#dc2626"
+                  fontSize="0.75rem"
                 >
                   Remove
-                </button>
+                </KeyboardButton>
               </li>
             ))}
           </ul>
@@ -176,12 +198,17 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
       )}
 
       <div className="flex gap-4 items-center">
-        <button
+        <KeyboardButton
           onClick={onBack}
-          className="px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+          bgColor="#e5e7eb"
+          hoverBgColor="#d1d5db"
+          borderColor="#9ca3af"
+          shadowBgColor="#d1d5db"
+          shadowColor="#9ca3af"
+          textColor="#374151"
         >
           Back
-        </button>
+        </KeyboardButton>
         {categories.length === TOTAL_CATEGORIES ? (
           <RaisedTextButton
             onClick={handleComplete}
@@ -190,12 +217,9 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
             Generate Questions
           </RaisedTextButton>
         ) : (
-          <button
-            disabled
-            className="flex-1 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed"
-          >
+          <span className="flex-1 text-center text-gray-400 text-lg uppercase font-semibold">
             Generate Questions ({categories.length}/{TOTAL_CATEGORIES})
-          </button>
+          </span>
         )}
       </div>
     </div>

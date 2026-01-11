@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Player } from "@/types/game";
 import { RaisedTextButton } from "@/components/RaisedTextButton";
+import { KeyboardButton } from "@/components/KeyboardButton";
 
 interface PlayerSetupProps {
   onComplete: (players: Player[]) => void;
@@ -58,15 +59,20 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
             onChange={(e) => setNewPlayerName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addPlayer()}
             placeholder="Enter player name"
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
             maxLength={30}
           />
-          <button
+          <KeyboardButton
             onClick={addPlayer}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            bgColor="#3b82f6"
+            hoverBgColor="#2563eb"
+            borderColor="#1d4ed8"
+            shadowBgColor="#1e40af"
+            shadowColor="#1e3a8a"
+            textColor="#ffffff"
           >
             Add
-          </button>
+          </KeyboardButton>
         </div>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
@@ -81,12 +87,18 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
                 className="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-lg"
               >
                 <span className="text-gray-900">{player.name}</span>
-                <button
+                <KeyboardButton
                   onClick={() => removePlayer(player.id)}
-                  className="text-red-500 hover:text-red-700"
+                  bgColor="#fee2e2"
+                  hoverBgColor="#fecaca"
+                  borderColor="#dc2626"
+                  shadowBgColor="#fca5a5"
+                  shadowColor="#f87171"
+                  textColor="#dc2626"
+                  fontSize="0.75rem"
                 >
                   Remove
-                </button>
+                </KeyboardButton>
               </li>
             ))}
           </ul>
@@ -94,26 +106,28 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
       )}
 
       <div className="flex gap-4 items-center">
-        <button
+        <KeyboardButton
           onClick={onBack}
-          className="px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+          bgColor="#e5e7eb"
+          hoverBgColor="#d1d5db"
+          borderColor="#9ca3af"
+          shadowBgColor="#d1d5db"
+          shadowColor="#9ca3af"
+          textColor="#374151"
         >
           Back
-        </button>
+        </KeyboardButton>
         {players.length >= 2 ? (
           <RaisedTextButton
             onClick={handleSubmit}
             className="flex-1"
           >
-            Continue to Categories
+            Continue
           </RaisedTextButton>
         ) : (
-          <button
-            disabled
-            className="flex-1 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed"
-          >
-            Continue to Categories ({players.length}/2 minimum)
-          </button>
+          <span className="flex-1 text-center text-gray-400 text-lg uppercase font-semibold">
+            Continue ({players.length}/2 minimum)
+          </span>
         )}
       </div>
     </div>

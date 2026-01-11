@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Question, Player, Category } from "@/types/game";
 import { audioManager } from "@/lib/audio";
 import { RaisedTextButton } from "@/components/RaisedTextButton";
+import { KeyboardButton } from "@/components/KeyboardButton";
 
 interface QuestionModalProps {
   question: Question;
@@ -222,19 +223,31 @@ export function QuestionModal({
               >
                 Submit Answer
               </RaisedTextButton>
-              <button
+              <KeyboardButton
                 onClick={handleDontKnow}
-                className="py-3 px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                bgColor="#e5e7eb"
+                hoverBgColor="#d1d5db"
+                borderColor="#9ca3af"
+                shadowBgColor="#d1d5db"
+                shadowColor="#9ca3af"
+                textColor="#374151"
               >
                 Don&apos;t Know
-              </button>
+              </KeyboardButton>
             </div>
-            <button
+            <KeyboardButton
               onClick={handleRegenerate}
-              className="w-full mt-2 py-2 text-gray-500 hover:text-gray-700 text-sm underline"
+              bgColor="#f3f4f6"
+              hoverBgColor="#e5e7eb"
+              borderColor="#d1d5db"
+              shadowBgColor="#e5e7eb"
+              shadowColor="#d1d5db"
+              textColor="#6b7280"
+              fontSize="0.75rem"
+              className="w-full mt-2"
             >
               Regenerate Question
-            </button>
+            </KeyboardButton>
           </div>
         )}
 
@@ -254,21 +267,33 @@ export function QuestionModal({
                 const hasPassed = passedPlayerIndices.includes(index);
                 if (hasPassed) return null;
                 return (
-                  <button
+                  <KeyboardButton
                     key={player.id}
                     onClick={() => handleSelectPlayer(index)}
-                    className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                    bgColor="#3b82f6"
+                    hoverBgColor="#2563eb"
+                    borderColor="#1d4ed8"
+                    shadowBgColor="#1e40af"
+                    shadowColor="#1e3a8a"
+                    textColor="#ffffff"
+                    className="w-full"
                   >
                     {player.name}
-                  </button>
+                  </KeyboardButton>
                 );
               })}
-              <button
+              <KeyboardButton
                 onClick={handleNobodyWantsToAnswer}
-                className="w-full py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                bgColor="#e5e7eb"
+                hoverBgColor="#d1d5db"
+                borderColor="#9ca3af"
+                shadowBgColor="#d1d5db"
+                shadowColor="#9ca3af"
+                textColor="#374151"
+                className="w-full"
               >
                 Nobody Knows
-              </button>
+              </KeyboardButton>
             </div>
           </div>
         )}

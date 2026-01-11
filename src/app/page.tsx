@@ -16,6 +16,7 @@ import { saveGameState, loadGameState, clearGameState, createInitialState } from
 import { audioManager, MusicTrack } from "@/lib/audio";
 import { createDevGameState } from "@/lib/dev-game";
 import { RaisedTextButton } from "@/components/RaisedTextButton";
+import { KeyboardButton } from "@/components/KeyboardButton";
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -219,12 +220,18 @@ export default function Home() {
         <h1 className="text-4xl md:text-5xl font-bold mb-2">AI Trivia</h1>
         <p className="text-blue-300">Jeopardy-style game powered by AI</p>
         {gameState.phase !== "menu" && (
-          <button
+          <KeyboardButton
             onClick={handleNewGame}
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
+            bgColor="#ef4444"
+            hoverBgColor="#dc2626"
+            borderColor="#b91c1c"
+            shadowBgColor="#dc2626"
+            shadowColor="#991b1b"
+            textColor="#ffffff"
+            fontSize="0.875rem"
           >
             Main Menu
-          </button>
+          </KeyboardButton>
         )}
       </header>
 
