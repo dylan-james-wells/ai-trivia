@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Player } from "@/types/game";
-import { RaisedTextButton } from "@/components/RaisedTextButton";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { KeyboardInput } from "@/components/KeyboardInput";
 
@@ -15,6 +14,7 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [newPlayerName, setNewPlayerName] = useState("");
   const [error, setError] = useState("");
+  const [addButtonPressed, setAddButtonPressed] = useState(false);
 
   const addPlayer = () => {
     const name = newPlayerName.trim();
@@ -58,7 +58,17 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
             type="text"
             value={newPlayerName}
             onChange={(e) => setNewPlayerName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addPlayer()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setAddButtonPressed(true);
+                addPlayer();
+              }
+            }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                setAddButtonPressed(false);
+              }
+            }}
             placeholder="Enter player name"
             maxLength={30}
             className="flex-1"
@@ -67,6 +77,7 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           />
           <KeyboardButton
             onClick={addPlayer}
+            pressed={addButtonPressed}
             bgColor="#3b82f6"
             hoverBgColor="#2563eb"
             borderColor="#1d4ed8"
@@ -124,12 +135,19 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           Back
         </KeyboardButton>
         {players.length >= 2 ? (
-          <RaisedTextButton
+          <KeyboardButton
             onClick={handleSubmit}
+            bgColor="#facc15"
+            hoverBgColor="#eab308"
+            borderColor="#ca8a04"
+            shadowBgColor="#eab308"
+            textColor="#422006"
+            shadowOpacity={0.1}
+            shadowColor="black"
             className="flex-1"
           >
             Continue
-          </RaisedTextButton>
+          </KeyboardButton>
         ) : (
           <span className="flex-1 text-center text-gray-400 text-lg uppercase font-semibold">
             Continue ({players.length}/2 minimum)

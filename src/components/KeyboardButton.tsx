@@ -16,6 +16,7 @@ interface KeyboardButtonProps {
   shadowOpacity?: number;
   textColor?: string;
   fontSize?: string;
+  pressed?: boolean;
 }
 
 export function KeyboardButton({
@@ -32,8 +33,10 @@ export function KeyboardButton({
   shadowOpacity = 0.5,
   textColor = "#382b22",
   fontSize = "1rem",
+  pressed = false,
 }: KeyboardButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
+  const showPressed = isPressed || pressed;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -55,7 +58,7 @@ export function KeyboardButton({
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
       onBlur={() => setIsPressed(false)}
-      className={`keyboard-button ${disabled ? "keyboard-button-disabled" : ""} ${isPressed ? "keyboard-button-pressed" : ""} ${className}`}
+      className={`keyboard-button ${disabled ? "keyboard-button-disabled" : ""} ${showPressed ? "keyboard-button-pressed" : ""} ${className}`}
       style={
         {
           "--kb-bg": bgColor,

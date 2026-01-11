@@ -15,7 +15,6 @@ import {
 import { saveGameState, loadGameState, clearGameState, createInitialState } from "@/lib/storage";
 import { audioManager, MusicTrack } from "@/lib/audio";
 import { createDevGameState } from "@/lib/dev-game";
-import { RaisedTextButton } from "@/components/RaisedTextButton";
 import { KeyboardButton } from "@/components/KeyboardButton";
 
 export default function Home() {
@@ -259,19 +258,33 @@ export default function Home() {
             <p className="text-blue-200 mb-8">
               A Jeopardy-style trivia game where AI generates questions and judges your answers.
             </p>
-            <RaisedTextButton
+            <KeyboardButton
               onClick={handleStartGame}
+              bgColor="#facc15"
+              hoverBgColor="#eab308"
+              borderColor="#ca8a04"
+              shadowBgColor="#eab308"
+              textColor="#422006"
+              shadowOpacity={0.1}
+              shadowColor="black"
               className="w-full"
             >
               Start New Game
-            </RaisedTextButton>
+            </KeyboardButton>
             {process.env.NEXT_PUBLIC_DEV_MODE === "1" && (
-              <RaisedTextButton
+              <KeyboardButton
                 onClick={handleStartDevGame}
+                bgColor="#facc15"
+                hoverBgColor="#eab308"
+                borderColor="#ca8a04"
+                shadowBgColor="#eab308"
+                textColor="#422006"
+                shadowOpacity={0.1}
+                shadowColor="black"
                 className="w-full mt-3"
               >
                 Start Demo Game
-              </RaisedTextButton>
+              </KeyboardButton>
             )}
           </div>
         </div>

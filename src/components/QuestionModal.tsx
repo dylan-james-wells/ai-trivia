@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Question, Player, Category } from "@/types/game";
 import { audioManager } from "@/lib/audio";
-import { RaisedTextButton } from "@/components/RaisedTextButton";
 import { KeyboardButton } from "@/components/KeyboardButton";
 
 interface QuestionModalProps {
@@ -217,12 +216,19 @@ export function QuestionModal({
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             <div className="flex gap-2 mt-4 items-center">
-              <RaisedTextButton
+              <KeyboardButton
                 onClick={submitAnswer}
+                bgColor="#facc15"
+                hoverBgColor="#eab308"
+                borderColor="#ca8a04"
+                shadowBgColor="#eab308"
+                textColor="#422006"
+                shadowOpacity={0.1}
+                shadowColor="black"
                 className="flex-1"
               >
                 Submit Answer
-              </RaisedTextButton>
+              </KeyboardButton>
               <KeyboardButton
                 onClick={handleDontKnow}
                 bgColor="#e5e7eb"
@@ -348,18 +354,32 @@ export function QuestionModal({
                 Moderator: Was {currentPlayer.name}&apos;s answer correct?
               </p>
               <div className="flex gap-4 items-center">
-                <RaisedTextButton
+                <KeyboardButton
                   onClick={() => handleModeratorDecision(true)}
+                  bgColor="#facc15"
+                  hoverBgColor="#eab308"
+                  borderColor="#ca8a04"
+                  shadowBgColor="#eab308"
+                  textColor="#422006"
+                  shadowOpacity={0.1}
+                  shadowColor="black"
                   className="flex-1"
                 >
                   Yes, Correct (+${question.points})
-                </RaisedTextButton>
-                <RaisedTextButton
+                </KeyboardButton>
+                <KeyboardButton
                   onClick={() => handleModeratorDecision(false)}
+                  bgColor="#facc15"
+                  hoverBgColor="#eab308"
+                  borderColor="#ca8a04"
+                  shadowBgColor="#eab308"
+                  textColor="#422006"
+                  shadowOpacity={0.1}
+                  shadowColor="black"
                   className="flex-1"
                 >
                   No, Incorrect (-${question.points})
-                </RaisedTextButton>
+                </KeyboardButton>
               </div>
             </div>
           </div>
@@ -393,11 +413,18 @@ export function QuestionModal({
               </p>
             </div>
             <p className="text-gray-500 mb-4">No points awarded or deducted</p>
-            <RaisedTextButton
+            <KeyboardButton
               onClick={handleRevealedContinue}
+              bgColor="#facc15"
+              hoverBgColor="#eab308"
+              borderColor="#ca8a04"
+              shadowBgColor="#eab308"
+              textColor="#422006"
+              shadowOpacity={0.1}
+              shadowColor="black"
             >
               Continue
-            </RaisedTextButton>
+            </KeyboardButton>
           </div>
         )}
       </div>

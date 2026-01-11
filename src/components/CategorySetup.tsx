@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Category, TOTAL_CATEGORIES } from "@/types/game";
-import { RaisedTextButton } from "@/components/RaisedTextButton";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { KeyboardInput } from "@/components/KeyboardInput";
 
@@ -211,12 +210,19 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
           Back
         </KeyboardButton>
         {categories.length === TOTAL_CATEGORIES ? (
-          <RaisedTextButton
+          <KeyboardButton
             onClick={handleComplete}
+            bgColor="#facc15"
+            hoverBgColor="#eab308"
+            borderColor="#ca8a04"
+            shadowBgColor="#eab308"
+            textColor="#422006"
+            shadowOpacity={0.1}
+            shadowColor="black"
             className="flex-1"
           >
             Generate Questions
-          </RaisedTextButton>
+          </KeyboardButton>
         ) : (
           <span className="flex-1 text-center text-gray-400 text-lg uppercase font-semibold">
             Generate Questions ({categories.length}/{TOTAL_CATEGORIES})
