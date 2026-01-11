@@ -218,7 +218,7 @@ export default function Home() {
     <main className="min-h-screen p-4 md:p-8">
       <header className="text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold mb-2">AI Trivia</h1>
-        <p className="text-blue-300">Jeopardy-style game powered by AI</p>
+        <p className="text-blue-300 mb-6">Jeopardy-style game powered by AI</p>
         {gameState.phase !== "menu" && (
           <KeyboardButton
             onClick={handleNewGame}
