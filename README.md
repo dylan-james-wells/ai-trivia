@@ -19,6 +19,7 @@ A Jeopardy-style trivia game powered by Claude AI. Players choose categories, AI
 - **Styling**: Tailwind CSS v4
 - **AI**: Anthropic Claude API (claude-sonnet-4-20250514)
 - **Fuzzy Matching**: fuzzball
+- **Testing**: Vitest
 
 ## Getting Started
 
@@ -114,11 +115,41 @@ src/
 │   ├── dev-game.ts            # Demo game data
 │   ├── fuzzy-match.ts         # Fuzzy text matching
 │   ├── parse-json.ts          # AI response JSON parser
+│   ├── random-letters.ts      # Letter constraints for question variety
 │   ├── rate-limit.ts          # API rate limiting
 │   └── storage.ts             # localStorage helpers
+├── test/
+│   └── setup.ts               # Vitest test setup
 └── types/
     └── game.ts                # TypeScript interfaces
 ```
+
+## Testing
+
+The project uses [Vitest](https://vitest.dev/) for testing.
+
+```bash
+# Run tests in watch mode
+npm test
+
+# Run tests once
+npm run test:run
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+### Test Coverage
+
+- **Unit Tests**
+  - `fuzzy-match.ts` - Fuzzy text matching for answer evaluation
+  - `random-letters.ts` - Letter set generation for question variety
+  - `parse-json.ts` - AI response JSON parsing
+  - `rate-limit.ts` - API rate limiting logic
+
+- **API Route Tests**
+  - `evaluate-answer/route.ts` - Answer evaluation with fuzzy match and AI fallback
+  - `generate-questions/route.ts` - Question generation with validation
 
 ## Dev/Demo Mode
 
