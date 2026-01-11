@@ -65,7 +65,7 @@ export function GameBoard({
       )}
 
       {/* Game Board Grid */}
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-6 gap-2 md:gap-4">
         {/* Category Headers */}
         {categories.map((category, index) => (
           <KeyboardContainer
