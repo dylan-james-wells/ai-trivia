@@ -226,8 +226,9 @@ export default function Home() {
             hoverBgColor="#dc2626"
             borderColor="#b91c1c"
             shadowBgColor="#dc2626"
-            shadowColor="#991b1b"
             textColor="#ffffff"
+            shadowOpacity={0.1}
+            shadowColor="black"
             fontSize="0.875rem"
           >
             Main Menu

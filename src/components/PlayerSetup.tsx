@@ -62,6 +62,8 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
             placeholder="Enter player name"
             maxLength={30}
             className="flex-1"
+            shadowOpacity={0.1}
+            shadowColor="black"
           />
           <KeyboardButton
             onClick={addPlayer}
@@ -69,8 +71,9 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
             hoverBgColor="#2563eb"
             borderColor="#1d4ed8"
             shadowBgColor="#1e40af"
-            shadowColor="#1e3a8a"
             textColor="#ffffff"
+            shadowOpacity={0.1}
+            shadowColor="black"
           >
             Add
           </KeyboardButton>
@@ -94,9 +97,10 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
                   hoverBgColor="#fecaca"
                   borderColor="#dc2626"
                   shadowBgColor="#fca5a5"
-                  shadowColor="#f87171"
                   textColor="#dc2626"
                   fontSize="0.75rem"
+                  shadowOpacity={0.1}
+                  shadowColor="black"
                 >
                   Remove
                 </KeyboardButton>
@@ -113,8 +117,9 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           hoverBgColor="#d1d5db"
           borderColor="#9ca3af"
           shadowBgColor="#d1d5db"
-          shadowColor="#9ca3af"
           textColor="#374151"
+          shadowOpacity={0.1}
+          shadowColor="black"
         >
           Back
         </KeyboardButton>
