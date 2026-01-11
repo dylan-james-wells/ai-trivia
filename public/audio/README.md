@@ -46,6 +46,15 @@ Download royalty-free audio from [Pixabay](https://pixabay.com/music/) and place
 - "BUZZER OR WRONG ANSWER" by eritnhut1992
 - Various ding and fail sounds
 
+## Music Credits
+
+| File | Artist | Link |
+|------|--------|------|
+| `setup-music.mp3` | u_vdwj1c20kz | [Game Background Sound](https://pixabay.com/music/upbeat-game-background-sound-342336/) |
+| `question-music.mp3` | Sonican | [News Flash Trivia Loop](https://pixabay.com/music/upbeat-news-flash-trivia-loop-225275/) |
+| `board-music.mp3` | FallPromar | [Lofi Music Chill](https://pixabay.com/music/beats-lofi-music-chill-421750/) |
+| `victory-music.mp3` | BackgroundMusicForVideos | [Victory Nomination Winner Champion Music](https://pixabay.com/music/main-title-victory-nomination-winner-champion-music-249655/) |
+
 ## Notes
 - All Pixabay audio is royalty-free and requires no attribution
 - Music files should ideally loop seamlessly
