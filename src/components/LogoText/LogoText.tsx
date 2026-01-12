@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef, useMemo, useEffect, useState } from "react";
-import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import { Text3D, Center, Outlines } from "@react-three/drei";
+import { Canvas, useThree, useFrame, createPortal } from "@react-three/fiber";
+import { Text3D, Center, Outlines, useFBO } from "@react-three/drei";
 import {
   Box3,
   Vector3,
@@ -14,6 +14,10 @@ import {
   MeshToonMaterial,
   Mesh,
   PointLight,
+  Scene,
+  ShaderMaterial,
+  PlaneGeometry,
+  OrthographicCamera,
 } from "three";
 
 interface ResponsiveHeight {
@@ -30,6 +34,7 @@ interface LogoTextProps {
   className?: string;
   rotationDegrees?: number;
   rotationSpeed?: number;
+  pixelSize?: number;
 }
 
 const BREAKPOINTS = {
@@ -144,19 +149,20 @@ function OrbitingLight({
   );
 }
 
-function Text3DScene({
+function Text3DContent({
   text,
   rotationDegrees,
-  rotationSpeed
+  rotationSpeed,
+  onFit
 }: {
   text: string;
   rotationDegrees: number;
   rotationSpeed: number;
+  onFit?: (distance: number) => void;
 }) {
   const groupRef = useRef<Group>(null);
   const meshRef = useRef<Mesh>(null);
   const rotationGroupRef = useRef<Group>(null);
-  const { camera } = useThree();
   const fitted = useRef(false);
   const { faceTexture, sideTexture } = useGradientMaps();
   const rotationRadians = (rotationDegrees * Math.PI) / 180;
@@ -187,12 +193,9 @@ function Text3DScene({
       box.getSize(size);
 
       if (size.x > 0) {
-        const perspCam = camera as PerspectiveCamera;
-        const fov = perspCam.fov * (Math.PI) / 180;
-
+        const fov = 50 * (Math.PI / 180);
         const distance = (size.y / 2) / Math.tan(fov / 2);
-        camera.position.z = distance * 1.1;
-        camera.updateProjectionMatrix();
+        onFit?.(distance * 1.1);
         fitted.current = true;
       }
     }
@@ -228,12 +231,207 @@ function Text3DScene({
   );
 }
 
+function PixelatedScene({
+  text,
+  rotationDegrees,
+  rotationSpeed,
+  pixelSize
+}: {
+  text: string;
+  rotationDegrees: number;
+  rotationSpeed: number;
+  pixelSize: number;
+}) {
+  const { gl, size } = useThree();
+  const [virtualScene] = useState(() => new Scene());
+  const [cameraDistance, setCameraDistance] = useState(5);
+
+  // Create perspective camera for the virtual scene
+  const virtualCamera = useMemo(() => {
+    const cam = new PerspectiveCamera(50, size.width / size.height, 0.1, 1000);
+    cam.position.z = 5;
+    return cam;
+  }, [size.width, size.height]);
+
+  // Create orthographic camera for the screen quad
+  const screenCamera = useMemo(() => {
+    return new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  }, []);
+
+  // Create low-resolution FBO with nearest-neighbor filtering for pixelation
+  const fbo = useFBO(
+    Math.floor(size.width / pixelSize),
+    Math.floor(size.height / pixelSize),
+    {
+      minFilter: NearestFilter,
+      magFilter: NearestFilter,
+    }
+  );
+
+  // Screen quad mesh
+  const screenQuad = useMemo(() => {
+    const material = new ShaderMaterial({
+      uniforms: {
+        tDiffuse: { value: null },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position.xy, 0.0, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D tDiffuse;
+        varying vec2 vUv;
+        void main() {
+          gl_FragColor = texture2D(tDiffuse, vUv);
+        }
+      `,
+      depthTest: false,
+      depthWrite: false,
+    });
+    const geometry = new PlaneGeometry(2, 2);
+    return new Mesh(geometry, material);
+  }, []);
+
+  // Update virtual camera when text is measured
+  useEffect(() => {
+    virtualCamera.position.z = cameraDistance;
+    virtualCamera.updateProjectionMatrix();
+  }, [cameraDistance, virtualCamera]);
+
+  // Update virtual camera aspect ratio
+  useEffect(() => {
+    virtualCamera.aspect = size.width / size.height;
+    virtualCamera.updateProjectionMatrix();
+  }, [size.width, size.height, virtualCamera]);
+
+  useFrame(() => {
+    // Render virtual scene to low-res FBO
+    gl.setRenderTarget(fbo);
+    gl.clear();
+    gl.render(virtualScene, virtualCamera);
+    gl.setRenderTarget(null);
+
+    // Update screen quad texture
+    (screenQuad.material as ShaderMaterial).uniforms.tDiffuse.value = fbo.texture;
+
+    // Render screen quad to screen
+    gl.autoClear = false;
+    gl.clear();
+    gl.render(screenQuad, screenCamera);
+    gl.autoClear = true;
+  }, 1);
+
+  return (
+    <>
+      {/* Virtual scene rendered to FBO */}
+      {createPortal(
+        <>
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <OrbitingLight
+            color="#ffa050"
+            intensity={3}
+            radius={3}
+            speed={0.8}
+            offsetAngle={0}
+            yOffset={0.2}
+          />
+          <OrbitingLight
+            color="#ffcc80"
+            intensity={2.5}
+            radius={2.5}
+            speed={1.2}
+            offsetAngle={Math.PI}
+            yOffset={-0.1}
+          />
+          <OrbitingLight
+            color="#ffffff"
+            intensity={2}
+            radius={2}
+            speed={0.6}
+            offsetAngle={Math.PI / 2}
+            yOffset={0.3}
+          />
+          <Text3DContent
+            text={text}
+            rotationDegrees={rotationDegrees}
+            rotationSpeed={rotationSpeed}
+            onFit={setCameraDistance}
+          />
+        </>,
+        virtualScene
+      )}
+    </>
+  );
+}
+
+function Text3DScene({
+  text,
+  rotationDegrees,
+  rotationSpeed
+}: {
+  text: string;
+  rotationDegrees: number;
+  rotationSpeed: number;
+}) {
+  const { camera } = useThree();
+  const [cameraDistance, setCameraDistance] = useState(5);
+
+  useEffect(() => {
+    if (camera instanceof PerspectiveCamera) {
+      camera.position.z = cameraDistance;
+      camera.updateProjectionMatrix();
+    }
+  }, [cameraDistance, camera]);
+
+  return (
+    <>
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[5, 5, 5]} intensity={1} />
+      <OrbitingLight
+        color="#ffa050"
+        intensity={3}
+        radius={3}
+        speed={0.8}
+        offsetAngle={0}
+        yOffset={0.2}
+      />
+      <OrbitingLight
+        color="#ffcc80"
+        intensity={2.5}
+        radius={2.5}
+        speed={1.2}
+        offsetAngle={Math.PI}
+        yOffset={-0.1}
+      />
+      <OrbitingLight
+        color="#ffffff"
+        intensity={2}
+        radius={2}
+        speed={0.6}
+        offsetAngle={Math.PI / 2}
+        yOffset={0.3}
+      />
+      <Text3DContent
+        text={text}
+        rotationDegrees={rotationDegrees}
+        rotationSpeed={rotationSpeed}
+        onFit={setCameraDistance}
+      />
+    </>
+  );
+}
+
 export function LogoText({
   text,
   height,
   className = "",
-  rotationDegrees = 1,
-  rotationSpeed = 0.5
+  rotationDegrees = 0,
+  rotationSpeed = 0.5,
+  pixelSize
 }: LogoTextProps) {
   const currentHeight = useResponsiveHeight(height);
 
@@ -250,40 +448,20 @@ export function LogoText({
         camera={{ position: [0, 0, 5], fov: 50 }}
         style={{ width: "100%", height: "100%" }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={1} />
-
-        {/* Orbiting lights */}
-        <OrbitingLight
-          color="#ffa050"
-          intensity={3}
-          radius={3}
-          speed={0.8}
-          offsetAngle={0}
-          yOffset={0.2}
-        />
-        <OrbitingLight
-          color="#ffcc80"
-          intensity={2.5}
-          radius={2.5}
-          speed={1.2}
-          offsetAngle={Math.PI}
-          yOffset={-0.1}
-        />
-        <OrbitingLight
-          color="#ffffff"
-          intensity={2}
-          radius={2}
-          speed={0.6}
-          offsetAngle={Math.PI / 2}
-          yOffset={0.3}
-        />
-
-        <Text3DScene
-          text={text}
-          rotationDegrees={rotationDegrees}
-          rotationSpeed={rotationSpeed}
-        />
+        {pixelSize ? (
+          <PixelatedScene
+            text={text}
+            rotationDegrees={rotationDegrees}
+            rotationSpeed={rotationSpeed}
+            pixelSize={pixelSize}
+          />
+        ) : (
+          <Text3DScene
+            text={text}
+            rotationDegrees={rotationDegrees}
+            rotationSpeed={rotationSpeed}
+          />
+        )}
       </Canvas>
     </div>
   );

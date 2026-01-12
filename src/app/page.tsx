@@ -232,6 +232,7 @@ export default function Home() {
             base: 60,
             md: 80,
           }}
+          pixelSize={4}
         />
         <p className="mt-4 text-blue-300">Jeopardy-style game powered by AI</p>
         {gameState.phase === "playing" && (
