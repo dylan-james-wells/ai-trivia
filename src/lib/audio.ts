@@ -41,12 +41,10 @@ class AudioManager {
     this.musicElement.loop = true;
     this.musicElement.volume = this.isMuted ? 0 : this.musicVolume;
 
-    // Load saved preferences
-    const savedMuted = localStorage.getItem('audio-muted');
+    // Load saved volume preferences (muted state is not persisted)
     const savedMusicVol = localStorage.getItem('audio-music-volume');
     const savedSfxVol = localStorage.getItem('audio-sfx-volume');
 
-    if (savedMuted !== null) this.isMuted = savedMuted === 'true';
     if (savedMusicVol !== null) this.musicVolume = parseFloat(savedMusicVol);
     if (savedSfxVol !== null) this.sfxVolume = parseFloat(savedSfxVol);
 
@@ -133,7 +131,6 @@ class AudioManager {
     if (this.musicElement) {
       this.musicElement.volume = muted ? 0 : this.musicVolume;
     }
-    localStorage.setItem('audio-muted', String(muted));
   }
 
   getMuted(): boolean {

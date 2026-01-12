@@ -7,23 +7,18 @@ interface AudioControlsProps {
   currentTrack: MusicTrack;
 }
 
+function getInitialVolume(key: string, defaultValue: number): number {
+  if (typeof window === "undefined") return defaultValue;
+  const saved = localStorage.getItem(key);
+  return saved !== null ? parseFloat(saved) : defaultValue;
+}
+
 export function AudioControls({ currentTrack }: AudioControlsProps) {
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(true); // Always start muted
   const [showVolume, setShowVolume] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(0.3);
-  const [sfxVolume, setSfxVolume] = useState(0.5);
+  const [musicVolume, setMusicVolume] = useState(() => getInitialVolume("audio-music-volume", 0.3));
+  const [sfxVolume, setSfxVolume] = useState(() => getInitialVolume("audio-sfx-volume", 0.5));
   const [isInitialized, setIsInitialized] = useState(false);
-
-  useEffect(() => {
-    // Load saved state on mount
-    const savedMuted = localStorage.getItem("audio-muted");
-    const savedMusicVol = localStorage.getItem("audio-music-volume");
-    const savedSfxVol = localStorage.getItem("audio-sfx-volume");
-
-    if (savedMuted !== null) setIsMuted(savedMuted === "true");
-    if (savedMusicVol !== null) setMusicVolume(parseFloat(savedMusicVol));
-    if (savedSfxVol !== null) setSfxVolume(parseFloat(savedSfxVol));
-  }, []);
 
   // Update music when track changes (only if initialized and not muted)
   useEffect(() => {
@@ -37,11 +32,6 @@ export function AudioControls({ currentTrack }: AudioControlsProps) {
     if (!isInitialized) {
       audioManager.initialize();
       setIsInitialized(true);
-      // Start playing the current track immediately
-      audioManager.setMuted(false);
-      audioManager.playMusic(currentTrack);
-      setIsMuted(false);
-      return;
     }
 
     const newMuted = !isMuted;
