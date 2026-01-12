@@ -128,11 +128,7 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
 
       {pendingCategory && (
         <div className="mb-8">
-          <KeyboardContainer
-            bgColor="#fefce8"
-            borderColor="#ca8a04"
-            shadowBgColor="#fef9c3"
-          >
+          <KeyboardContainer>
             <div className="flex-1">
               <h3 className="font-semibold text-gray-900 mb-2">Confirm Category</h3>
               <p className="text-gray-900 mb-1">
@@ -154,10 +150,10 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={rejectCategory}
-                  bgColor="#ffb070"
-                  hoverBgColor="#d09050"
-                  borderColor="#c08040"
-                  shadowBgColor="#b07030"
+                  bgColor="#70c0ff"
+                  hoverBgColor="#5090d0"
+                  borderColor="#4080c0"
+                  shadowBgColor="#3070b0"
                   textColor="#ffffff"
                 >
                   Try Again
