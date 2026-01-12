@@ -18,6 +18,7 @@ import { createDevGameState } from "@/lib/dev-game";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { LogoText } from "@/components/LogoText/LogoText";
 import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator";
+import { DebugMenu } from "@/components/DebugMenu/DebugMenu";
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -407,6 +408,9 @@ export default function Home() {
 
       {/* Audio Controls */}
       <AudioControls currentTrack={currentTrack} />
+
+      {/* Debug Menu (only in dev mode) */}
+      <DebugMenu gameState={gameState} onUpdateGameState={setGameState} />
     </main>
   );
 }
