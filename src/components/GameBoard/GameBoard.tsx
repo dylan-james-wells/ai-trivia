@@ -99,7 +99,7 @@ export function GameBoard({
             key={player.id}
             className={`px-4 py-2 rounded-lg ${
               index === currentPlayerIndex
-                ? "bg-blue-600 text-white"
+                ? "bg-orange-500 text-white"
                 : "bg-gray-200 text-gray-800"
             }`}
           >

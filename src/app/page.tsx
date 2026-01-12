@@ -16,6 +16,7 @@ import { saveGameState, loadGameState, clearGameState, createInitialState } from
 import { audioManager, MusicTrack } from "@/lib/audio";
 import { createDevGameState } from "@/lib/dev-game";
 import { KeyboardButton } from "@/components/KeyboardButton";
+import { LogoText } from "@/components/LogoText/LogoText";
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -216,7 +217,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12 relative">
       <header className="text-center mb-8 relative">
-        <h1 className="text-4xl md:text-5xl font-bold mb-2">AI Trivia</h1>
+        <LogoText text="AI Trivia" width={300} />
         <p className="text-blue-300">Jeopardy-style game powered by AI</p>
         {gameState.phase === "playing" && (
           <div className="absolute left-0 top-1/2 -translate-y-1/2 z-20">

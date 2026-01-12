@@ -1,0 +1,119 @@
+.logo-text-measure {
+  font-family: "Play", sans-serif;
+  font-weight: 700;
+  position: absolute;
+  visibility: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.logo-text-container {
+  --scale: 1;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-text-layer {
+  font-family: "Play", sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: logo-color 3s infinite linear;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.65);
+  font-weight: 700;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* Layer 0 */
+.logo-text-layer[style*="--layer-index: 0"] {
+  font-size: calc(100px * var(--scale));
+  animation-delay: 0s;
+  opacity: 0.1;
+}
+
+/* Layer 1 */
+.logo-text-layer[style*="--layer-index: 1"] {
+  font-size: calc(110px * var(--scale));
+  animation-delay: -0.3s;
+  opacity: 0.2;
+}
+
+/* Layer 2 */
+.logo-text-layer[style*="--layer-index: 2"] {
+  font-size: calc(120px * var(--scale));
+  animation-delay: -0.6s;
+  opacity: 0.3;
+}
+
+/* Layer 3 */
+.logo-text-layer[style*="--layer-index: 3"] {
+  font-size: calc(130px * var(--scale));
+  animation-delay: -0.9s;
+  opacity: 0.4;
+}
+
+/* Layer 4 */
+.logo-text-layer[style*="--layer-index: 4"] {
+  font-size: calc(140px * var(--scale));
+  animation-delay: -1.2s;
+  opacity: 0.5;
+}
+
+/* Layer 5 */
+.logo-text-layer[style*="--layer-index: 5"] {
+  font-size: calc(150px * var(--scale));
+  animation-delay: -1.5s;
+  opacity: 0.6;
+}
+
+/* Layer 6 */
+.logo-text-layer[style*="--layer-index: 6"] {
+  font-size: calc(160px * var(--scale));
+  animation-delay: -1.8s;
+  opacity: 0.7;
+}
+
+/* Layer 7 */
+.logo-text-layer[style*="--layer-index: 7"] {
+  font-size: calc(170px * var(--scale));
+  animation-delay: -2.1s;
+  opacity: 0.8;
+}
+
+/* Layer 8 */
+.logo-text-layer[style*="--layer-index: 8"] {
+  font-size: calc(180px * var(--scale));
+  animation-delay: -2.4s;
+  opacity: 0.9;
+}
+
+/* Layer 9 */
+.logo-text-layer[style*="--layer-index: 9"] {
+  font-size: calc(190px * var(--scale));
+  animation-delay: -2.7s;
+  opacity: 1;
+}
+
+@keyframes logo-color {
+  0% {
+    color: hsl(200, 80%, 70%);
+  }
+  20% {
+    color: hsl(210, 85%, 60%);
+  }
+  40% {
+    color: hsl(220, 90%, 75%);
+  }
+  60% {
+    color: hsl(230, 85%, 65%);
+  }
+  80% {
+    color: hsl(215, 80%, 80%);
+  }
+  100% {
+    color: hsl(200, 80%, 70%);
+  }
+}
