@@ -60,6 +60,10 @@ export default function Home() {
     const saved = loadGameState();
     if (saved) {
       setGameState(saved);
+      // If there's a selected question, show it immediately
+      if (saved.selectedQuestion) {
+        setShowQuestion(true);
+      }
     }
     setLoading(false);
   }, []);
