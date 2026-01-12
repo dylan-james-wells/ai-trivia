@@ -12,6 +12,7 @@ interface QuestionModalProps {
   currentPlayerIndex: number;
   onComplete: (result: QuestionResult) => void;
   onRegenerate: (newQuestion: string, newAnswer: string) => void;
+  isVisible?: boolean;
 }
 
 export type QuestionResult =
@@ -34,6 +35,7 @@ export function QuestionModal({
   currentPlayerIndex,
   onComplete,
   onRegenerate,
+  isVisible = true,
 }: QuestionModalProps) {
   const [phase, setPhase] = useState<ModalPhase>("question");
   const [userAnswer, setUserAnswer] = useState("");
@@ -182,8 +184,14 @@ export function QuestionModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+    <div
+      className="max-w-2xl mx-auto transition-all duration-300 ease-in-out origin-center"
+      style={{
+        transform: isVisible ? 'scale(1)' : 'scale(0)',
+        opacity: isVisible ? 1 : 0,
+      }}
+    >
+      <div className="bg-white rounded-lg w-full p-6 max-h-[80vh] overflow-y-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <span className="text-blue-600 font-bold">${question.points}</span>

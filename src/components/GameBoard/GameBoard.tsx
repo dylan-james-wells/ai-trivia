@@ -55,6 +55,7 @@ interface GameBoardProps {
   players: Player[];
   currentPlayerIndex: number;
   onSelectQuestion: (question: Question) => void;
+  isHidden?: boolean;
 }
 
 export function GameBoard({
@@ -63,6 +64,7 @@ export function GameBoard({
   players,
   currentPlayerIndex,
   onSelectQuestion,
+  isHidden = false,
 }: GameBoardProps) {
   const currentPlayer = players[currentPlayerIndex];
   const [overflowingCategories, setOverflowingCategories] = useState<Set<number>>(new Set());
@@ -88,7 +90,13 @@ export function GameBoard({
   const allQuestionsAnswered = questions.every((q) => q.answered);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div
+      className="max-w-6xl mx-auto transition-all duration-300 ease-in-out origin-center"
+      style={{
+        transform: isHidden ? 'scale(0)' : 'scale(1)',
+        opacity: isHidden ? 0 : 1,
+      }}
+    >
       {overflowingCategories.size > 0 && (
         <Tooltip id="category-tooltip" place="top" positionStrategy="fixed" />
       )}

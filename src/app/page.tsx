@@ -23,6 +23,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
+  const [showQuestion, setShowQuestion] = useState(false);
 
   // Check if all questions are answered (game over)
   const isGameOver =
@@ -115,6 +116,10 @@ export default function Home() {
       ...prev,
       selectedQuestion: question,
     }));
+    // Delay showing the question UI to allow grid scale-down animation
+    setTimeout(() => {
+      setShowQuestion(true);
+    }, 300);
   };
 
   const handleQuestionComplete = (result: QuestionResult) => {
@@ -147,13 +152,19 @@ export default function Home() {
 
     const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
 
-    setGameState((prev) => ({
-      ...prev,
-      players: updatedPlayers,
-      questions: updatedQuestions,
-      currentPlayerIndex: nextPlayerIndex,
-      selectedQuestion: null,
-    }));
+    // First hide the question UI with animation
+    setShowQuestion(false);
+
+    // After animation completes, update state to show grid
+    setTimeout(() => {
+      setGameState((prev) => ({
+        ...prev,
+        players: updatedPlayers,
+        questions: updatedQuestions,
+        currentPlayerIndex: nextPlayerIndex,
+        selectedQuestion: null,
+      }));
+    }, 300);
   };
 
   const handleQuestionRegenerate = (newQuestion: string, newAnswer: string) => {
@@ -322,24 +333,33 @@ export default function Home() {
       )}
 
       {gameState.phase === "playing" && (
-        <GameBoard
-          categories={gameState.categories}
-          questions={gameState.questions}
-          players={gameState.players}
-          currentPlayerIndex={gameState.currentPlayerIndex}
-          onSelectQuestion={handleSelectQuestion}
-        />
-      )}
-
-      {gameState.selectedQuestion && getSelectedCategory() && (
-        <QuestionModal
-          question={gameState.selectedQuestion}
-          category={getSelectedCategory()!}
-          players={gameState.players}
-          currentPlayerIndex={gameState.currentPlayerIndex}
-          onComplete={handleQuestionComplete}
-          onRegenerate={handleQuestionRegenerate}
-        />
+        <div className="relative">
+          <div
+            className={`transition-all duration-300 ease-in-out ${
+              gameState.selectedQuestion ? 'absolute inset-0 pointer-events-none' : ''
+            }`}
+          >
+            <GameBoard
+              categories={gameState.categories}
+              questions={gameState.questions}
+              players={gameState.players}
+              currentPlayerIndex={gameState.currentPlayerIndex}
+              onSelectQuestion={handleSelectQuestion}
+              isHidden={!!gameState.selectedQuestion}
+            />
+          </div>
+          {gameState.selectedQuestion && getSelectedCategory() && (
+            <QuestionModal
+              question={gameState.selectedQuestion}
+              category={getSelectedCategory()!}
+              players={gameState.players}
+              currentPlayerIndex={gameState.currentPlayerIndex}
+              onComplete={handleQuestionComplete}
+              onRegenerate={handleQuestionRegenerate}
+              isVisible={showQuestion}
+            />
+          )}
+        </div>
       )}
 
       {/* Audio Controls */}

@@ -55,7 +55,15 @@ class AudioManager {
 
   playMusic(track: MusicTrack): void {
     if (!this.isInitialized || !this.musicElement) return;
+
+    // If same track and not paused, nothing to do
     if (track === this.currentTrack && !this.isPaused) return;
+
+    // If same track but paused, just resume
+    if (track === this.currentTrack && this.isPaused) {
+      this.resumeMusic();
+      return;
+    }
 
     this.currentTrack = track;
     this.isPaused = false;
