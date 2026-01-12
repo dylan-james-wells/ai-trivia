@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { Text3D, Center, Outlines } from "@react-three/drei";
 import {
@@ -16,12 +16,67 @@ import {
   PointLight,
 } from "three";
 
+interface ResponsiveHeight {
+  base: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+}
+
 interface LogoTextProps {
   text: string;
-  height: number;
+  height: number | ResponsiveHeight;
   className?: string;
   rotationDegrees?: number;
   rotationSpeed?: number;
+}
+
+const BREAKPOINTS = {
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+};
+
+function useResponsiveHeight(height: number | ResponsiveHeight): number {
+  const [currentHeight, setCurrentHeight] = useState<number>(
+    typeof height === "number" ? height : height.base
+  );
+
+  useEffect(() => {
+    if (typeof height === "number") {
+      setCurrentHeight(height);
+      return;
+    }
+
+    const calculateHeight = () => {
+      const width = window.innerWidth;
+      if (width >= BREAKPOINTS.xl && height.xl !== undefined) {
+        return height.xl;
+      }
+      if (width >= BREAKPOINTS.lg && height.lg !== undefined) {
+        return height.lg;
+      }
+      if (width >= BREAKPOINTS.md && height.md !== undefined) {
+        return height.md;
+      }
+      if (width >= BREAKPOINTS.sm && height.sm !== undefined) {
+        return height.sm;
+      }
+      return height.base;
+    };
+
+    const handleResize = () => {
+      setCurrentHeight(calculateHeight());
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [height]);
+
+  return currentHeight;
 }
 
 function useGradientMaps() {
@@ -133,7 +188,7 @@ function Text3DScene({
 
       if (size.x > 0) {
         const perspCam = camera as PerspectiveCamera;
-        const fov = perspCam.fov * (Math.PI / 180);
+        const fov = perspCam.fov * (Math.PI) / 180;
 
         const distance = (size.y / 2) / Math.tan(fov / 2);
         camera.position.z = distance * 1.1;
@@ -180,12 +235,14 @@ export function LogoText({
   rotationDegrees = 1,
   rotationSpeed = 0.5
 }: LogoTextProps) {
+  const currentHeight = useResponsiveHeight(height);
+
   return (
     <div
       className={className}
       style={{
         width: "100%",
-        height: `${height}px`,
+        height: `${currentHeight}px`,
         margin: "0 auto",
       }}
     >

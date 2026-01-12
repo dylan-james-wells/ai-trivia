@@ -6,13 +6,13 @@ import { CategorySetup } from "@/components/CategorySetup";
 import { GameBoard } from "@/components/GameBoard";
 import { QuestionModal, QuestionResult } from "@/components/QuestionModal";
 import { AudioControls } from "@/components/AudioControls";
+import { GameState, Player, Category, Question } from "@/types/game";
 import {
-  GameState,
-  Player,
-  Category,
-  Question,
-} from "@/types/game";
-import { saveGameState, loadGameState, clearGameState, createInitialState } from "@/lib/storage";
+  saveGameState,
+  loadGameState,
+  clearGameState,
+  createInitialState,
+} from "@/lib/storage";
 import { audioManager, MusicTrack } from "@/lib/audio";
 import { createDevGameState } from "@/lib/dev-game";
 import { KeyboardButton } from "@/components/KeyboardButton";
@@ -25,13 +25,18 @@ export default function Home() {
   const [error, setError] = useState("");
 
   // Check if all questions are answered (game over)
-  const isGameOver = gameState.phase === "playing" &&
+  const isGameOver =
+    gameState.phase === "playing" &&
     gameState.questions.length > 0 &&
     gameState.questions.every((q) => q.answered);
 
   // Determine current music track based on game state
   const getCurrentTrack = (): MusicTrack => {
-    if (gameState.phase === "menu" || gameState.phase === "setup" || gameState.phase === "categories") {
+    if (
+      gameState.phase === "menu" ||
+      gameState.phase === "setup" ||
+      gameState.phase === "categories"
+    ) {
       return "setup";
     } else if (gameState.phase === "playing") {
       if (isGameOver) {
@@ -97,7 +102,9 @@ export default function Home() {
         phase: "playing",
       }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to generate questions");
+      setError(
+        err instanceof Error ? err.message : "Failed to generate questions"
+      );
     } finally {
       setGenerating(false);
     }
@@ -120,7 +127,9 @@ export default function Home() {
 
     if (result.type === "answered") {
       // Someone answered - update their score
-      const pointChange = result.correct ? selectedQuestion.points : -selectedQuestion.points;
+      const pointChange = result.correct
+        ? selectedQuestion.points
+        : -selectedQuestion.points;
       updatedPlayers[result.playerIndex] = {
         ...updatedPlayers[result.playerIndex],
         score: updatedPlayers[result.playerIndex].score + pointChange,
@@ -217,10 +226,16 @@ export default function Home() {
   return (
     <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12 relative">
       <header className="text-center mb-8 relative">
-        <LogoText text="AI Trivia" height={100} />
+        <LogoText
+          text="AI Trivia"
+          height={{
+            base: 60,
+            md: 100,
+          }}
+        />
         <p className="mt-4 text-blue-300">Jeopardy-style game powered by AI</p>
         {gameState.phase === "playing" && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 z-20">
+          <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
             <KeyboardButton
               onClick={handleNewGame}
               bgColor="#ef4444"
@@ -257,7 +272,8 @@ export default function Home() {
           <div className="p-8">
             <h2 className="text-2xl font-bold mb-6">Welcome to AI Trivia!</h2>
             <p className="text-blue-200 mb-8">
-              A Jeopardy-style trivia game where AI generates questions and judges your answers.
+              A Jeopardy-style trivia game where AI generates questions and
+              judges your answers.
             </p>
             <KeyboardButton
               onClick={handleStartGame}
@@ -288,7 +304,10 @@ export default function Home() {
       )}
 
       {gameState.phase === "setup" && (
-        <PlayerSetup onComplete={handlePlayersComplete} onBack={handleBackToMenu} />
+        <PlayerSetup
+          onComplete={handlePlayersComplete}
+          onBack={handleBackToMenu}
+        />
       )}
 
       {gameState.phase === "categories" && (
