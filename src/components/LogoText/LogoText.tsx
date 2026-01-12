@@ -1,36 +1,103 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
-import { Text3D, Center } from "@react-three/drei";
-import { Box3, Vector3, Group } from "three";
+import { useRef, useMemo, useEffect } from "react";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
+import { Text3D, Center, Outlines } from "@react-three/drei";
+import {
+  Box3,
+  Vector3,
+  Group,
+  PerspectiveCamera,
+  DataTexture,
+  RGBAFormat,
+  NearestFilter,
+  MeshToonMaterial,
+  Mesh,
+} from "three";
 
 interface LogoTextProps {
   text: string;
-  width: number;
+  height: number;
   className?: string;
 }
 
-function Text3DScene({ text, onBoundsCalculated }: { text: string; onBoundsCalculated: (width: number, height: number) => void }) {
+function useGradientMaps() {
+  return useMemo(() => {
+    // Brighter gradient for front face
+    const faceColors = new Uint8Array([
+      80, 130, 190, 255,   // dark
+      120, 170, 230, 255,  // mid
+      170, 210, 255, 255,  // light
+    ]);
+    const faceTexture = new DataTexture(faceColors, 3, 1, RGBAFormat);
+    faceTexture.minFilter = NearestFilter;
+    faceTexture.magFilter = NearestFilter;
+    faceTexture.needsUpdate = true;
+
+    // Darker gradient for sides
+    const sideColors = new Uint8Array([
+      30, 60, 100, 255,    // dark
+      50, 90, 140, 255,    // mid
+      80, 120, 170, 255,   // light
+    ]);
+    const sideTexture = new DataTexture(sideColors, 3, 1, RGBAFormat);
+    sideTexture.minFilter = NearestFilter;
+    sideTexture.magFilter = NearestFilter;
+    sideTexture.needsUpdate = true;
+
+    return { faceTexture, sideTexture };
+  }, []);
+}
+
+function Text3DScene({ text }: { text: string }) {
   const groupRef = useRef<Group>(null);
-  const [measured, setMeasured] = useState(false);
+  const meshRef = useRef<Mesh>(null);
   const { camera } = useThree();
+  const fitted = useRef(false);
+  const { faceTexture, sideTexture } = useGradientMaps();
+
+  const materials = useMemo(() => {
+    const faceMaterial = new MeshToonMaterial({
+      color: "#7ac0ff",
+      gradientMap: faceTexture,
+    });
+    const sideMaterial = new MeshToonMaterial({
+      color: "#4a80c0",
+      gradientMap: sideTexture,
+    });
+    // TextGeometry uses: [0] = front, [1] = side
+    return [faceMaterial, sideMaterial];
+  }, [faceTexture, sideTexture]);
 
   useEffect(() => {
-    if (groupRef.current && !measured) {
+    if (meshRef.current) {
+      meshRef.current.material = materials;
+    }
+  }, [materials]);
+
+  useFrame(() => {
+    if (groupRef.current && !fitted.current) {
       const box = new Box3().setFromObject(groupRef.current);
       const size = new Vector3();
       box.getSize(size);
 
-      onBoundsCalculated(size.x, size.y);
-      setMeasured(true);
+      if (size.x > 0) {
+        const perspCam = camera as PerspectiveCamera;
+        const fov = perspCam.fov * (Math.PI / 180);
+
+        const distance = (size.y / 2) / Math.tan(fov / 2);
+        camera.position.z = distance * 1.1;
+        camera.updateProjectionMatrix();
+        fitted.current = true;
+      }
     }
-  }, [measured, onBoundsCalculated]);
+  });
 
   return (
     <group ref={groupRef}>
       <Center>
         <Text3D
+          ref={meshRef}
           font="/Play_Bold.json"
           size={1}
           height={0.2}
@@ -42,54 +109,31 @@ function Text3DScene({ text, onBoundsCalculated }: { text: string; onBoundsCalcu
           bevelSegments={5}
         >
           {text}
-          <meshStandardMaterial color="hsl(210, 85%, 65%)" />
+          <Outlines thickness={0.035} color="#0a1a2c" />
         </Text3D>
       </Center>
     </group>
   );
 }
 
-export function LogoText({ text, width, className = "" }: LogoTextProps) {
-  const [cameraZ, setCameraZ] = useState(5);
-  const [aspectRatio, setAspectRatio] = useState(0.3);
-  const fov = 50;
-
-  const handleBoundsCalculated = (textWidth: number, textHeight: number) => {
-    const vFov = (fov * Math.PI) / 180;
-    const containerAspect = width / (width * aspectRatio);
-    const textAspect = textWidth / textHeight;
-
-    let distance: number;
-    if (textAspect > containerAspect) {
-      const hFov = 2 * Math.atan(Math.tan(vFov / 2) * containerAspect);
-      distance = (textWidth / 2) / Math.tan(hFov / 2);
-    } else {
-      distance = (textHeight / 2) / Math.tan(vFov / 2);
-    }
-
-    const newAspect = textHeight / textWidth;
-    setAspectRatio(newAspect);
-    setCameraZ(distance * 1.1);
-  };
-
-  const height = width * aspectRatio;
-
+export function LogoText({ text, height, className = "" }: LogoTextProps) {
   return (
     <div
       className={className}
       style={{
-        width: `${width}px`,
+        width: "100%",
         height: `${height}px`,
         margin: "0 auto",
       }}
     >
       <Canvas
-        camera={{ position: [0, 0, cameraZ], fov }}
+        camera={{ position: [0, 0, 5], fov: 50 }}
         style={{ width: "100%", height: "100%" }}
       >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <Text3DScene text={text} onBoundsCalculated={handleBoundsCalculated} />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[5, 5, 5]} intensity={1.5} />
+        <directionalLight position={[-3, 2, 3]} intensity={0.5} />
+        <Text3DScene text={text} />
       </Canvas>
     </div>
   );
