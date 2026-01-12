@@ -65,6 +65,13 @@ Respond in JSON format:
   "confidence": "high/medium/low"
 }
 
+CONFIDENCE GUIDE:
+- "high": The answer clearly matches OR clearly doesn't match. No reasonable person would disagree.
+- "medium": The answer is close but requires interpretation. A human moderator might rule differently.
+- "low": This is a judgment call. The answer could reasonably be accepted or rejected.
+
+If you're accepting an answer that doesn't exactly match (like accepting a character name for a movie title), confidence should be "medium" or "low", NOT "high".
+
 Only respond with the JSON, no other text.`,
         },
       ],

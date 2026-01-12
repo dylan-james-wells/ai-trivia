@@ -44,6 +44,8 @@ IMPORTANT: Do NOT use Jeopardy-style "What is..." or "Who is..." answer format. 
 
 MEDIUM MATTERS: Movies and TV shows are DIFFERENT categories. If the category says "movies" or "films", only use theatrical films - never TV shows, miniseries, or streaming series. If it says "TV" or "television", only use TV shows - never movies. Breaking Bad is a TV show, not a movie. The Godfather is a movie, not a TV show.
 
+SEQUEL NAMING: When a question refers to a specific film in a franchise, the answer must be unambiguous. If the film has a distinctive subtitle (like "Raiders of the Lost Ark" or "The Empire Strikes Back"), you may either use that title OR specify the sequel number (e.g., "Indiana Jones 1" or "Star Wars 2/Episode V"). Do NOT use just the franchise name when asking about a specific installment. For example, if asking about the 1981 Spielberg film, acceptable answers are "Raiders of the Lost Ark" or "Indiana Jones 1" - NOT just "Indiana Jones".
+
 VARIETY IS CRITICAL: For entertainment categories (music, movies, TV, books, etc.), actively resist defaulting to the most famous/canonical choices.
 
 When you think of an answer, ask yourself: "Is this one of the top 5 most famous examples in this category?" If yes, give yourself only a 10% chance of using it - mentally roll a d10, and only use it on a 1. Otherwise, dig deeper and find something from the second or third tier of popularity - still recognizable, but not the obvious choice.
