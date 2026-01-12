@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef, useState, useLayoutEffect } from "react";
-import "./LogoText.css";
+import { useRef, useEffect, useState } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import { Text3D, Center } from "@react-three/drei";
+import { Box3, Vector3, Group } from "three";
 
 interface LogoTextProps {
   text: string;
@@ -9,60 +11,86 @@ interface LogoTextProps {
   className?: string;
 }
 
-const LAYER_COUNT = 10;
-const MAX_FONT_SIZE = 190;
+function Text3DScene({ text, onBoundsCalculated }: { text: string; onBoundsCalculated: (width: number, height: number) => void }) {
+  const groupRef = useRef<Group>(null);
+  const [measured, setMeasured] = useState(false);
+  const { camera } = useThree();
 
-export function LogoText({ text, width, className = "" }: LogoTextProps) {
-  const measureRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ height: 0, scale: 1 });
+  useEffect(() => {
+    if (groupRef.current && !measured) {
+      const box = new Box3().setFromObject(groupRef.current);
+      const size = new Vector3();
+      box.getSize(size);
 
-  useLayoutEffect(() => {
-    if (!measureRef.current) return;
-
-    const textWidth = measureRef.current.offsetWidth;
-    const textHeight = measureRef.current.offsetHeight;
-
-    const scale = width / textWidth;
-    const scaledHeight = textHeight * scale;
-
-    setDimensions({ height: scaledHeight, scale });
-  }, [text, width]);
+      onBoundsCalculated(size.x, size.y);
+      setMeasured(true);
+    }
+  }, [measured, onBoundsCalculated]);
 
   return (
-    <>
-      <div
-        ref={measureRef}
-        className="logo-text-measure"
-        aria-hidden="true"
-        style={{ fontSize: `${MAX_FONT_SIZE}px` }}
+    <group ref={groupRef}>
+      <Center>
+        <Text3D
+          font="/Play_Bold.json"
+          size={1}
+          height={0.2}
+          curveSegments={12}
+          bevelEnabled
+          bevelThickness={0.02}
+          bevelSize={0.02}
+          bevelOffset={0}
+          bevelSegments={5}
+        >
+          {text}
+          <meshStandardMaterial color="hsl(210, 85%, 65%)" />
+        </Text3D>
+      </Center>
+    </group>
+  );
+}
+
+export function LogoText({ text, width, className = "" }: LogoTextProps) {
+  const [cameraZ, setCameraZ] = useState(5);
+  const [aspectRatio, setAspectRatio] = useState(0.3);
+  const fov = 50;
+
+  const handleBoundsCalculated = (textWidth: number, textHeight: number) => {
+    const vFov = (fov * Math.PI) / 180;
+    const containerAspect = width / (width * aspectRatio);
+    const textAspect = textWidth / textHeight;
+
+    let distance: number;
+    if (textAspect > containerAspect) {
+      const hFov = 2 * Math.atan(Math.tan(vFov / 2) * containerAspect);
+      distance = (textWidth / 2) / Math.tan(hFov / 2);
+    } else {
+      distance = (textHeight / 2) / Math.tan(vFov / 2);
+    }
+
+    const newAspect = textHeight / textWidth;
+    setAspectRatio(newAspect);
+    setCameraZ(distance * 1.1);
+  };
+
+  const height = width * aspectRatio;
+
+  return (
+    <div
+      className={className}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        margin: "0 auto",
+      }}
+    >
+      <Canvas
+        camera={{ position: [0, 0, cameraZ], fov }}
+        style={{ width: "100%", height: "100%" }}
       >
-        {text}
-      </div>
-      <div
-        className={`logo-text-container ${className}`}
-        style={
-          {
-            "--scale": dimensions.scale,
-            width: `${width}px`,
-            height: `${dimensions.height}px`,
-            margin: "0 auto",
-          } as React.CSSProperties
-        }
-      >
-        {Array.from({ length: LAYER_COUNT }, (_, i) => (
-          <div
-            key={i}
-            className="logo-text-layer"
-            style={
-              {
-                "--layer-index": i,
-              } as React.CSSProperties
-            }
-          >
-            {text}
-          </div>
-        ))}
-      </div>
-    </>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
+        <Text3DScene text={text} onBoundsCalculated={handleBoundsCalculated} />
+      </Canvas>
+    </div>
   );
 }
