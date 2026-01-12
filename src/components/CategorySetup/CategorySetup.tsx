@@ -20,6 +20,7 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
     interpretation: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [autoLoading, setAutoLoading] = useState(false);
   const [error, setError] = useState("");
 
   const validateCategory = async () => {
@@ -92,6 +93,37 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
     onComplete(categories);
   };
 
+  const handleAutoSuggest = async () => {
+    setAutoLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/suggest-categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ existingCategories: categories }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to suggest categories");
+      }
+
+      const newCategories = data.categories.map((c: { name: string; interpretation: string }) => ({
+        name: c.name,
+        confirmed: true,
+        aiInterpretation: c.interpretation,
+      }));
+
+      setCategories([...categories, ...newCategories]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to suggest categories");
+    } finally {
+      setAutoLoading(false);
+    }
+  };
+
   return (
     <div
       className="max-w-2xl mx-auto transition-all duration-300 ease-in-out origin-center"
@@ -119,7 +151,7 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
             />
             <KeyboardButton
               onClick={validateCategory}
-              disabled={loading}
+              disabled={loading || autoLoading}
               bgColor="#70c0ff"
               hoverBgColor="#5090d0"
               borderColor="#4080c0"
@@ -127,6 +159,17 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
               textColor="#ffffff"
             >
               {loading ? "Checking..." : "Add"}
+            </KeyboardButton>
+            <KeyboardButton
+              onClick={handleAutoSuggest}
+              disabled={loading || autoLoading}
+              bgColor="#22c55e"
+              hoverBgColor="#16a34a"
+              borderColor="#15803d"
+              shadowBgColor="#16a34a"
+              textColor="#ffffff"
+            >
+              {autoLoading ? "..." : "Auto"}
             </KeyboardButton>
           </div>
           {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
