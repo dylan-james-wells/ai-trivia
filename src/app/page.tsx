@@ -156,6 +156,7 @@ export default function Home() {
     setShowQuestion(false);
 
     // After animation completes, update state to show grid
+    // Use 350ms to ensure the 300ms CSS transition completes before unmounting
     setTimeout(() => {
       setGameState((prev) => ({
         ...prev,
@@ -164,7 +165,7 @@ export default function Home() {
         currentPlayerIndex: nextPlayerIndex,
         selectedQuestion: null,
       }));
-    }, 300);
+    }, 350);
   };
 
   const handleQuestionRegenerate = (newQuestion: string, newAnswer: string) => {
@@ -334,9 +335,10 @@ export default function Home() {
 
       {gameState.phase === "playing" && (
         <div className="relative">
+          {/* GameBoard - always rendered to maintain layout height */}
           <div
             className={`transition-all duration-300 ease-in-out ${
-              gameState.selectedQuestion ? 'absolute inset-0 pointer-events-none' : ''
+              gameState.selectedQuestion ? 'pointer-events-none' : ''
             }`}
           >
             <GameBoard
@@ -348,16 +350,19 @@ export default function Home() {
               isHidden={!!gameState.selectedQuestion}
             />
           </div>
+          {/* QuestionModal - absolutely positioned to overlay */}
           {gameState.selectedQuestion && getSelectedCategory() && (
-            <QuestionModal
-              question={gameState.selectedQuestion}
-              category={getSelectedCategory()!}
-              players={gameState.players}
-              currentPlayerIndex={gameState.currentPlayerIndex}
-              onComplete={handleQuestionComplete}
-              onRegenerate={handleQuestionRegenerate}
-              isVisible={showQuestion}
-            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <QuestionModal
+                question={gameState.selectedQuestion}
+                category={getSelectedCategory()!}
+                players={gameState.players}
+                currentPlayerIndex={gameState.currentPlayerIndex}
+                onComplete={handleQuestionComplete}
+                onRegenerate={handleQuestionRegenerate}
+                isVisible={showQuestion}
+              />
+            </div>
           )}
         </div>
       )}

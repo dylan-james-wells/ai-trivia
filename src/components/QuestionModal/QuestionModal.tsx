@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Question, Player, Category } from "@/types/game";
 import { audioManager } from "@/lib/audio";
 import { KeyboardButton } from "@/components/KeyboardButton";
+import { KeyboardContainer } from "@/components/KeyboardContainer";
 
 interface QuestionModalProps {
   question: Question;
@@ -185,16 +186,17 @@ export function QuestionModal({
 
   return (
     <div
-      className="max-w-2xl mx-auto transition-all duration-300 ease-in-out origin-center"
+      className="w-full max-w-2xl transition-all duration-300 ease-in-out origin-center"
       style={{
         transform: isVisible ? 'scale(1)' : 'scale(0)',
         opacity: isVisible ? 1 : 0,
       }}
     >
-      <div className="bg-white rounded-lg w-full p-6 max-h-[80vh] overflow-y-auto">
+      <KeyboardContainer className="w-full">
+        <div className="p-6 max-h-[70vh] overflow-y-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <span className="text-blue-600 font-bold">${question.points}</span>
+          <span className="text-gray-600 font-bold">${question.points}</span>
           <span className="text-gray-600">{currentPlayer.name}&apos;s turn</span>
         </div>
 
@@ -253,7 +255,6 @@ export function QuestionModal({
               borderColor="#1d4ed8"
               shadowBgColor="#1e40af"
               textColor="#ffffff"
-              fontSize="0.75rem"
               className="w-full mt-2"
             >
               Regenerate Question
@@ -423,7 +424,8 @@ export function QuestionModal({
             </KeyboardButton>
           </div>
         )}
-      </div>
+        </div>
+      </KeyboardContainer>
     </div>
   );
 }
