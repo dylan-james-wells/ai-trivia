@@ -181,7 +181,7 @@ export function GameBoard({
 
         return (
           <KeyboardContainer
-            className="mb-4"
+            className="mb-8"
             bgColor={bgColor}
             borderColor={borderColor}
             shadowBgColor={shadowBgColor}

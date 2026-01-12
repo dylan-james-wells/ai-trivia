@@ -3,7 +3,6 @@
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: 0.75em;
 
   &.player > .keyboard-container {
     padding-top: .5em;
@@ -58,4 +57,5 @@
   background: var(--kc-bg);
   border: 2px solid var(--kc-border);
   border-radius: 0.75em;
+  margin-bottom: 0.75em;
 }
