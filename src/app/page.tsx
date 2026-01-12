@@ -230,7 +230,7 @@ export default function Home() {
           text="AI Trivia"
           height={{
             base: 60,
-            md: 100,
+            md: 80,
           }}
         />
         <p className="mt-4 text-blue-300">Jeopardy-style game powered by AI</p>
