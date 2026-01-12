@@ -1,6 +1,7 @@
 "use client";
 
 import { InputHTMLAttributes } from "react";
+import "./KeyboardInput.css";
 
 interface KeyboardInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {

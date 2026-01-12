@@ -1,0 +1,1 @@
+export { SparkleBackground } from "./SparkleBackground";

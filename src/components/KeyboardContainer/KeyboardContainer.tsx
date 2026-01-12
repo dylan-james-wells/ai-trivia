@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import "./KeyboardContainer.css";
 
 interface KeyboardContainerProps {
   children: ReactNode;

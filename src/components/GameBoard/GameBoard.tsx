@@ -5,6 +5,7 @@ import { Tooltip } from "react-tooltip";
 import { Category, Question, Player, POINTS_PER_DIFFICULTY } from "@/types/game";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { KeyboardContainer } from "@/components/KeyboardContainer";
+import "./GameBoard.css";
 
 interface CategoryHeaderProps {
   category: Category;
