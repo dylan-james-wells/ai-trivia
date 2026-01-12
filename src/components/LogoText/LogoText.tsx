@@ -13,6 +13,7 @@ import {
   NearestFilter,
   MeshToonMaterial,
   Mesh,
+  PointLight,
 } from "three";
 
 interface LogoTextProps {
@@ -23,22 +24,22 @@ interface LogoTextProps {
 
 function useGradientMaps() {
   return useMemo(() => {
-    // Brighter gradient for front face
+    // Brighter gradient for front face (orange)
     const faceColors = new Uint8Array([
-      80, 130, 190, 255,   // dark
-      120, 170, 230, 255,  // mid
-      170, 210, 255, 255,  // light
+      180, 100, 50, 255,   // dark orange
+      230, 150, 80, 255,   // mid orange
+      255, 200, 130, 255,  // light orange
     ]);
     const faceTexture = new DataTexture(faceColors, 3, 1, RGBAFormat);
     faceTexture.minFilter = NearestFilter;
     faceTexture.magFilter = NearestFilter;
     faceTexture.needsUpdate = true;
 
-    // Darker gradient for sides
+    // Darker gradient for sides (darker orange/brown)
     const sideColors = new Uint8Array([
-      30, 60, 100, 255,    // dark
-      50, 90, 140, 255,    // mid
-      80, 120, 170, 255,   // light
+      100, 50, 20, 255,    // dark
+      140, 70, 30, 255,    // mid
+      180, 100, 50, 255,   // light
     ]);
     const sideTexture = new DataTexture(sideColors, 3, 1, RGBAFormat);
     sideTexture.minFilter = NearestFilter;
@@ -47,6 +48,43 @@ function useGradientMaps() {
 
     return { faceTexture, sideTexture };
   }, []);
+}
+
+function OrbitingLight({
+  color,
+  intensity,
+  radius,
+  speed,
+  offsetAngle = 0,
+  yOffset = 0
+}: {
+  color: string;
+  intensity: number;
+  radius: number;
+  speed: number;
+  offsetAngle?: number;
+  yOffset?: number;
+}) {
+  const lightRef = useRef<PointLight>(null);
+
+  useFrame(({ clock }) => {
+    if (lightRef.current) {
+      const t = clock.getElapsedTime() * speed + offsetAngle;
+      lightRef.current.position.x = Math.cos(t) * radius;
+      lightRef.current.position.y = Math.sin(t * 0.5) * 0.5 + yOffset;
+      lightRef.current.position.z = Math.sin(t) * radius + 1;
+    }
+  });
+
+  return (
+    <pointLight
+      ref={lightRef}
+      color={color}
+      intensity={intensity}
+      distance={8}
+      decay={2}
+    />
+  );
 }
 
 function Text3DScene({ text }: { text: string }) {
@@ -58,11 +96,11 @@ function Text3DScene({ text }: { text: string }) {
 
   const materials = useMemo(() => {
     const faceMaterial = new MeshToonMaterial({
-      color: "#7ac0ff",
+      color: "#ffc070",
       gradientMap: faceTexture,
     });
     const sideMaterial = new MeshToonMaterial({
-      color: "#4a80c0",
+      color: "#c07030",
       gradientMap: sideTexture,
     });
     // TextGeometry uses: [0] = front, [1] = side
@@ -109,7 +147,7 @@ function Text3DScene({ text }: { text: string }) {
           bevelSegments={5}
         >
           {text}
-          <Outlines thickness={0.035} color="#0a1a2c" />
+          <Outlines thickness={0.05} color="#1a0a00" />
         </Text3D>
       </Center>
     </group>
@@ -130,9 +168,35 @@ export function LogoText({ text, height, className = "" }: LogoTextProps) {
         camera={{ position: [0, 0, 5], fov: 50 }}
         style={{ width: "100%", height: "100%" }}
       >
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[5, 5, 5]} intensity={1.5} />
-        <directionalLight position={[-3, 2, 3]} intensity={0.5} />
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+
+        {/* Orbiting lights */}
+        <OrbitingLight
+          color="#ffa050"
+          intensity={3}
+          radius={3}
+          speed={0.8}
+          offsetAngle={0}
+          yOffset={0.2}
+        />
+        <OrbitingLight
+          color="#ffcc80"
+          intensity={2.5}
+          radius={2.5}
+          speed={1.2}
+          offsetAngle={Math.PI}
+          yOffset={-0.1}
+        />
+        <OrbitingLight
+          color="#ffffff"
+          intensity={2}
+          radius={2}
+          speed={0.6}
+          offsetAngle={Math.PI / 2}
+          yOffset={0.3}
+        />
+
         <Text3DScene text={text} />
       </Canvas>
     </div>

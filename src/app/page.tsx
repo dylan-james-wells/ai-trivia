@@ -217,7 +217,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12 relative">
       <header className="text-center mb-8 relative">
-        <LogoText text="AI Trivia" height={120} />
+        <LogoText text="AI Trivia" height={100} />
         <p className="mt-4 text-blue-300">Jeopardy-style game powered by AI</p>
         {gameState.phase === "playing" && (
           <div className="absolute left-0 top-1/2 -translate-y-1/2 z-20">
