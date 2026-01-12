@@ -329,29 +329,29 @@ function PixelatedScene({
       {/* Virtual scene rendered to FBO */}
       {createPortal(
         <>
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <ambientLight intensity={0.8} />
+          <directionalLight position={[5, 5, 5]} intensity={1.5} />
           <OrbitingLight
             color="#ffa050"
-            intensity={3}
+            intensity={4}
             radius={3}
-            speed={0.8}
+            speed={1.6}
             offsetAngle={0}
             yOffset={0.2}
           />
           <OrbitingLight
             color="#ffcc80"
-            intensity={2.5}
+            intensity={3.5}
             radius={2.5}
-            speed={1.2}
+            speed={2.4}
             offsetAngle={Math.PI}
             yOffset={-0.1}
           />
           <OrbitingLight
             color="#ffffff"
-            intensity={2}
+            intensity={3}
             radius={2}
-            speed={0.6}
+            speed={1.2}
             offsetAngle={Math.PI / 2}
             yOffset={0.3}
           />
@@ -389,29 +389,29 @@ function Text3DScene({
 
   return (
     <>
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
+      <ambientLight intensity={0.8} />
+      <directionalLight position={[5, 5, 5]} intensity={1.5} />
       <OrbitingLight
         color="#ffa050"
-        intensity={3}
+        intensity={4}
         radius={3}
-        speed={0.8}
+        speed={1.6}
         offsetAngle={0}
         yOffset={0.2}
       />
       <OrbitingLight
         color="#ffcc80"
-        intensity={2.5}
+        intensity={3.5}
         radius={2.5}
-        speed={1.2}
+        speed={2.4}
         offsetAngle={Math.PI}
         yOffset={-0.1}
       />
       <OrbitingLight
         color="#ffffff"
-        intensity={2}
+        intensity={3}
         radius={2}
-        speed={0.6}
+        speed={1.2}
         offsetAngle={Math.PI / 2}
         yOffset={0.3}
       />
