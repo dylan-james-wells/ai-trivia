@@ -3,15 +3,14 @@
 import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useThree, useFrame, createPortal } from "@react-three/fiber";
 import { Text3D, Center, Outlines, useFBO } from "@react-three/drei";
+import * as THREE from "three";
 import {
   Box3,
   Vector3,
   Group,
   PerspectiveCamera,
-  DataTexture,
-  RGBAFormat,
   NearestFilter,
-  MeshToonMaterial,
+  MeshStandardMaterial,
   Mesh,
   PointLight,
   Scene,
@@ -84,33 +83,6 @@ function useResponsiveHeight(height: number | ResponsiveHeight): number {
   return currentHeight;
 }
 
-function useGradientMaps() {
-  return useMemo(() => {
-    // Brighter gradient for front face (orange)
-    const faceColors = new Uint8Array([
-      180, 100, 50, 255,   // dark orange
-      230, 150, 80, 255,   // mid orange
-      255, 200, 130, 255,  // light orange
-    ]);
-    const faceTexture = new DataTexture(faceColors, 3, 1, RGBAFormat);
-    faceTexture.minFilter = NearestFilter;
-    faceTexture.magFilter = NearestFilter;
-    faceTexture.needsUpdate = true;
-
-    // Darker gradient for sides (darker orange/brown)
-    const sideColors = new Uint8Array([
-      100, 50, 20, 255,    // dark
-      140, 70, 30, 255,    // mid
-      180, 100, 50, 255,   // light
-    ]);
-    const sideTexture = new DataTexture(sideColors, 3, 1, RGBAFormat);
-    sideTexture.minFilter = NearestFilter;
-    sideTexture.magFilter = NearestFilter;
-    sideTexture.needsUpdate = true;
-
-    return { faceTexture, sideTexture };
-  }, []);
-}
 
 function OrbitingLight({
   color,
@@ -164,21 +136,22 @@ function Text3DContent({
   const meshRef = useRef<Mesh>(null);
   const rotationGroupRef = useRef<Group>(null);
   const fitted = useRef(false);
-  const { faceTexture, sideTexture } = useGradientMaps();
   const rotationRadians = (rotationDegrees * Math.PI) / 180;
 
   const materials = useMemo(() => {
-    const faceMaterial = new MeshToonMaterial({
-      color: "#ffc070",
-      gradientMap: faceTexture,
+    const faceMaterial = new MeshStandardMaterial({
+      color: "#70c0ff",
+      metalness: 0.1,
+      roughness: 0.4,
     });
-    const sideMaterial = new MeshToonMaterial({
-      color: "#c07030",
-      gradientMap: sideTexture,
+    const sideMaterial = new MeshStandardMaterial({
+      color: "#5090d0",
+      metalness: 0.1,
+      roughness: 0.4,
     });
     // TextGeometry uses: [0] = front, [1] = side
     return [faceMaterial, sideMaterial];
-  }, [faceTexture, sideTexture]);
+  }, []);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -223,7 +196,7 @@ function Text3DContent({
             bevelSegments={5}
           >
             {text}
-            <Outlines thickness={0.05} color="#1a0a00" />
+            <Outlines thickness={0.025} color="#001a2a" />
           </Text3D>
         </Center>
       </group>
@@ -249,7 +222,8 @@ function PixelatedScene({
   // Create perspective camera for the virtual scene
   const virtualCamera = useMemo(() => {
     const cam = new PerspectiveCamera(50, size.width / size.height, 0.1, 1000);
-    cam.position.z = 5;
+    cam.position.set(0, -0.05, 5);
+    cam.lookAt(0, 0.02, 0);
     return cam;
   }, [size.width, size.height]);
 
@@ -297,7 +271,8 @@ function PixelatedScene({
 
   // Update virtual camera when text is measured
   useEffect(() => {
-    virtualCamera.position.z = cameraDistance;
+    virtualCamera.position.set(0, -0.05, cameraDistance);
+    virtualCamera.lookAt(0, 0.02, 0);
     virtualCamera.updateProjectionMatrix();
   }, [cameraDistance, virtualCamera]);
 
@@ -329,32 +304,13 @@ function PixelatedScene({
       {/* Virtual scene rendered to FBO */}
       {createPortal(
         <>
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[5, 5, 5]} intensity={1.5} />
-          <OrbitingLight
-            color="#ffa050"
-            intensity={4}
-            radius={3}
-            speed={1.6}
-            offsetAngle={0}
-            yOffset={0.2}
-          />
-          <OrbitingLight
-            color="#ffcc80"
-            intensity={3.5}
-            radius={2.5}
-            speed={2.4}
-            offsetAngle={Math.PI}
-            yOffset={-0.1}
-          />
-          <OrbitingLight
-            color="#ffffff"
-            intensity={3}
-            radius={2}
-            speed={1.2}
-            offsetAngle={Math.PI / 2}
-            yOffset={0.3}
-          />
+          <ambientLight intensity={1.5} />
+          {/* Key light - main light from front center */}
+          <pointLight position={[0, 0, 4]} intensity={50} color="#ffffff" />
+          {/* Fill light - softer light from left */}
+          <pointLight position={[-4, 0, 2]} intensity={20} color="#80b0ff" />
+          {/* Fill light - softer light from right */}
+          <pointLight position={[4, 0, 2]} intensity={20} color="#80b0ff" />
           <Text3DContent
             text={text}
             rotationDegrees={rotationDegrees}
@@ -382,39 +338,21 @@ function Text3DScene({
 
   useEffect(() => {
     if (camera instanceof PerspectiveCamera) {
-      camera.position.z = cameraDistance;
+      camera.position.set(0, -0.05, cameraDistance);
+      camera.lookAt(0, 0.02, 0);
       camera.updateProjectionMatrix();
     }
   }, [cameraDistance, camera]);
 
   return (
     <>
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[5, 5, 5]} intensity={1.5} />
-      <OrbitingLight
-        color="#ffa050"
-        intensity={4}
-        radius={3}
-        speed={1.6}
-        offsetAngle={0}
-        yOffset={0.2}
-      />
-      <OrbitingLight
-        color="#ffcc80"
-        intensity={3.5}
-        radius={2.5}
-        speed={2.4}
-        offsetAngle={Math.PI}
-        yOffset={-0.1}
-      />
-      <OrbitingLight
-        color="#ffffff"
-        intensity={3}
-        radius={2}
-        speed={1.2}
-        offsetAngle={Math.PI / 2}
-        yOffset={0.3}
-      />
+      <ambientLight intensity={1.5} />
+      {/* Key light - main light from front center */}
+      <pointLight position={[0, 0, 4]} intensity={50} color="#ffffff" />
+      {/* Fill light - softer light from left */}
+      <pointLight position={[-4, 0, 2]} intensity={20} color="#80b0ff" />
+      {/* Fill light - softer light from right */}
+      <pointLight position={[4, 0, 2]} intensity={20} color="#80b0ff" />
       <Text3DContent
         text={text}
         rotationDegrees={rotationDegrees}
@@ -445,7 +383,7 @@ export function LogoText({
       }}
     >
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 50 }}
+        camera={{ position: [0, -0.05, 5], fov: 50 }}
         style={{ width: "100%", height: "100%" }}
       >
         {pixelSize ? (
