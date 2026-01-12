@@ -107,7 +107,7 @@ export function GameBoard({
             key={player.id}
             className={`px-4 py-2 rounded-lg ${
               index === currentPlayerIndex
-                ? "bg-orange-500 text-white"
+                ? "bg-green-500 text-white"
                 : "bg-gray-200 text-gray-800"
             }`}
           >
@@ -161,7 +161,7 @@ export function GameBoard({
                 hoverBgColor={isAnswered ? "#1e3a5f" : "#5090d0"}
                 borderColor={isAnswered ? "#172d4d" : "#4080c0"}
                 shadowBgColor={isAnswered ? "#172d4d" : "#3070b0"}
-                textColor={isAnswered ? "#3b5998" : "#fde047"}
+                textColor={isAnswered ? "#3b5998" : "#1e3a5f"}
                 fontSize="1.25rem"
                 className="w-full question-cell"
               >

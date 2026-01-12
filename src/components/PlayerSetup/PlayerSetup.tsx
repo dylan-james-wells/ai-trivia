@@ -129,10 +129,10 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
         {players.length >= 2 ? (
           <KeyboardButton
             onClick={handleSubmit}
-            bgColor="#ff7070"
-            hoverBgColor="#d05050"
-            borderColor="#c04040"
-            shadowBgColor="#b03030"
+            bgColor="#70c0ff"
+            hoverBgColor="#5090d0"
+            borderColor="#4080c0"
+            shadowBgColor="#3070b0"
             textColor="#ffffff"
             className="flex-1"
           >

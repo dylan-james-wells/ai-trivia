@@ -258,10 +258,10 @@ export default function Home() {
           <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
             <KeyboardButton
               onClick={handleNewGame}
-              bgColor="#ff7070"
-              hoverBgColor="#d05050"
-              borderColor="#c04040"
-              shadowBgColor="#b03030"
+              bgColor="#70c0ff"
+              hoverBgColor="#5090d0"
+              borderColor="#4080c0"
+              shadowBgColor="#3070b0"
               textColor="#ffffff"
               fontSize="0.75rem"
             >
@@ -297,10 +297,10 @@ export default function Home() {
             </p>
             <KeyboardButton
               onClick={handleStartGame}
-              bgColor="#ff7070"
-              hoverBgColor="#d05050"
-              borderColor="#c04040"
-              shadowBgColor="#b03030"
+              bgColor="#70c0ff"
+              hoverBgColor="#5090d0"
+              borderColor="#4080c0"
+              shadowBgColor="#3070b0"
               textColor="#ffffff"
               className="w-full"
             >

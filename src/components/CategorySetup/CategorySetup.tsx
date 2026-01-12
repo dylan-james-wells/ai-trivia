@@ -154,10 +154,10 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={rejectCategory}
-                  bgColor="#ff7070"
-                  hoverBgColor="#d05050"
-                  borderColor="#c04040"
-                  shadowBgColor="#b03030"
+                  bgColor="#ffb070"
+                  hoverBgColor="#d09050"
+                  borderColor="#c08040"
+                  shadowBgColor="#b07030"
                   textColor="#ffffff"
                 >
                   Try Again
@@ -215,10 +215,10 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
         {categories.length === TOTAL_CATEGORIES ? (
           <KeyboardButton
             onClick={handleComplete}
-            bgColor="#ff7070"
-            hoverBgColor="#d05050"
-            borderColor="#c04040"
-            shadowBgColor="#b03030"
+            bgColor="#70c0ff"
+            hoverBgColor="#5090d0"
+            borderColor="#4080c0"
+            shadowBgColor="#3070b0"
             textColor="#ffffff"
             className="flex-1"
           >

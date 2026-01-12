@@ -228,10 +228,10 @@ export function QuestionModal({
             <div className="flex gap-2 mt-4 mb-2 items-center">
               <KeyboardButton
                 onClick={submitAnswer}
-                bgColor="#ff7070"
-                hoverBgColor="#d05050"
-                borderColor="#c04040"
-                shadowBgColor="#b03030"
+                bgColor="#70d090"
+                hoverBgColor="#50b070"
+                borderColor="#40a060"
+                shadowBgColor="#309050"
                 textColor="#ffffff"
                 className="flex-1"
               >
@@ -359,10 +359,10 @@ export function QuestionModal({
               <div className="flex gap-4 items-center">
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(true)}
-                  bgColor="#ff7070"
-                  hoverBgColor="#d05050"
-                  borderColor="#c04040"
-                  shadowBgColor="#b03030"
+                  bgColor="#ffb070"
+                  hoverBgColor="#d09050"
+                  borderColor="#c08040"
+                  shadowBgColor="#b07030"
                   textColor="#ffffff"
                   className="flex-1"
                 >
@@ -370,10 +370,10 @@ export function QuestionModal({
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(false)}
-                  bgColor="#ff7070"
-                  hoverBgColor="#d05050"
-                  borderColor="#c04040"
-                  shadowBgColor="#b03030"
+                  bgColor="#ffb070"
+                  hoverBgColor="#d09050"
+                  borderColor="#c08040"
+                  shadowBgColor="#b07030"
                   textColor="#ffffff"
                   className="flex-1"
                 >
@@ -414,10 +414,10 @@ export function QuestionModal({
             <p className="text-gray-500 mb-4">No points awarded or deducted</p>
             <KeyboardButton
               onClick={handleRevealedContinue}
-              bgColor="#ff7070"
-              hoverBgColor="#d05050"
-              borderColor="#c04040"
-              shadowBgColor="#b03030"
+              bgColor="#ffb070"
+              hoverBgColor="#d09050"
+              borderColor="#c08040"
+              shadowBgColor="#b07030"
               textColor="#ffffff"
             >
               Continue
