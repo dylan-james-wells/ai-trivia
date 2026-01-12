@@ -12,7 +12,6 @@ import {
   NearestFilter,
   MeshStandardMaterial,
   Mesh,
-  PointLight,
   Scene,
   ShaderMaterial,
   PlaneGeometry,
@@ -84,44 +83,6 @@ function useResponsiveHeight(height: number | ResponsiveHeight): number {
   }, [height]);
 
   return currentHeight;
-}
-
-
-function OrbitingLight({
-  color,
-  intensity,
-  radius,
-  speed,
-  offsetAngle = 0,
-  yOffset = 0
-}: {
-  color: string;
-  intensity: number;
-  radius: number;
-  speed: number;
-  offsetAngle?: number;
-  yOffset?: number;
-}) {
-  const lightRef = useRef<PointLight>(null);
-
-  useFrame(({ clock }) => {
-    if (lightRef.current) {
-      const t = clock.getElapsedTime() * speed + offsetAngle;
-      lightRef.current.position.x = Math.cos(t) * radius;
-      lightRef.current.position.y = Math.sin(t * 0.5) * 0.5 + yOffset;
-      lightRef.current.position.z = Math.sin(t) * radius + 1;
-    }
-  });
-
-  return (
-    <pointLight
-      ref={lightRef}
-      color={color}
-      intensity={intensity}
-      distance={8}
-      decay={2}
-    />
-  );
 }
 
 function Text3DContent({
