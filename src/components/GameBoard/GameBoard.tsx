@@ -123,15 +123,76 @@ export function GameBoard({
         </p>
       )}
 
-      {allQuestionsAnswered && (
-        <div className="text-center mb-4 p-4 bg-green-100 rounded-lg">
-          <h2 className="text-2xl font-bold text-green-800">Game Over!</h2>
-          <p className="text-green-700">
-            Winner:{" "}
-            {players.reduce((a, b) => (a.score > b.score ? a : b)).name}
-          </p>
-        </div>
-      )}
+      {allQuestionsAnswered && (() => {
+        const highScore = Math.max(...players.map(p => p.score));
+        const winners = players.filter(p => p.score === highScore);
+        const isTie = winners.length === players.length;
+
+        let title: string;
+        let subtitle: string;
+        let bgColor: string;
+        let borderColor: string;
+        let shadowBgColor: string;
+        let textColor: string;
+
+        if (isTie) {
+          if (highScore === 0) {
+            // Everybody has 0
+            title = "Nobody Wins!";
+            subtitle = "Everyone finished with $0";
+            bgColor = "#fef3c7";
+            borderColor = "#f59e0b";
+            shadowBgColor = "#fcd34d";
+            textColor = "#92400e";
+          } else if (highScore < 0) {
+            // Everybody has negative
+            title = "Everybody Loses!";
+            subtitle = `Everyone finished with $${highScore}`;
+            bgColor = "#fee2e2";
+            borderColor = "#ef4444";
+            shadowBgColor = "#fca5a5";
+            textColor = "#991b1b";
+          } else {
+            // Everybody has positive equal score
+            title = "Everybody Wins!";
+            subtitle = `Everyone finished with $${highScore}`;
+            bgColor = "#d1fae5";
+            borderColor = "#10b981";
+            shadowBgColor = "#6ee7b7";
+            textColor = "#065f46";
+          }
+        } else if (winners.length > 1) {
+          // Multiple winners (tie for first, but not everyone)
+          title = "It's a Tie!";
+          subtitle = `Winners: ${winners.map(w => w.name).join(" & ")} with $${highScore}`;
+          bgColor = "#d1fae5";
+          borderColor = "#10b981";
+          shadowBgColor = "#6ee7b7";
+          textColor = "#065f46";
+        } else {
+          // Single winner
+          title = "Game Over!";
+          subtitle = `Winner: ${winners[0].name} with $${highScore}`;
+          bgColor = "#d1fae5";
+          borderColor = "#10b981";
+          shadowBgColor = "#6ee7b7";
+          textColor = "#065f46";
+        }
+
+        return (
+          <KeyboardContainer
+            className="mb-4"
+            bgColor={bgColor}
+            borderColor={borderColor}
+            shadowBgColor={shadowBgColor}
+          >
+            <div className="text-center p-2 w-full">
+              <h2 className="text-2xl font-bold" style={{ color: textColor }}>{title}</h2>
+              <p style={{ color: textColor }}>{subtitle}</p>
+            </div>
+          </KeyboardContainer>
+        );
+      })()}
 
       {/* Game Board Grid */}
       <div className="grid grid-cols-6 gap-2 md:gap-4">
