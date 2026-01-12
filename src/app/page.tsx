@@ -17,11 +17,13 @@ import { audioManager, MusicTrack } from "@/lib/audio";
 import { createDevGameState } from "@/lib/dev-game";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { LogoText } from "@/components/LogoText/LogoText";
+import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator";
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [error, setError] = useState("");
   const [showQuestion, setShowQuestion] = useState(false);
 
@@ -87,6 +89,11 @@ export default function Home() {
     setGenerating(true);
     setError("");
 
+    // Delay showing loading indicator to allow CategorySetup to scale down
+    setTimeout(() => {
+      setShowLoading(true);
+    }, 300);
+
     try {
       const response = await fetch("/api/generate-questions", {
         method: "POST",
@@ -100,17 +107,24 @@ export default function Home() {
         throw new Error(data.error || "Failed to generate questions");
       }
 
-      setGameState((prev) => ({
-        ...prev,
-        categories,
-        questions: data.questions,
-        phase: "playing",
-      }));
+      // Hide loading indicator first
+      setShowLoading(false);
+
+      // After loading scales down, transition to playing phase
+      setTimeout(() => {
+        setGameState((prev) => ({
+          ...prev,
+          categories,
+          questions: data.questions,
+          phase: "playing",
+        }));
+        setGenerating(false);
+      }, 300);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to generate questions"
       );
-    } finally {
+      setShowLoading(false);
       setGenerating(false);
     }
   };
@@ -277,15 +291,6 @@ export default function Home() {
         </div>
       )}
 
-      {generating && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-900">Generating trivia questions...</p>
-            <p className="text-gray-600 text-sm mt-2">This may take a moment</p>
-          </div>
-        </div>
-      )}
 
       {gameState.phase === "menu" && (
         <div className="max-w-lg mx-auto text-center">
@@ -330,11 +335,30 @@ export default function Home() {
         />
       )}
 
-      {gameState.phase === "categories" && (
-        <CategorySetup
-          onComplete={handleCategoriesComplete}
-          onBack={handleBackToPlayers}
-        />
+      {(gameState.phase === "categories" || generating) && (
+        <div className="relative">
+          <div className={generating ? 'pointer-events-none' : ''}>
+            <CategorySetup
+              onComplete={handleCategoriesComplete}
+              onBack={handleBackToPlayers}
+              isHidden={generating}
+            />
+          </div>
+          {generating && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className="text-center transition-all duration-300 ease-in-out origin-center"
+                style={{
+                  transform: showLoading ? 'scale(1)' : 'scale(0)',
+                  opacity: showLoading ? 1 : 0,
+                }}
+              >
+                <LoadingIndicator />
+                <p className="text-white text-lg mt-24">Generating questions...</p>
+              </div>
+            </div>
+          )}
+        </div>
       )}
 
       {gameState.phase === "playing" && (

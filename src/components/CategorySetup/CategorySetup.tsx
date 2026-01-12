@@ -9,9 +9,10 @@ import { KeyboardContainer } from "@/components/KeyboardContainer";
 interface CategorySetupProps {
   onComplete: (categories: Category[]) => void;
   onBack: () => void;
+  isHidden?: boolean;
 }
 
-export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
+export function CategorySetup({ onComplete, onBack, isHidden = false }: CategorySetupProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [currentCategory, setCurrentCategory] = useState("");
   const [pendingCategory, setPendingCategory] = useState<{
@@ -92,7 +93,13 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div
+      className="max-w-2xl mx-auto transition-all duration-300 ease-in-out origin-center"
+      style={{
+        transform: isHidden ? 'scale(0)' : 'scale(1)',
+        opacity: isHidden ? 0 : 1,
+      }}
+    >
       <h2 className="text-2xl font-bold mb-6 text-center">
         Select {TOTAL_CATEGORIES} Categories
       </h2>
