@@ -258,10 +258,10 @@ export default function Home() {
           <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
             <KeyboardButton
               onClick={handleNewGame}
-              bgColor="#ef4444"
-              hoverBgColor="#dc2626"
-              borderColor="#b91c1c"
-              shadowBgColor="#dc2626"
+              bgColor="#ff7070"
+              hoverBgColor="#d05050"
+              borderColor="#c04040"
+              shadowBgColor="#b03030"
               textColor="#ffffff"
               fontSize="0.75rem"
             >
@@ -297,10 +297,10 @@ export default function Home() {
             </p>
             <KeyboardButton
               onClick={handleStartGame}
-              bgColor="#ef4444"
-              hoverBgColor="#dc2626"
-              borderColor="#b91c1c"
-              shadowBgColor="#dc2626"
+              bgColor="#ff7070"
+              hoverBgColor="#d05050"
+              borderColor="#c04040"
+              shadowBgColor="#b03030"
               textColor="#ffffff"
               className="w-full"
             >
@@ -309,10 +309,10 @@ export default function Home() {
             {process.env.NEXT_PUBLIC_DEV_MODE === "1" && (
               <KeyboardButton
                 onClick={handleStartDevGame}
-                bgColor="#ef4444"
-                hoverBgColor="#dc2626"
-                borderColor="#b91c1c"
-                shadowBgColor="#dc2626"
+                bgColor="#6b7280"
+                hoverBgColor="#4b5563"
+                borderColor="#374151"
+                shadowBgColor="#1f2937"
                 textColor="#ffffff"
                 className="w-full mt-3"
               >

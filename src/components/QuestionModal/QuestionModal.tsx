@@ -228,10 +228,10 @@ export function QuestionModal({
             <div className="flex gap-2 mt-4 mb-2 items-center">
               <KeyboardButton
                 onClick={submitAnswer}
-                bgColor="#ef4444"
-                hoverBgColor="#dc2626"
-                borderColor="#b91c1c"
-                shadowBgColor="#dc2626"
+                bgColor="#ff7070"
+                hoverBgColor="#d05050"
+                borderColor="#c04040"
+                shadowBgColor="#b03030"
                 textColor="#ffffff"
                 className="flex-1"
               >
@@ -250,10 +250,10 @@ export function QuestionModal({
             </div>
             <KeyboardButton
               onClick={handleRegenerate}
-              bgColor="#3b82f6"
-              hoverBgColor="#2563eb"
-              borderColor="#1d4ed8"
-              shadowBgColor="#1e40af"
+              bgColor="#70c0ff"
+              hoverBgColor="#5090d0"
+              borderColor="#4080c0"
+              shadowBgColor="#3070b0"
               textColor="#ffffff"
               className="w-full mt-2"
             >
@@ -281,10 +281,10 @@ export function QuestionModal({
                   <KeyboardButton
                     key={player.id}
                     onClick={() => handleSelectPlayer(index)}
-                    bgColor="#3b82f6"
-                    hoverBgColor="#2563eb"
-                    borderColor="#1d4ed8"
-                    shadowBgColor="#1e40af"
+                    bgColor="#70c0ff"
+                    hoverBgColor="#5090d0"
+                    borderColor="#4080c0"
+                    shadowBgColor="#3070b0"
                     textColor="#ffffff"
                     className="w-full"
                   >
@@ -359,10 +359,10 @@ export function QuestionModal({
               <div className="flex gap-4 items-center">
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(true)}
-                  bgColor="#ef4444"
-                  hoverBgColor="#dc2626"
-                  borderColor="#b91c1c"
-                  shadowBgColor="#dc2626"
+                  bgColor="#ff7070"
+                  hoverBgColor="#d05050"
+                  borderColor="#c04040"
+                  shadowBgColor="#b03030"
                   textColor="#ffffff"
                   className="flex-1"
                 >
@@ -370,10 +370,10 @@ export function QuestionModal({
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(false)}
-                  bgColor="#ef4444"
-                  hoverBgColor="#dc2626"
-                  borderColor="#b91c1c"
-                  shadowBgColor="#dc2626"
+                  bgColor="#ff7070"
+                  hoverBgColor="#d05050"
+                  borderColor="#c04040"
+                  shadowBgColor="#b03030"
                   textColor="#ffffff"
                   className="flex-1"
                 >
@@ -414,10 +414,10 @@ export function QuestionModal({
             <p className="text-gray-500 mb-4">No points awarded or deducted</p>
             <KeyboardButton
               onClick={handleRevealedContinue}
-              bgColor="#ef4444"
-              hoverBgColor="#dc2626"
-              borderColor="#b91c1c"
-              shadowBgColor="#dc2626"
+              bgColor="#ff7070"
+              hoverBgColor="#d05050"
+              borderColor="#c04040"
+              shadowBgColor="#b03030"
               textColor="#ffffff"
             >
               Continue

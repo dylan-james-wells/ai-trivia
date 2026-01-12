@@ -113,10 +113,10 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
             <KeyboardButton
               onClick={validateCategory}
               disabled={loading}
-              bgColor="#3b82f6"
-              hoverBgColor="#2563eb"
-              borderColor="#1d4ed8"
-              shadowBgColor="#1e40af"
+              bgColor="#70c0ff"
+              hoverBgColor="#5090d0"
+              borderColor="#4080c0"
+              shadowBgColor="#3070b0"
               textColor="#ffffff"
             >
               {loading ? "Checking..." : "Add"}
@@ -154,10 +154,10 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={rejectCategory}
-                  bgColor="#ef4444"
-                  hoverBgColor="#dc2626"
-                  borderColor="#b91c1c"
-                  shadowBgColor="#dc2626"
+                  bgColor="#ff7070"
+                  hoverBgColor="#d05050"
+                  borderColor="#c04040"
+                  shadowBgColor="#b03030"
                   textColor="#ffffff"
                 >
                   Try Again
@@ -215,10 +215,10 @@ export function CategorySetup({ onComplete, onBack }: CategorySetupProps) {
         {categories.length === TOTAL_CATEGORIES ? (
           <KeyboardButton
             onClick={handleComplete}
-            bgColor="#ef4444"
-            hoverBgColor="#dc2626"
-            borderColor="#b91c1c"
-            shadowBgColor="#dc2626"
+            bgColor="#ff7070"
+            hoverBgColor="#d05050"
+            borderColor="#c04040"
+            shadowBgColor="#b03030"
             textColor="#ffffff"
             className="flex-1"
           >

@@ -77,10 +77,10 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           <KeyboardButton
             onClick={addPlayer}
             pressed={addButtonPressed}
-            bgColor="#3b82f6"
-            hoverBgColor="#2563eb"
-            borderColor="#1d4ed8"
-            shadowBgColor="#1e40af"
+            bgColor="#70c0ff"
+            hoverBgColor="#5090d0"
+            borderColor="#4080c0"
+            shadowBgColor="#3070b0"
             textColor="#ffffff"
           >
             Add
@@ -129,10 +129,10 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
         {players.length >= 2 ? (
           <KeyboardButton
             onClick={handleSubmit}
-            bgColor="#ef4444"
-            hoverBgColor="#dc2626"
-            borderColor="#b91c1c"
-            shadowBgColor="#dc2626"
+            bgColor="#ff7070"
+            hoverBgColor="#d05050"
+            borderColor="#c04040"
+            shadowBgColor="#b03030"
             textColor="#ffffff"
             className="flex-1"
           >

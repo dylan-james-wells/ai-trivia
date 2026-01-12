@@ -33,9 +33,9 @@ function CategoryHeader({ category, index, isOverflowing, onOverflowChange }: Ca
   return (
     <KeyboardContainer
       className="category-header"
-      bgColor="#1e40af"
-      borderColor="#1e3a8a"
-      shadowBgColor="#1e3a8a"
+      bgColor="#5090d0"
+      borderColor="#4080c0"
+      shadowBgColor="#3070b0"
     >
       <span
         ref={textRef}
@@ -157,10 +157,10 @@ export function GameBoard({
                 key={`${categoryIndex}-${difficultyIndex}`}
                 onClick={() => question && !isAnswered && onSelectQuestion(question)}
                 disabled={isAnswered || !question}
-                bgColor={isAnswered ? "#1e3a5f" : "#3b82f6"}
-                hoverBgColor={isAnswered ? "#1e3a5f" : "#2563eb"}
-                borderColor={isAnswered ? "#172d4d" : "#1d4ed8"}
-                shadowBgColor={isAnswered ? "#172d4d" : "#1e40af"}
+                bgColor={isAnswered ? "#1e3a5f" : "#70c0ff"}
+                hoverBgColor={isAnswered ? "#1e3a5f" : "#5090d0"}
+                borderColor={isAnswered ? "#172d4d" : "#4080c0"}
+                shadowBgColor={isAnswered ? "#172d4d" : "#3070b0"}
                 textColor={isAnswered ? "#3b5998" : "#fde047"}
                 fontSize="1.25rem"
                 className="w-full question-cell"
