@@ -20,6 +20,8 @@ interface LogoTextProps {
   text: string;
   height: number;
   className?: string;
+  rotationDegrees?: number;
+  rotationSpeed?: number;
 }
 
 function useGradientMaps() {
@@ -87,12 +89,22 @@ function OrbitingLight({
   );
 }
 
-function Text3DScene({ text }: { text: string }) {
+function Text3DScene({
+  text,
+  rotationDegrees,
+  rotationSpeed
+}: {
+  text: string;
+  rotationDegrees: number;
+  rotationSpeed: number;
+}) {
   const groupRef = useRef<Group>(null);
   const meshRef = useRef<Mesh>(null);
+  const rotationGroupRef = useRef<Group>(null);
   const { camera } = useThree();
   const fitted = useRef(false);
   const { faceTexture, sideTexture } = useGradientMaps();
+  const rotationRadians = (rotationDegrees * Math.PI) / 180;
 
   const materials = useMemo(() => {
     const faceMaterial = new MeshToonMaterial({
@@ -113,7 +125,7 @@ function Text3DScene({ text }: { text: string }) {
     }
   }, [materials]);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (groupRef.current && !fitted.current) {
       const box = new Box3().setFromObject(groupRef.current);
       const size = new Vector3();
@@ -129,32 +141,45 @@ function Text3DScene({ text }: { text: string }) {
         fitted.current = true;
       }
     }
+
+    if (rotationGroupRef.current) {
+      const t = clock.getElapsedTime() * rotationSpeed;
+      rotationGroupRef.current.rotation.y = Math.sin(t) * rotationRadians;
+    }
   });
 
   return (
     <group ref={groupRef}>
-      <Center>
-        <Text3D
-          ref={meshRef}
-          font="/Play_Bold.json"
-          size={1}
-          height={0.2}
-          curveSegments={12}
-          bevelEnabled
-          bevelThickness={0.02}
-          bevelSize={0.02}
-          bevelOffset={0}
-          bevelSegments={5}
-        >
-          {text}
-          <Outlines thickness={0.05} color="#1a0a00" />
-        </Text3D>
-      </Center>
+      <group ref={rotationGroupRef}>
+        <Center>
+          <Text3D
+            ref={meshRef}
+            font="/Play_Bold.json"
+            size={1}
+            height={0.2}
+            curveSegments={12}
+            bevelEnabled
+            bevelThickness={0.02}
+            bevelSize={0.02}
+            bevelOffset={0}
+            bevelSegments={5}
+          >
+            {text}
+            <Outlines thickness={0.05} color="#1a0a00" />
+          </Text3D>
+        </Center>
+      </group>
     </group>
   );
 }
 
-export function LogoText({ text, height, className = "" }: LogoTextProps) {
+export function LogoText({
+  text,
+  height,
+  className = "",
+  rotationDegrees = 1,
+  rotationSpeed = 0.5
+}: LogoTextProps) {
   return (
     <div
       className={className}
@@ -197,7 +222,11 @@ export function LogoText({ text, height, className = "" }: LogoTextProps) {
           yOffset={0.3}
         />
 
-        <Text3DScene text={text} />
+        <Text3DScene
+          text={text}
+          rotationDegrees={rotationDegrees}
+          rotationSpeed={rotationSpeed}
+        />
       </Canvas>
     </div>
   );
