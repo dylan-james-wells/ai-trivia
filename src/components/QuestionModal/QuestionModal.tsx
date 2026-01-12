@@ -193,7 +193,7 @@ export function QuestionModal({
       }}
     >
       <KeyboardContainer className="w-full">
-        <div className="p-6 max-h-[70vh] overflow-y-auto">
+        <div className="p-6 max-h-[70vh] overflow-y-auto w-full">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-600 font-bold">${question.points}</span>
