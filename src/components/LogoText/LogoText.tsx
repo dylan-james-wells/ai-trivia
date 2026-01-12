@@ -34,6 +34,9 @@ interface LogoTextProps {
   rotationDegrees?: number;
   rotationSpeed?: number;
   pixelSize?: number;
+  pixelPulseMin?: number;
+  pixelPulseMax?: number;
+  pixelPulseSpeed?: number;
 }
 
 const BREAKPOINTS = {
@@ -208,16 +211,28 @@ function PixelatedScene({
   text,
   rotationDegrees,
   rotationSpeed,
-  pixelSize
+  pixelSize,
+  pixelPulseMin,
+  pixelPulseMax,
+  pixelPulseSpeed
 }: {
   text: string;
   rotationDegrees: number;
   rotationSpeed: number;
   pixelSize: number;
+  pixelPulseMin?: number;
+  pixelPulseMax?: number;
+  pixelPulseSpeed?: number;
 }) {
   const { gl, size } = useThree();
   const [virtualScene] = useState(() => new Scene());
   const [cameraDistance, setCameraDistance] = useState(5);
+
+  // Determine if we're using pulse animation
+  const isPulsing = pixelPulseMin !== undefined && pixelPulseMax !== undefined;
+  const pulseMin = pixelPulseMin ?? pixelSize;
+  const pulseMax = pixelPulseMax ?? pixelSize;
+  const pulseSpeed = pixelPulseSpeed ?? 1;
 
   // Create perspective camera for the virtual scene
   const virtualCamera = useMemo(() => {
@@ -232,21 +247,19 @@ function PixelatedScene({
     return new OrthographicCamera(-1, 1, 1, -1, 0, 1);
   }, []);
 
-  // Create low-resolution FBO with nearest-neighbor filtering for pixelation
-  const fbo = useFBO(
-    Math.floor(size.width / pixelSize),
-    Math.floor(size.height / pixelSize),
-    {
-      minFilter: NearestFilter,
-      magFilter: NearestFilter,
-    }
-  );
+  // Create full-resolution FBO for the scene
+  const fbo = useFBO(size.width, size.height, {
+    minFilter: NearestFilter,
+    magFilter: NearestFilter,
+  });
 
-  // Screen quad mesh
+  // Screen quad mesh with pixelation shader
   const screenQuad = useMemo(() => {
     const material = new ShaderMaterial({
       uniforms: {
         tDiffuse: { value: null },
+        uResolution: { value: [size.width, size.height] },
+        uPixelSize: { value: pixelSize },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -257,9 +270,13 @@ function PixelatedScene({
       `,
       fragmentShader: `
         uniform sampler2D tDiffuse;
+        uniform vec2 uResolution;
+        uniform float uPixelSize;
         varying vec2 vUv;
         void main() {
-          gl_FragColor = texture2D(tDiffuse, vUv);
+          vec2 pixelCount = uResolution / uPixelSize;
+          vec2 pixelatedUv = floor(vUv * pixelCount) / pixelCount;
+          gl_FragColor = texture2D(tDiffuse, pixelatedUv);
         }
       `,
       depthTest: false,
@@ -267,7 +284,7 @@ function PixelatedScene({
     });
     const geometry = new PlaneGeometry(2, 2);
     return new Mesh(geometry, material);
-  }, []);
+  }, [size.width, size.height, pixelSize]);
 
   // Update virtual camera when text is measured
   useEffect(() => {
@@ -282,15 +299,25 @@ function PixelatedScene({
     virtualCamera.updateProjectionMatrix();
   }, [size.width, size.height, virtualCamera]);
 
-  useFrame(() => {
-    // Render virtual scene to low-res FBO
+  useFrame(({ clock }) => {
+    // Render virtual scene to FBO
     gl.setRenderTarget(fbo);
     gl.clear();
     gl.render(virtualScene, virtualCamera);
     gl.setRenderTarget(null);
 
+    // Animate pixel size if pulsing
+    const material = screenQuad.material as ShaderMaterial;
+    if (isPulsing) {
+      const t = clock.getElapsedTime() * pulseSpeed;
+      // Oscillate between pulseMin and pulseMax using sine wave
+      const range = pulseMax - pulseMin;
+      const animatedPixelSize = pulseMin + (Math.sin(t) * 0.5 + 0.5) * range;
+      material.uniforms.uPixelSize.value = animatedPixelSize;
+    }
+
     // Update screen quad texture
-    (screenQuad.material as ShaderMaterial).uniforms.tDiffuse.value = fbo.texture;
+    material.uniforms.tDiffuse.value = fbo.texture;
 
     // Render screen quad to screen
     gl.autoClear = false;
@@ -369,7 +396,10 @@ export function LogoText({
   className = "",
   rotationDegrees = 0,
   rotationSpeed = 0.5,
-  pixelSize
+  pixelSize,
+  pixelPulseMin,
+  pixelPulseMax,
+  pixelPulseSpeed
 }: LogoTextProps) {
   const currentHeight = useResponsiveHeight(height);
 
@@ -392,6 +422,9 @@ export function LogoText({
             rotationDegrees={rotationDegrees}
             rotationSpeed={rotationSpeed}
             pixelSize={pixelSize}
+            pixelPulseMin={pixelPulseMin}
+            pixelPulseMax={pixelPulseMax}
+            pixelPulseSpeed={pixelPulseSpeed}
           />
         ) : (
           <Text3DScene

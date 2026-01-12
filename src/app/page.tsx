@@ -227,12 +227,15 @@ export default function Home() {
     <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12 relative">
       <header className="text-center mb-8 relative">
         <LogoText
-          text="AI Trivia"
+          text="TrivAI"
           height={{
             base: 60,
             md: 80,
           }}
-          pixelSize={4}
+          pixelSize={1}
+          pixelPulseMin={1}
+          pixelPulseMax={3}
+          pixelPulseSpeed={4}
         />
         <p className="mt-4 text-blue-300">Jeopardy-style game powered by AI</p>
         {gameState.phase === "playing" && (
@@ -271,7 +274,7 @@ export default function Home() {
       {gameState.phase === "menu" && (
         <div className="max-w-lg mx-auto text-center">
           <div className="p-8">
-            <h2 className="text-2xl font-bold mb-6">Welcome to AI Trivia!</h2>
+            <h2 className="text-2xl font-bold mb-6">Welcome to TrivAI!</h2>
             <p className="text-blue-200 mb-8">
               A Jeopardy-style trivia game where AI generates questions and
               judges your answers.
