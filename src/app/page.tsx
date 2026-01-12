@@ -345,7 +345,7 @@ export default function Home() {
             />
           </div>
           {generating && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="fixed inset-0 flex items-center justify-center z-40 pointer-events-none">
               <div
                 className="text-center transition-all duration-300 ease-in-out origin-center"
                 style={{
@@ -354,7 +354,17 @@ export default function Home() {
                 }}
               >
                 <LoadingIndicator />
-                <p className="text-white text-lg mt-24">Generating questions...</p>
+                <p
+                  className="text-lg mt-24 font-semibold"
+                  style={{
+                    background: 'linear-gradient(135deg, #70c0ff 0%, #5090d0 40%, #22c55e 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  Generating questions...
+                </p>
               </div>
             </div>
           )}

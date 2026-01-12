@@ -23,7 +23,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: linear-gradient(135deg, #70c0ff 0%, #5090d0 50%, #22c55e 100%);
 }
 
 .banter-loader__box:nth-child(3n) {
