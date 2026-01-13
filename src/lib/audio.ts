@@ -130,6 +130,18 @@ class AudioManager {
     this.isMuted = muted;
     if (this.musicElement) {
       this.musicElement.volume = muted ? 0 : this.musicVolume;
+
+      // On mobile, we need to pause/play rather than just change volume
+      // because some browsers don't respect volume changes on paused audio
+      if (muted) {
+        this.musicElement.pause();
+        this.isPaused = true;
+      } else if (this.currentTrack !== 'none') {
+        this.isPaused = false;
+        this.musicElement.play().catch(() => {
+          console.log('Music play on unmute prevented');
+        });
+      }
     }
   }
 
