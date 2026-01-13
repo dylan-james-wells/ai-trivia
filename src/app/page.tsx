@@ -16,6 +16,7 @@ import {
 import { audioManager, MusicTrack } from "@/lib/audio";
 import { createDevGameState } from "@/lib/dev-game";
 import { KeyboardButton } from "@/components/KeyboardButton";
+import { KeyboardContainer } from "@/components/KeyboardContainer";
 import { LogoText } from "@/components/LogoText/LogoText";
 import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator";
 import { DebugMenu } from "@/components/DebugMenu/DebugMenu";
@@ -27,6 +28,7 @@ export default function Home() {
   const [showLoading, setShowLoading] = useState(false);
   const [error, setError] = useState("");
   const [showQuestion, setShowQuestion] = useState(false);
+  const [showMenuConfirm, setShowMenuConfirm] = useState(false);
 
   // Check if all questions are answered (game over)
   const isGameOver =
@@ -211,10 +213,8 @@ export default function Home() {
   };
 
   const handleBackToMenu = () => {
-    setGameState((prev) => ({
-      ...prev,
-      phase: "menu",
-    }));
+    clearGameState();
+    setGameState(createInitialState());
   };
 
   const handleBackToPlayers = () => {
@@ -272,7 +272,7 @@ export default function Home() {
         {gameState.phase === "playing" && (
           <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
             <KeyboardButton
-              onClick={handleNewGame}
+              onClick={() => setShowMenuConfirm(true)}
               bgColor="#70c0ff"
               hoverBgColor="#5090d0"
               borderColor="#4080c0"
@@ -403,6 +403,49 @@ export default function Home() {
 
       {/* Debug Menu (only in dev mode) */}
       <DebugMenu gameState={gameState} onUpdateGameState={setGameState} />
+
+      {/* Menu Confirmation Modal */}
+      {showMenuConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <KeyboardContainer
+            bgColor="#1e3a5f"
+            borderColor="#4080c0"
+            shadowBgColor="#0f2a4a"
+          >
+            <div className="p-6 text-center">
+              <h3 className="text-xl font-bold text-white mb-4">End Current Game?</h3>
+              <p className="text-blue-200 mb-6">
+                Returning to the menu will end your current game. This cannot be undone.
+              </p>
+              <div className="flex gap-4 justify-center">
+                <KeyboardButton
+                  onClick={() => setShowMenuConfirm(false)}
+                  bgColor="#70c0ff"
+                  hoverBgColor="#5090d0"
+                  borderColor="#4080c0"
+                  shadowBgColor="#3070b0"
+                  textColor="#ffffff"
+                >
+                  No, Continue
+                </KeyboardButton>
+                <KeyboardButton
+                  onClick={() => {
+                    setShowMenuConfirm(false);
+                    handleNewGame();
+                  }}
+                  bgColor="#ef4444"
+                  hoverBgColor="#dc2626"
+                  borderColor="#b91c1c"
+                  shadowBgColor="#991b1b"
+                  textColor="#ffffff"
+                >
+                  Yes, End Game
+                </KeyboardButton>
+              </div>
+            </div>
+          </KeyboardContainer>
+        </div>
+      )}
     </main>
   );
 }
