@@ -314,6 +314,7 @@ export default function Home() {
           pixelPulseMin={1}
           pixelPulseMax={3}
           pixelPulseSpeed={4}
+          fadeIn
         />
         <p className="mt-4 text-blue-300">Triva powered by AI</p>
       </header>

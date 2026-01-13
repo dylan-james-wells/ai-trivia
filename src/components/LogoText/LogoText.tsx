@@ -36,6 +36,9 @@ interface LogoTextProps {
   pixelPulseMin?: number;
   pixelPulseMax?: number;
   pixelPulseSpeed?: number;
+  fadeIn?: boolean;
+  fadeInDuration?: number;
+  fadeInDelay?: number;
 }
 
 const BREAKPOINTS = {
@@ -360,9 +363,22 @@ export function LogoText({
   pixelSize,
   pixelPulseMin,
   pixelPulseMax,
-  pixelPulseSpeed
+  pixelPulseSpeed,
+  fadeIn = false,
+  fadeInDuration = 1000,
+  fadeInDelay = 0
 }: LogoTextProps) {
   const currentHeight = useResponsiveHeight(height);
+  const [isVisible, setIsVisible] = useState(!fadeIn);
+
+  useEffect(() => {
+    if (fadeIn) {
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, fadeInDelay);
+      return () => clearTimeout(timer);
+    }
+  }, [fadeIn, fadeInDelay]);
 
   return (
     <div
@@ -371,6 +387,8 @@ export function LogoText({
         width: "100%",
         height: `${currentHeight}px`,
         margin: "0 auto",
+        opacity: isVisible ? 1 : 0,
+        transition: `opacity ${fadeInDuration}ms ease-in-out`,
       }}
     >
       <Canvas
