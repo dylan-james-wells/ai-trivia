@@ -31,21 +31,25 @@ function CategoryHeader({ category, index, isOverflowing, onOverflowChange }: Ca
   }, [category.name, index, onOverflowChange]);
 
   return (
-    <KeyboardContainer
-      className="category-header"
+    <KeyboardButton
+      disabled
       bgColor="#5090d0"
+      hoverBgColor="#5090d0"
       borderColor="#4080c0"
       shadowBgColor="#3070b0"
+      textColor="#ffffff"
+      fontSize="1.25rem"
+      className="w-full question-cell category-header-btn"
     >
       <span
         ref={textRef}
-        className="category-header-text text-white font-bold text-sm text-center w-full"
+        className="category-header-text"
         data-tooltip-id={isOverflowing ? "category-tooltip" : undefined}
         data-tooltip-content={isOverflowing ? category.name : undefined}
       >
         {category.name}
       </span>
-    </KeyboardContainer>
+    </KeyboardButton>
   );
 }
 

@@ -13,24 +13,6 @@
   &.category > .keyboard-container {
     gap: 20px;
   }
-
-  &.category-header {
-    margin-bottom: 1em;
-  }
-
-  &.category-header > .keyboard-container {
-    padding: 0.75em 0.5em;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  &.category-header .category-header-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    max-width: 100%;
-  }
 }
 
 .keyboard-container-wrapper::before {

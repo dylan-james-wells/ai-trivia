@@ -6,6 +6,21 @@
   min-height: 2.5em;
 }
 
+/* Category Header Buttons */
+.keyboard-button.category-header-btn {
+  cursor: default;
+  text-transform: none;
+}
+
+.keyboard-button.category-header-btn .category-header-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100%;
+  pointer-events: auto;
+}
+
 /* Use invisible content to maintain height when empty */
 .keyboard-button.question-cell .keyboard-button-text:empty::before {
   content: "\00a0";
