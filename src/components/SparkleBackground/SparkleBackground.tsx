@@ -115,7 +115,7 @@ export function SparkleBackground({ shootingStarCount = SHOOTING_STAR_COUNT }: S
   }, []);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none min-h-[100dvh]">
       {/* Layer 1: Animated Gradient Background */}
       <div
         className="absolute inset-0 animate-gradient-shift"
