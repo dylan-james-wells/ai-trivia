@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useCallback } from "react";
 import "./LoadingIndicator.css";
 
 interface LoadingIndicatorProps {
@@ -54,11 +55,96 @@ const icons = [
   </svg>,
 ];
 
+// Size of each icon box
+const BOX_SIZE = 60;
+// Threshold for overlap detection (distance between centers)
+const OVERLAP_THRESHOLD = BOX_SIZE * 0.7;
+
 export function LoadingIndicator({ className = "" }: LoadingIndicatorProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const boxRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const animationFrameRef = useRef<number>();
+
+  const checkOverlaps = useCallback(() => {
+    const boxes = boxRefs.current;
+    if (!boxes.length) return;
+
+    // Get current positions of all SVG elements (they move within the box)
+    const positions: { x: number; y: number }[] = [];
+
+    boxes.forEach((box) => {
+      if (!box) {
+        positions.push({ x: 0, y: 0 });
+        return;
+      }
+
+      const svg = box.querySelector('svg');
+      if (!svg) {
+        positions.push({ x: 0, y: 0 });
+        return;
+      }
+
+      const rect = svg.getBoundingClientRect();
+      positions.push({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      });
+    });
+
+    // Check each pair of boxes for overlap
+    const overlapping = new Set<number>();
+
+    for (let i = 0; i < positions.length; i++) {
+      for (let j = i + 1; j < positions.length; j++) {
+        const dx = positions[i].x - positions[j].x;
+        const dy = positions[i].y - positions[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < OVERLAP_THRESHOLD) {
+          // The higher-indexed box fades out when overlapping
+          overlapping.add(j);
+        }
+      }
+    }
+
+    // Apply opacity to boxes
+    boxes.forEach((box, index) => {
+      if (!box) return;
+      const svg = box.querySelector('svg');
+      if (!svg) return;
+
+      if (overlapping.has(index)) {
+        svg.style.opacity = '0.2';
+        svg.style.filter = 'blur(2px)';
+      } else {
+        svg.style.opacity = '1';
+        svg.style.filter = 'blur(0px)';
+      }
+    });
+
+    // Continue the animation loop
+    animationFrameRef.current = requestAnimationFrame(checkOverlaps);
+  }, []);
+
+  useEffect(() => {
+    // Start the overlap detection loop
+    animationFrameRef.current = requestAnimationFrame(checkOverlaps);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [checkOverlaps]);
+
+  const setBoxRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
+    boxRefs.current[index] = el;
+  }, []);
+
   return (
-    <div className={`banter-loader ${className}`}>
+    <div ref={containerRef} className={`banter-loader ${className}`}>
       {icons.map((icon, index) => (
-        <div key={index} className="banter-loader__box">
+        <div key={index} ref={setBoxRef(index)} className="banter-loader__box">
           {icon}
         </div>
       ))}

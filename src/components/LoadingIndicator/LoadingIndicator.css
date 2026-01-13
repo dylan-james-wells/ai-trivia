@@ -23,6 +23,7 @@
   width: 100%;
   height: 100%;
   color: var(--color-primary);
+  transition: opacity 0.15s ease-out, filter 0.15s ease-out;
 }
 
 /* Color oscillation animation - all icons oscillate between light and dark blue */
