@@ -7,11 +7,12 @@ import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator
 interface DebugMenuProps {
   gameState: GameState;
   onUpdateGameState: (updater: (prev: GameState) => GameState) => void;
+  showLoadingPreview?: boolean;
+  onToggleLoadingPreview?: () => void;
 }
 
-export function DebugMenu({ gameState, onUpdateGameState }: DebugMenuProps) {
+export function DebugMenu({ gameState, onUpdateGameState, showLoadingPreview = false, onToggleLoadingPreview }: DebugMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [showLoadingPreview, setShowLoadingPreview] = useState(false);
 
   if (process.env.NEXT_PUBLIC_DEV_MODE !== "1") {
     return null;
@@ -78,7 +79,7 @@ export function DebugMenu({ gameState, onUpdateGameState }: DebugMenuProps) {
             </button>
             <div className="border-t border-gray-600 my-2" />
             <button
-              onClick={() => setShowLoadingPreview(!showLoadingPreview)}
+              onClick={onToggleLoadingPreview}
               className={`w-full text-left px-3 py-2 text-sm rounded text-white ${
                 showLoadingPreview
                   ? "bg-blue-600 hover:bg-blue-500"
@@ -94,17 +95,6 @@ export function DebugMenu({ gameState, onUpdateGameState }: DebugMenuProps) {
         </div>
       )}
 
-      {/* Loading Indicator Preview */}
-      {showLoadingPreview && (
-        <div className="fixed inset-0 bg-black/80 flex flex-col items-center justify-center z-40">
-          <div className="relative">
-            <LoadingIndicator />
-            <p className="text-lg mt-24 font-semibold text-white">
-              Generating questions...
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

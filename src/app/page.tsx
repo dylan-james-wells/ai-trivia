@@ -29,6 +29,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [showQuestion, setShowQuestion] = useState(false);
   const [showMenuConfirm, setShowMenuConfirm] = useState(false);
+  const [debugLoadingPreview, setDebugLoadingPreview] = useState(false);
 
   // Check if all questions are answered (game over)
   const isGameOver =
@@ -282,14 +283,25 @@ export default function Home() {
         )}
       </header>
 
-      {error && (
+      {error && !debugLoadingPreview && (
         <div className="max-w-md mx-auto mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
           {error}
         </div>
       )}
 
+      {/* Debug Loading Preview */}
+      {debugLoadingPreview && (
+        <div className="fixed inset-0 flex items-center justify-center z-30 pointer-events-none">
+          <div className="text-center">
+            <LoadingIndicator />
+            <p className="text-lg mt-64 font-semibold text-white">
+              Generating questions...
+            </p>
+          </div>
+        </div>
+      )}
 
-      {gameState.phase === "menu" && (
+      {gameState.phase === "menu" && !debugLoadingPreview && (
         <div className="max-w-lg mx-auto text-center">
           <div className="p-8">
             <h2 className="text-2xl font-bold mb-6">Welcome to TrivAI!</h2>
@@ -317,14 +329,14 @@ export default function Home() {
         </div>
       )}
 
-      {gameState.phase === "setup" && (
+      {gameState.phase === "setup" && !debugLoadingPreview && (
         <PlayerSetup
           onComplete={handlePlayersComplete}
           onBack={handleBackToMenu}
         />
       )}
 
-      {(gameState.phase === "categories" || generating) && (
+      {(gameState.phase === "categories" || generating) && !debugLoadingPreview && (
         <div className="relative">
           <div className={generating ? 'pointer-events-none' : ''}>
             <CategorySetup
@@ -352,7 +364,7 @@ export default function Home() {
         </div>
       )}
 
-      {gameState.phase === "playing" && (
+      {gameState.phase === "playing" && !debugLoadingPreview && (
         <div className="relative">
           {/* GameBoard - always rendered to maintain layout height */}
           <div
@@ -390,7 +402,12 @@ export default function Home() {
       <AudioControls currentTrack={currentTrack} />
 
       {/* Debug Menu (only in dev mode) */}
-      <DebugMenu gameState={gameState} onUpdateGameState={setGameState} />
+      <DebugMenu
+        gameState={gameState}
+        onUpdateGameState={setGameState}
+        showLoadingPreview={debugLoadingPreview}
+        onToggleLoadingPreview={() => setDebugLoadingPreview(!debugLoadingPreview)}
+      />
 
       {/* Menu Confirmation Modal */}
       {showMenuConfirm && (
