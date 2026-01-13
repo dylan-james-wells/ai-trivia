@@ -336,11 +336,12 @@ export function QuestionModal({
               <p className="text-center text-gray-900 font-semibold mb-4">
                 Moderator: Was {currentPlayer.name}&apos;s answer correct?
               </p>
-              <div className="flex gap-4 items-center">
+              <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(true)}
                   theme="warning"
                   className="flex-1"
+                  fontSize="0.75rem"
                 >
                   Yes, Correct (+${question.points})
                 </KeyboardButton>
@@ -348,6 +349,7 @@ export function QuestionModal({
                   onClick={() => handleModeratorDecision(false)}
                   theme="warning"
                   className="flex-1"
+                  fontSize="0.75rem"
                 >
                   No, Incorrect (-${question.points})
                 </KeyboardButton>
