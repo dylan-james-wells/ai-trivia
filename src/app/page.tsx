@@ -268,7 +268,7 @@ export default function Home() {
           pixelPulseMax={3}
           pixelPulseSpeed={4}
         />
-        <p className="mt-4 text-blue-300">Jeopardy-style game powered by AI</p>
+        <p className="mt-4 text-blue-300">Triva powered by AI</p>
         {gameState.phase === "playing" && (
           <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
             <KeyboardButton

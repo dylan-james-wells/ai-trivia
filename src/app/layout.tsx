@@ -9,7 +9,7 @@ const play = Play({
 });
 
 export const metadata: Metadata = {
-  title: "AI Trivia - Jeopardy Style Game",
+  title: "TrivAI - AI-based Trivia Game",
   description: "A multiplayer trivia game powered by AI",
 };
 
