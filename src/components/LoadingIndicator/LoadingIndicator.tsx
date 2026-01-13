@@ -88,6 +88,47 @@ export function LoadingIndicator({ className = "" }: LoadingIndicatorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const boxRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animationFrameRef = useRef<number>();
+  const pulseTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+
+  // Random pulse effect for SVGs
+  useEffect(() => {
+    const triggerRandomPulse = () => {
+      const boxes = boxRefs.current.filter(Boolean);
+      if (boxes.length === 0) return;
+
+      // Pick a random box
+      const randomIndex = Math.floor(Math.random() * boxes.length);
+      const box = boxes[randomIndex];
+      const svg = box?.querySelector('svg');
+
+      if (svg) {
+        // Apply pulse scale
+        svg.style.transition = 'transform 0.15s ease-out';
+        svg.style.transform = 'scale(1.3)';
+
+        // Reset after pulse
+        const resetTimeout = setTimeout(() => {
+          svg.style.transition = 'transform 0.3s ease-in';
+          svg.style.transform = 'scale(1)';
+        }, 150);
+
+        pulseTimeoutsRef.current.push(resetTimeout);
+      }
+
+      // Schedule next random pulse (between 200ms and 800ms)
+      const nextTimeout = setTimeout(triggerRandomPulse, 200 + Math.random() * 600);
+      pulseTimeoutsRef.current.push(nextTimeout);
+    };
+
+    // Start the random pulse loop
+    const initialTimeout = setTimeout(triggerRandomPulse, 500);
+    pulseTimeoutsRef.current.push(initialTimeout);
+
+    return () => {
+      pulseTimeoutsRef.current.forEach(clearTimeout);
+      pulseTimeoutsRef.current = [];
+    };
+  }, []);
 
   const checkOverlaps = useCallback(() => {
     const boxes = boxRefs.current;
