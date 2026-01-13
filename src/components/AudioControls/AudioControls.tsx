@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { audioManager, MusicTrack } from "@/lib/audio";
+import { KeyboardCircleButton } from "@/components/KeyboardCircleButton";
+import { KeyboardContainer } from "@/components/KeyboardContainer";
+import "./AudioControls.css";
 
 interface AudioControlsProps {
   currentTrack: MusicTrack;
@@ -61,44 +64,52 @@ export function AudioControls({ currentTrack }: AudioControlsProps) {
       <div className="relative">
         {/* Volume Panel */}
         {showVolume && (
-          <div className="absolute bottom-12 right-0 bg-white rounded-lg shadow-lg p-4 mb-2 min-w-[200px]">
-            <div className="mb-3">
-              <label className="text-sm text-gray-700 block mb-1">Music</label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.1"
-                value={musicVolume}
-                onChange={handleMusicVolumeChange}
-                className="w-full"
-              />
-            </div>
-            <div>
-              <label className="text-sm text-gray-700 block mb-1">Sound Effects</label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.1"
-                value={sfxVolume}
-                onChange={handleSfxVolumeChange}
-                className="w-full"
-              />
-            </div>
+          <div className="absolute bottom-14 right-0 mb-2">
+            <KeyboardContainer
+              bgColor="#70c0ff"
+              borderColor="#4080c0"
+              shadowBgColor="#3070b0"
+            >
+              <div className="p-3 min-w-[180px]">
+                <div className="mb-3">
+                  <label className="text-sm text-white font-semibold block mb-1">Music</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={musicVolume}
+                    onChange={handleMusicVolumeChange}
+                    className="audio-slider w-full"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-white font-semibold block mb-1">Sound Effects</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={sfxVolume}
+                    onChange={handleSfxVolumeChange}
+                    className="audio-slider w-full"
+                  />
+                </div>
+              </div>
+            </KeyboardContainer>
           </div>
         )}
 
         {/* Control Buttons */}
-        <div className="flex gap-2">
-          <button
+        <div className="flex gap-3">
+          <KeyboardCircleButton
             onClick={() => setShowVolume(!showVolume)}
-            className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors"
             title="Volume settings"
+            size="2.75rem"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700"
+              className="h-5 w-5 text-white"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -116,16 +127,16 @@ export function AudioControls({ currentTrack }: AudioControlsProps) {
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-          </button>
-          <button
+          </KeyboardCircleButton>
+          <KeyboardCircleButton
             onClick={handleToggleMute}
-            className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors"
             title={isMuted ? "Unmute" : "Mute"}
+            size="2.75rem"
           >
             {isMuted ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-gray-700"
+                className="h-5 w-5 text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -146,7 +157,7 @@ export function AudioControls({ currentTrack }: AudioControlsProps) {
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-gray-700"
+                className="h-5 w-5 text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -159,7 +170,7 @@ export function AudioControls({ currentTrack }: AudioControlsProps) {
                 />
               </svg>
             )}
-          </button>
+          </KeyboardCircleButton>
         </div>
       </div>
     </div>
