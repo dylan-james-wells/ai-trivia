@@ -43,6 +43,7 @@ Determine if this is a valid trivia category. A valid category:
 
 IMPORTANT: Be permissive! This is a trivia game for adults. Topics like history, war, weapons, alcohol, gambling, true crime, sexuality, and other mature subjects are perfectly acceptable. The only things to reject are:
 - Pure gibberish/nonsense text
+- Explicit sexual descriptions (but trivia about the adult entertainment industry is allowed)
 - Content involving minors in sexual contexts
 - Content promoting illegal activity against specific people
 
