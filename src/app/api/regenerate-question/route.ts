@@ -38,13 +38,19 @@ Point value: ${points}
 
 ${oldQuestion ? `The previous question was: "${oldQuestion}" - please generate a DIFFERENT question.` : ""}
 
+IMPORTANT RULES:
+- Do NOT use Jeopardy-style "What is..." or "Who is..." answer format. Answers should be plain and direct (e.g., "Blade Runner" not "What is Blade Runner?").
+- MEDIUM MATTERS: Movies and TV shows are DIFFERENT. If the category says "movies" or "films", only use theatrical films - never TV shows. If it says "TV" or "television", only use TV shows - never movies.
+- SEQUEL NAMING: When a question refers to a specific film in a franchise, the answer must be unambiguous. Use distinctive subtitles or specify the sequel number. Do NOT use just the franchise name when asking about a specific installment.
+- QUESTION VARIETY: Don't just ask "What movie/song/animal is this?" - also ask about specific scenes, characters, quotes, behavior, records, or trivia to test different types of knowledge.
+
 Respond in JSON format:
 {
   "question": "The question text",
   "answer": "The correct answer (be specific but concise)"
 }
 
-Only respond with the JSON, no other text.`,
+CRITICAL: Respond with ONLY the raw JSON object. Do NOT wrap it in markdown code blocks.`,
         },
       ],
     });
