@@ -167,3 +167,8 @@ Categories in demo mode:
 - Video Games 2010-2020
 - Movies 1980-1989
 - African Animals
+
+## License
+
+This project is licensed under CC BY-NC-SA 4.0 - you may view and learn
+from the code, but commercial use is not permitted. See LICENSE for details.
