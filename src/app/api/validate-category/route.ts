@@ -41,9 +41,9 @@ Determine if this is a valid trivia category. A valid category:
 1. Is recognizable as a coherent topic (not random gibberish like "asdfgh" or "dsjkdsalkj")
 2. Could have trivia questions written about it
 
-IMPORTANT: Be permissive! This is a trivia game for adults. Topics like history, war, weapons, alcohol, gambling, true crime, and other mature subjects are perfectly acceptable. The only things to reject are:
+IMPORTANT: Be permissive! This is a trivia game for adults. Topics like history, war, weapons, alcohol, gambling, true crime, sexuality, and other mature subjects are perfectly acceptable. The only things to reject are:
 - Pure gibberish/nonsense text
-- Explicit sexual content
+- Content involving minors in sexual contexts
 - Content promoting illegal activity against specific people
 
 Respond in JSON format:
