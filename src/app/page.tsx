@@ -21,6 +21,52 @@ import { LogoText } from "@/components/LogoText/LogoText";
 import { LoadingIndicator, LoadingText } from "@/components/LoadingIndicator/LoadingIndicator";
 import { DebugMenu } from "@/components/DebugMenu/DebugMenu";
 
+// Menu button that's fixed but aligns with logo on desktop when at top of page
+function MenuButton({ onClick }: { onClick: () => void }) {
+  const [scrollY, setScrollY] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+
+    // Initialize
+    handleResize();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // On desktop (md+), position relative to logo when near top
+  // pt-12 = 48px, logo height = 80px, button height ~36px
+  // To center button with logo: logoTop + (logoHeight - buttonHeight) / 2
+  // = 48 + (80 - 36) / 2 = 48 + 22 = 70
+  const buttonTop = 60;
+  const desktopTop = Math.max(16, buttonTop - scrollY);
+
+  if (isDesktop) {
+    return (
+      <div className="fixed left-4 z-40" style={{ top: `${desktopTop}px` }}>
+        <KeyboardButton onClick={onClick} theme="primary" fontSize="0.75rem">
+          Menu
+        </KeyboardButton>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed left-4 bottom-4 z-40">
+      <KeyboardButton onClick={onClick} theme="primary" fontSize="0.75rem">
+        Menu
+      </KeyboardButton>
+    </div>
+  );
+}
+
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
   const [loading, setLoading] = useState(true);
@@ -256,7 +302,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4 pt-12 md:p-8 md:pt-12 relative">
+    <main className="min-h-screen p-4 pt-12 pb-20 md:p-8 md:pt-12 md:pb-20 relative">
       <header className="text-center mb-8 relative">
         <LogoText
           text="TrivAI"
@@ -270,17 +316,6 @@ export default function Home() {
           pixelPulseSpeed={4}
         />
         <p className="mt-4 text-blue-300">Triva powered by AI</p>
-        {gameState.phase === "playing" && (
-          <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
-            <KeyboardButton
-              onClick={() => setShowMenuConfirm(true)}
-              theme="primary"
-              fontSize="0.75rem"
-            >
-              Menu
-            </KeyboardButton>
-          </div>
-        )}
       </header>
 
       {error && !debugLoadingPreview && (
@@ -400,6 +435,9 @@ export default function Home() {
 
       {/* Audio Controls */}
       <AudioControls currentTrack={currentTrack} />
+
+      {/* Menu Button (fixed position, only during playing phase) */}
+      {gameState.phase === "playing" && <MenuButton onClick={() => setShowMenuConfirm(true)} />}
 
       {/* Debug Menu (only in dev mode) */}
       <DebugMenu
