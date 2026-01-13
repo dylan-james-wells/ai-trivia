@@ -343,7 +343,7 @@ export default function Home() {
                 }}
               >
                 <LoadingIndicator />
-                <p className="text-lg mt-24 font-semibold text-white">
+                <p className="text-lg mt-64 font-semibold text-white">
                   Generating questions...
                 </p>
               </div>
