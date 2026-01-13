@@ -14,6 +14,7 @@ interface CategorySetupProps {
 
 export function CategorySetup({ onComplete, onBack, isHidden = false }: CategorySetupProps) {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [removedCategories, setRemovedCategories] = useState<string[]>([]);
   const [currentCategory, setCurrentCategory] = useState("");
   const [pendingCategory, setPendingCategory] = useState<{
     name: string;
@@ -82,6 +83,8 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
   };
 
   const removeCategory = (index: number) => {
+    const removedName = categories[index].name;
+    setRemovedCategories([...removedCategories, removedName]);
     setCategories(categories.filter((_, i) => i !== index));
   };
 
@@ -101,7 +104,7 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
       const response = await fetch("/api/suggest-categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ existingCategories: categories }),
+        body: JSON.stringify({ existingCategories: categories, removedCategories }),
       });
 
       const data = await response.json();

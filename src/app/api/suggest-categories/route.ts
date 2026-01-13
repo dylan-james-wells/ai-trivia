@@ -22,8 +22,9 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { existingCategories } = await request.json();
+    const { existingCategories, removedCategories } = await request.json();
     const existing = Array.isArray(existingCategories) ? existingCategories : [];
+    const removed = Array.isArray(removedCategories) ? removedCategories : [];
     const needed = TOTAL_CATEGORIES - existing.length;
 
     if (needed <= 0) {
@@ -34,6 +35,10 @@ export async function POST(request: Request) {
 
     let prompt: string;
 
+    const removedNote = removed.length > 0
+      ? `\n- Do NOT suggest these previously removed categories: ${removed.join(", ")}`
+      : "";
+
     if (existing.length === 0) {
       // No existing categories - generate diverse random categories
       prompt = `Generate ${needed} diverse trivia categories for a Jeopardy-style game.
@@ -42,7 +47,7 @@ The categories should:
 - Be varied and interesting (mix of topics like history, science, pop culture, geography, sports, arts, etc.)
 - Be specific enough to be interesting (e.g., "80s Action Movies" is better than just "Movies")
 - Appeal to a general adult audience
-- NOT be overly niche or obscure
+- NOT be overly niche or obscure${removedNote}
 
 Respond in JSON format:
 {
@@ -62,7 +67,7 @@ The new categories should:
 - Thematically relate to or complement the existing ones (e.g., if there's "80s Movies", suggest "80s Music" or "80s TV Shows")
 - Maintain variety - don't just repeat the same theme with slight variations
 - Be specific enough to be interesting
-- Appeal to a general adult audience
+- Appeal to a general adult audience${removedNote}
 
 Respond in JSON format:
 {
