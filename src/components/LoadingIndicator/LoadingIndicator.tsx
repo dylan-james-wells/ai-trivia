@@ -87,7 +87,7 @@ export function LoadingText({ children, className = "" }: LoadingTextProps) {
 export function LoadingIndicator({ className = "" }: LoadingIndicatorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const boxRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
   const pulseTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
 
   // Random pulse effect for SVGs
