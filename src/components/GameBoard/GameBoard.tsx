@@ -33,11 +33,9 @@ function CategoryHeader({ category, index, isOverflowing, onOverflowChange }: Ca
   return (
     <KeyboardButton
       disabled
+      theme="primary"
       bgColor="var(--color-primary-hover)"
       hoverBgColor="var(--color-primary-hover)"
-      borderColor="var(--color-primary-border)"
-      shadowBgColor="var(--color-primary-shadow)"
-      textColor="var(--color-text-white)"
       fontSize="1.25rem"
       className="w-full question-cell category-header-btn"
     >
@@ -223,11 +221,8 @@ export function GameBoard({
                 key={`${categoryIndex}-${difficultyIndex}`}
                 onClick={() => question && !isAnswered && onSelectQuestion(question)}
                 disabled={isAnswered || !question}
-                bgColor={isAnswered ? "var(--color-answered-bg)" : "var(--color-primary)"}
-                hoverBgColor={isAnswered ? "var(--color-answered-bg)" : "var(--color-primary-hover)"}
-                borderColor={isAnswered ? "var(--color-answered-border)" : "var(--color-primary-border)"}
-                shadowBgColor={isAnswered ? "var(--color-answered-border)" : "var(--color-primary-shadow)"}
-                textColor={isAnswered ? "var(--color-answered-text)" : "var(--color-bg-modal)"}
+                theme={isAnswered ? "answered" : "primary"}
+                textColor={isAnswered ? undefined : "var(--color-bg-modal)"}
                 fontSize="1.25rem"
                 className="w-full question-cell"
               >

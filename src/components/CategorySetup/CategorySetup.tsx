@@ -152,22 +152,14 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
             <KeyboardButton
               onClick={validateCategory}
               disabled={loading || autoLoading}
-              bgColor="var(--color-primary)"
-              hoverBgColor="var(--color-primary-hover)"
-              borderColor="var(--color-primary-border)"
-              shadowBgColor="var(--color-primary-shadow)"
-              textColor="var(--color-text-white)"
+              theme="primary"
             >
               {loading ? "Checking..." : "Add"}
             </KeyboardButton>
             <KeyboardButton
               onClick={handleAutoSuggest}
               disabled={loading || autoLoading}
-              bgColor="var(--color-success)"
-              hoverBgColor="var(--color-success-hover)"
-              borderColor="var(--color-success-border)"
-              shadowBgColor="var(--color-success-hover)"
-              textColor="var(--color-text-white)"
+              theme="success"
             >
               {autoLoading ? "..." : "Auto"}
             </KeyboardButton>
@@ -188,24 +180,10 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
                 <strong>AI interpretation:</strong> {pendingCategory.interpretation}
               </p>
               <div className="flex gap-2">
-                <KeyboardButton
-                  onClick={confirmCategory}
-                  bgColor="var(--color-success)"
-                  hoverBgColor="var(--color-success-hover)"
-                  borderColor="var(--color-success-border)"
-                  shadowBgColor="var(--color-success-hover)"
-                  textColor="var(--color-text-white)"
-                >
+                <KeyboardButton onClick={confirmCategory} theme="success">
                   Confirm
                 </KeyboardButton>
-                <KeyboardButton
-                  onClick={rejectCategory}
-                  bgColor="var(--color-primary)"
-                  hoverBgColor="var(--color-primary-hover)"
-                  borderColor="var(--color-primary-border)"
-                  shadowBgColor="var(--color-primary-shadow)"
-                  textColor="var(--color-text-white)"
-                >
+                <KeyboardButton onClick={rejectCategory} theme="primary">
                   Try Again
                 </KeyboardButton>
               </div>
@@ -231,11 +209,7 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
                   </div>
                   <KeyboardButton
                     onClick={() => removeCategory(index)}
-                    bgColor="var(--color-destructive-bg)"
-                    hoverBgColor="var(--color-destructive-hover)"
-                    borderColor="var(--color-destructive)"
-                    shadowBgColor="var(--color-destructive-shadow)"
-                    textColor="var(--color-destructive)"
+                    theme="destructive-outline"
                     fontSize="0.75rem"
                   >
                     Remove
@@ -248,24 +222,13 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
       )}
 
       <div className="flex gap-4 items-center">
-        <KeyboardButton
-          onClick={onBack}
-          bgColor="var(--color-gray-100)"
-          hoverBgColor="var(--color-gray-200)"
-          borderColor="var(--color-gray-300)"
-          shadowBgColor="var(--color-gray-200)"
-          textColor="var(--color-gray-700)"
-        >
+        <KeyboardButton onClick={onBack} theme="gray">
           Back
         </KeyboardButton>
         {categories.length === TOTAL_CATEGORIES ? (
           <KeyboardButton
             onClick={handleComplete}
-            bgColor="var(--color-primary)"
-            hoverBgColor="var(--color-primary-hover)"
-            borderColor="var(--color-primary-border)"
-            shadowBgColor="var(--color-primary-shadow)"
-            textColor="var(--color-text-white)"
+            theme="primary"
             className="flex-1"
           >
             Generate Questions

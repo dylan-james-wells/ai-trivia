@@ -77,11 +77,7 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           <KeyboardButton
             onClick={addPlayer}
             pressed={addButtonPressed}
-            bgColor="var(--color-primary)"
-            hoverBgColor="var(--color-primary-hover)"
-            borderColor="var(--color-primary-border)"
-            shadowBgColor="var(--color-primary-shadow)"
-            textColor="var(--color-text-white)"
+            theme="primary"
           >
             Add
           </KeyboardButton>
@@ -99,11 +95,7 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
                   <span className="text-gray-900">{player.name}</span>
                   <KeyboardButton
                     onClick={() => removePlayer(player.id)}
-                    bgColor="var(--color-destructive-bg)"
-                    hoverBgColor="var(--color-destructive-hover)"
-                    borderColor="var(--color-destructive)"
-                    shadowBgColor="var(--color-destructive-shadow)"
-                    textColor="var(--color-destructive)"
+                    theme="destructive-outline"
                     fontSize="0.75rem"
                   >
                     Remove
@@ -116,24 +108,13 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
       )}
 
       <div className="flex gap-4 items-center">
-        <KeyboardButton
-          onClick={onBack}
-          bgColor="var(--color-gray-100)"
-          hoverBgColor="var(--color-gray-200)"
-          borderColor="var(--color-gray-300)"
-          shadowBgColor="var(--color-gray-200)"
-          textColor="var(--color-gray-700)"
-        >
+        <KeyboardButton onClick={onBack} theme="gray">
           Back
         </KeyboardButton>
         {players.length >= 2 ? (
           <KeyboardButton
             onClick={handleSubmit}
-            bgColor="var(--color-primary)"
-            hoverBgColor="var(--color-primary-hover)"
-            borderColor="var(--color-primary-border)"
-            shadowBgColor="var(--color-primary-shadow)"
-            textColor="var(--color-text-white)"
+            theme="primary"
             className="flex-1"
           >
             Continue

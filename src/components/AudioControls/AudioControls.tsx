@@ -66,9 +66,7 @@ export function AudioControls({ currentTrack }: AudioControlsProps) {
         {showVolume && (
           <div className="absolute bottom-14 right-0 mb-2">
             <KeyboardContainer
-              bgColor="var(--color-primary)"
-              borderColor="var(--color-primary-border)"
-              shadowBgColor="var(--color-primary-shadow)"
+              theme="primary"
             >
               <div className="p-3 min-w-[180px]">
                 <div className="mb-3">

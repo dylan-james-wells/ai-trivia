@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useState } from "react";
+import { KeyboardTheme, getThemeColors } from "@/lib/themes";
 import "./KeyboardCircleButton.css";
 
 interface KeyboardCircleButtonProps {
@@ -8,6 +9,7 @@ interface KeyboardCircleButtonProps {
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
+  theme?: KeyboardTheme;
   bgColor?: string;
   hoverBgColor?: string;
   borderColor?: string;
@@ -23,16 +25,24 @@ export function KeyboardCircleButton({
   onClick,
   className = "",
   disabled = false,
-  bgColor = "var(--color-primary)",
-  hoverBgColor = "var(--color-primary-hover)",
-  borderColor = "var(--color-primary-border)",
-  shadowBgColor = "var(--color-primary-shadow)",
+  theme,
+  bgColor,
+  hoverBgColor,
+  borderColor,
+  shadowBgColor,
   shadowColor = "var(--color-shadow)",
   shadowOpacity = 0.1,
   size = "3rem",
   title,
 }: KeyboardCircleButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
+
+  const colors = getThemeColors(theme, "primary", {
+    bgColor,
+    hoverBgColor,
+    borderColor,
+    shadowBgColor,
+  });
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -58,10 +68,10 @@ export function KeyboardCircleButton({
       className={`keyboard-circle-button ${disabled ? "keyboard-circle-button-disabled" : ""} ${isPressed ? "keyboard-circle-button-pressed" : ""} ${className}`}
       style={
         {
-          "--kcb-bg": bgColor,
-          "--kcb-hover-bg": hoverBgColor,
-          "--kcb-border": borderColor,
-          "--kcb-shadow-bg": shadowBgColor,
+          "--kcb-bg": colors.bgColor,
+          "--kcb-hover-bg": colors.hoverBgColor,
+          "--kcb-border": colors.borderColor,
+          "--kcb-shadow-bg": colors.shadowBgColor,
           "--kcb-shadow": shadowColor,
           "--kcb-shadow-opacity": shadowOpacity,
           "--kcb-size": size,

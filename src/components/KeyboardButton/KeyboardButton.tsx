@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useState } from "react";
+import { KeyboardTheme, getThemeColors } from "@/lib/themes";
 import "./KeyboardButton.css";
 
 interface KeyboardButtonProps {
@@ -9,6 +10,7 @@ interface KeyboardButtonProps {
   className?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  theme?: KeyboardTheme;
   bgColor?: string;
   hoverBgColor?: string;
   borderColor?: string;
@@ -26,18 +28,27 @@ export function KeyboardButton({
   className = "",
   disabled = false,
   type = "button",
-  bgColor = "var(--color-secondary-bg)",
-  hoverBgColor = "var(--color-secondary-hover)",
-  borderColor = "var(--color-secondary-border)",
-  shadowBgColor = "var(--color-secondary-shadow)",
+  theme,
+  bgColor,
+  hoverBgColor,
+  borderColor,
+  shadowBgColor,
   shadowColor = "var(--color-shadow)",
   shadowOpacity = 0.1,
-  textColor = "var(--color-secondary-text)",
+  textColor,
   fontSize = "1rem",
   pressed = false,
 }: KeyboardButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
   const showPressed = isPressed || pressed;
+
+  const colors = getThemeColors(theme, "secondary", {
+    bgColor,
+    hoverBgColor,
+    borderColor,
+    shadowBgColor,
+    textColor,
+  });
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -62,13 +73,13 @@ export function KeyboardButton({
       className={`keyboard-button ${disabled ? "keyboard-button-disabled" : ""} ${showPressed ? "keyboard-button-pressed" : ""} ${className}`}
       style={
         {
-          "--kb-bg": bgColor,
-          "--kb-hover-bg": hoverBgColor,
-          "--kb-border": borderColor,
-          "--kb-shadow-bg": shadowBgColor,
+          "--kb-bg": colors.bgColor,
+          "--kb-hover-bg": colors.hoverBgColor,
+          "--kb-border": colors.borderColor,
+          "--kb-shadow-bg": colors.shadowBgColor,
           "--kb-shadow": shadowColor,
           "--kb-shadow-opacity": shadowOpacity,
-          "--kb-text": textColor,
+          "--kb-text": colors.textColor,
           "--kb-font-size": fontSize,
         } as React.CSSProperties
       }

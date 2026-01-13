@@ -228,33 +228,21 @@ export function QuestionModal({
             <div className="flex gap-2 mt-4 mb-2 items-center">
               <KeyboardButton
                 onClick={submitAnswer}
-                bgColor="var(--color-submit)"
-                hoverBgColor="var(--color-submit-hover)"
-                borderColor="var(--color-submit-border)"
-                shadowBgColor="var(--color-submit-shadow)"
-                textColor="var(--color-text-white)"
+                theme="submit"
                 className="flex-1"
               >
                 Submit Answer
               </KeyboardButton>
               <KeyboardButton
                 onClick={handleDontKnow}
-                bgColor="var(--color-gray-100)"
-                hoverBgColor="var(--color-gray-200)"
-                borderColor="var(--color-gray-300)"
-                shadowBgColor="var(--color-gray-200)"
-                textColor="var(--color-gray-700)"
+                theme="gray"
               >
                 Don&apos;t Know
               </KeyboardButton>
             </div>
             <KeyboardButton
               onClick={handleRegenerate}
-              bgColor="var(--color-primary)"
-              hoverBgColor="var(--color-primary-hover)"
-              borderColor="var(--color-primary-border)"
-              shadowBgColor="var(--color-primary-shadow)"
-              textColor="var(--color-text-white)"
+              theme="primary"
               className="w-full mt-2"
             >
               Regenerate Question
@@ -281,11 +269,7 @@ export function QuestionModal({
                   <KeyboardButton
                     key={player.id}
                     onClick={() => handleSelectPlayer(index)}
-                    bgColor="var(--color-primary)"
-                    hoverBgColor="var(--color-primary-hover)"
-                    borderColor="var(--color-primary-border)"
-                    shadowBgColor="var(--color-primary-shadow)"
-                    textColor="var(--color-text-white)"
+                    theme="primary"
                     className="w-full"
                   >
                     {player.name}
@@ -294,11 +278,7 @@ export function QuestionModal({
               })}
               <KeyboardButton
                 onClick={handleNobodyWantsToAnswer}
-                bgColor="var(--color-gray-100)"
-                hoverBgColor="var(--color-gray-200)"
-                borderColor="var(--color-gray-300)"
-                shadowBgColor="var(--color-gray-200)"
-                textColor="var(--color-gray-700)"
+                theme="gray"
                 className="w-full"
               >
                 Nobody Knows
@@ -359,22 +339,14 @@ export function QuestionModal({
               <div className="flex gap-4 items-center">
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(true)}
-                  bgColor="var(--color-warning)"
-                  hoverBgColor="var(--color-warning-hover)"
-                  borderColor="var(--color-warning-border)"
-                  shadowBgColor="var(--color-warning-shadow)"
-                  textColor="var(--color-text-white)"
+                  theme="warning"
                   className="flex-1"
                 >
                   Yes, Correct (+${question.points})
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={() => handleModeratorDecision(false)}
-                  bgColor="var(--color-warning)"
-                  hoverBgColor="var(--color-warning-hover)"
-                  borderColor="var(--color-warning-border)"
-                  shadowBgColor="var(--color-warning-shadow)"
-                  textColor="var(--color-text-white)"
+                  theme="warning"
                   className="flex-1"
                 >
                   No, Incorrect (-${question.points})
@@ -414,11 +386,7 @@ export function QuestionModal({
             <p className="text-gray-500 mb-4">No points awarded or deducted</p>
             <KeyboardButton
               onClick={handleRevealedContinue}
-              bgColor="var(--color-warning)"
-              hoverBgColor="var(--color-warning-hover)"
-              borderColor="var(--color-warning-border)"
-              shadowBgColor="var(--color-warning-shadow)"
-              textColor="var(--color-text-white)"
+              theme="warning"
             >
               Continue
             </KeyboardButton>

@@ -273,11 +273,7 @@ export default function Home() {
           <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
             <KeyboardButton
               onClick={() => setShowMenuConfirm(true)}
-              bgColor="var(--color-primary)"
-              hoverBgColor="var(--color-primary-hover)"
-              borderColor="var(--color-primary-border)"
-              shadowBgColor="var(--color-primary-shadow)"
-              textColor="var(--color-text-white)"
+              theme="primary"
               fontSize="0.75rem"
             >
               Menu
@@ -303,11 +299,7 @@ export default function Home() {
             </p>
             <KeyboardButton
               onClick={handleStartGame}
-              bgColor="var(--color-primary)"
-              hoverBgColor="var(--color-primary-hover)"
-              borderColor="var(--color-primary-border)"
-              shadowBgColor="var(--color-primary-shadow)"
-              textColor="var(--color-text-white)"
+              theme="primary"
               className="w-full"
             >
               Start New Game
@@ -315,11 +307,7 @@ export default function Home() {
             {process.env.NEXT_PUBLIC_DEV_MODE === "1" && (
               <KeyboardButton
                 onClick={handleStartDevGame}
-                bgColor="var(--color-gray-500)"
-                hoverBgColor="var(--color-gray-600)"
-                borderColor="var(--color-gray-700)"
-                shadowBgColor="var(--color-gray-800)"
-                textColor="var(--color-text-white)"
+                theme="gray-dark"
                 className="w-full mt-3"
               >
                 Start Demo Game
@@ -409,9 +397,7 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 md:p-8">
           <KeyboardContainer
             className="!w-[600px] !max-w-full"
-            bgColor="var(--color-bg-modal)"
-            borderColor="var(--color-primary-border)"
-            shadowBgColor="var(--color-bg-modal-shadow)"
+            theme="modal"
           >
             <div className="p-6 text-center">
               <h3 className="text-xl font-bold text-white mb-4">End Current Game?</h3>
@@ -421,11 +407,7 @@ export default function Home() {
               <div className="flex gap-4 justify-center">
                 <KeyboardButton
                   onClick={() => setShowMenuConfirm(false)}
-                  bgColor="var(--color-primary)"
-                  hoverBgColor="var(--color-primary-hover)"
-                  borderColor="var(--color-primary-border)"
-                  shadowBgColor="var(--color-primary-shadow)"
-                  textColor="var(--color-text-white)"
+                  theme="primary"
                 >
                   No, Continue
                 </KeyboardButton>
@@ -434,11 +416,7 @@ export default function Home() {
                     setShowMenuConfirm(false);
                     handleNewGame();
                   }}
-                  bgColor="var(--color-destructive-dark)"
-                  hoverBgColor="var(--color-destructive)"
-                  borderColor="var(--color-destructive-border)"
-                  shadowBgColor="var(--color-destructive-shadow-dark)"
-                  textColor="var(--color-text-white)"
+                  theme="destructive"
                 >
                   Yes, End Game
                 </KeyboardButton>

@@ -1,11 +1,13 @@
 "use client";
 
 import { ReactNode } from "react";
+import { KeyboardTheme, getThemeColors } from "@/lib/themes";
 import "./KeyboardContainer.css";
 
 interface KeyboardContainerProps {
   children: ReactNode;
   className?: string;
+  theme?: KeyboardTheme;
   bgColor?: string;
   borderColor?: string;
   shadowBgColor?: string;
@@ -16,20 +18,27 @@ interface KeyboardContainerProps {
 export function KeyboardContainer({
   children,
   className = "",
-  bgColor = "var(--color-bg-white)",
-  borderColor = "var(--color-gray-200)",
-  shadowBgColor = "var(--color-gray-100)",
+  theme,
+  bgColor,
+  borderColor,
+  shadowBgColor,
   shadowColor = "var(--color-shadow)",
   shadowOpacity = 0.1,
 }: KeyboardContainerProps) {
+  const colors = getThemeColors(theme, "container", {
+    bgColor,
+    borderColor,
+    shadowBgColor,
+  });
+
   return (
     <div
       className={`keyboard-container-wrapper ${className}`}
       style={
         {
-          "--kc-bg": bgColor,
-          "--kc-border": borderColor,
-          "--kc-shadow-bg": shadowBgColor,
+          "--kc-bg": colors.bgColor,
+          "--kc-border": colors.borderColor,
+          "--kc-shadow-bg": colors.shadowBgColor,
           "--kc-shadow": shadowColor,
           "--kc-shadow-opacity": shadowOpacity,
         } as React.CSSProperties

@@ -1,11 +1,13 @@
 "use client";
 
 import { InputHTMLAttributes } from "react";
+import { KeyboardTheme, getThemeColors } from "@/lib/themes";
 import "./KeyboardInput.css";
 
 interface KeyboardInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
   className?: string;
+  theme?: KeyboardTheme;
   bgColor?: string;
   borderColor?: string;
   shadowBgColor?: string;
@@ -18,27 +20,35 @@ interface KeyboardInputProps
 
 export function KeyboardInput({
   className = "",
-  bgColor = "var(--color-bg-white)",
-  borderColor = "var(--color-gray-200)",
-  shadowBgColor = "var(--color-gray-100)",
+  theme,
+  bgColor,
+  borderColor,
+  shadowBgColor,
   shadowColor = "var(--color-shadow)",
   shadowOpacity = 0.1,
-  textColor = "var(--color-text-dark)",
+  textColor,
   fontSize = "1rem",
   focusRingColor = "var(--color-text-white)",
   ...inputProps
 }: KeyboardInputProps) {
+  const colors = getThemeColors(theme, "container", {
+    bgColor,
+    borderColor,
+    shadowBgColor,
+    textColor,
+  });
+
   return (
     <div
       className={`keyboard-input-wrapper ${className}`}
       style={
         {
-          "--ki-bg": bgColor,
-          "--ki-border": borderColor,
-          "--ki-shadow-bg": shadowBgColor,
+          "--ki-bg": colors.bgColor,
+          "--ki-border": colors.borderColor,
+          "--ki-shadow-bg": colors.shadowBgColor,
           "--ki-shadow": shadowColor,
           "--ki-shadow-opacity": shadowOpacity,
-          "--ki-text": textColor,
+          "--ki-text": colors.textColor,
           "--ki-font-size": fontSize,
           ...(focusRingColor && { "--ki-focus-ring": focusRingColor }),
         } as React.CSSProperties
