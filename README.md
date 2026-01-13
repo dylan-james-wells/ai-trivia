@@ -7,6 +7,7 @@ A Jeopardy-style trivia game powered by Claude AI. Players choose categories, AI
 ## Features
 
 - **Custom Categories**: Players define 6 trivia categories, validated by AI to ensure they're suitable
+- **Category Suggestions**: AI can suggest categories if you need inspiration
 - **AI-Generated Questions**: Claude generates 5 questions per category with increasing difficulty ($200-$1000)
 - **Smart Answer Evaluation**: Fast fuzzy text matching for obvious matches, with AI fallback for nuanced judgments
 - **Moderator Override**: Human moderator can override AI judgments
@@ -20,6 +21,7 @@ A Jeopardy-style trivia game powered by Claude AI. Players choose categories, AI
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4
 - **AI**: Anthropic Claude API (claude-sonnet-4-20250514)
+- **3D Graphics**: Three.js with React Three Fiber (background effects)
 - **Fuzzy Matching**: fuzzball
 - **Testing**: Vitest
 
@@ -100,30 +102,43 @@ Built-in rate limiting: 30 requests/minute per IP address.
 src/
 ├── app/
 │   ├── api/
-│   │   ├── evaluate-answer/   # Answer evaluation endpoint
-│   │   ├── generate-questions/ # Question generation endpoint
-│   │   ├── regenerate-question/ # Single question regeneration
-│   │   └── validate-category/  # Category validation endpoint
-│   └── page.tsx               # Main game component
+│   │   ├── evaluate-answer/      # Answer evaluation endpoint
+│   │   ├── generate-questions/   # Question generation endpoint
+│   │   ├── regenerate-question/  # Single question regeneration
+│   │   ├── suggest-categories/   # AI category suggestions
+│   │   └── validate-category/    # Category validation endpoint
+│   ├── layout.tsx                # Root layout with SparkleBackground
+│   └── page.tsx                  # Main game component
 ├── components/
-│   ├── AudioControls.tsx      # Mute/unmute controls
-│   ├── CategorySetup.tsx      # Category input and validation
-│   ├── GameBoard.tsx          # Jeopardy-style question grid
-│   ├── PlayerSetup.tsx        # Player name entry
-│   └── QuestionModal.tsx      # Question display and answer input
+│   ├── AudioControls/            # Mute/unmute volume controls
+│   ├── CategorySetup/            # Category input and validation
+│   ├── DebugMenu/                # Development debugging interface
+│   ├── GameBoard/                # Jeopardy-style question grid
+│   ├── KeyboardButton/           # Themed button component
+│   ├── KeyboardCircleButton/     # Circular button variant
+│   ├── KeyboardContainer/        # Layout container
+│   ├── KeyboardInput/            # Styled text input
+│   ├── LoadingIndicator/         # Animated loading UI
+│   ├── LogoText/                 # Game title/logo
+│   ├── PlayerSetup/              # Player name entry
+│   ├── QuestionModal/            # Question display and answer input
+│   ├── RaisedTextButton/         # Text-based button
+│   └── SparkleBackground/        # Animated background with sparkles
 ├── lib/
-│   ├── anthropic.ts           # Claude API client
-│   ├── audio.ts               # Audio manager singleton
-│   ├── dev-game.ts            # Demo game data
-│   ├── fuzzy-match.ts         # Fuzzy text matching
-│   ├── parse-json.ts          # AI response JSON parser
-│   ├── random-letters.ts      # Letter constraints for question variety
-│   ├── rate-limit.ts          # API rate limiting
-│   └── storage.ts             # localStorage helpers
+│   ├── anthropic.ts              # Claude API client
+│   ├── audio.ts                  # Audio manager singleton
+│   ├── dev-game.ts               # Demo game data
+│   ├── fuzzy-match.ts            # Fuzzy text matching
+│   ├── parse-json.ts             # AI response JSON parser
+│   ├── prompts.ts                # AI prompt templates
+│   ├── random-letters.ts         # Letter constraints for question variety
+│   ├── rate-limit.ts             # API rate limiting
+│   ├── storage.ts                # localStorage helpers
+│   └── themes.ts                 # Theme configuration
 ├── test/
-│   └── setup.ts               # Vitest test setup
+│   └── setup.ts                  # Vitest test setup
 └── types/
-    └── game.ts                # TypeScript interfaces
+    └── game.ts                   # TypeScript interfaces
 ```
 
 ## Testing
@@ -143,15 +158,15 @@ npm run test:coverage
 
 ### Test Coverage
 
-- **Unit Tests**
-  - `fuzzy-match.ts` - Fuzzy text matching for answer evaluation
-  - `random-letters.ts` - Letter set generation for question variety
-  - `parse-json.ts` - AI response JSON parsing
-  - `rate-limit.ts` - API rate limiting logic
+- **Unit Tests** (in `src/lib/`)
+  - `fuzzy-match.test.ts` - Fuzzy text matching for answer evaluation
+  - `random-letters.test.ts` - Letter set generation for question variety
+  - `parse-json.test.ts` - AI response JSON parsing
+  - `rate-limit.test.ts` - API rate limiting logic
 
-- **API Route Tests**
-  - `evaluate-answer/route.ts` - Answer evaluation with fuzzy match and AI fallback
-  - `generate-questions/route.ts` - Question generation with validation
+- **API Route Tests** (in `src/app/api/`)
+  - `evaluate-answer/route.test.ts` - Answer evaluation with fuzzy match and AI fallback
+  - `generate-questions/route.test.ts` - Question generation with validation
 
 ## Dev/Demo Mode
 
