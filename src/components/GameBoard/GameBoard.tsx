@@ -107,9 +107,10 @@ export function GameBoard({
             key={player.id}
             className={`px-4 py-2 rounded-lg ${
               index === currentPlayerIndex
-                ? "bg-green-500 text-white"
+                ? "text-white"
                 : "bg-gray-200 text-gray-800"
             }`}
+            style={index === currentPlayerIndex ? { backgroundColor: "#22c55e" } : undefined}
           >
             <span className="font-semibold">{player.name}</span>
             <span className="ml-2">${player.score}</span>
