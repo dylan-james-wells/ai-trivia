@@ -141,7 +141,7 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
 
       {categories.length < TOTAL_CATEGORIES && !pendingCategory && (
         <div className="mb-8">
-          <div className="flex gap-2 items-start">
+          <div className="flex flex-col md:flex-row gap-2 items-stretch md:items-start">
             <KeyboardInput
               type="text"
               value={currentCategory}
@@ -152,20 +152,24 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
               disabled={loading}
               className="flex-1"
             />
-            <KeyboardButton
-              onClick={validateCategory}
-              disabled={loading || autoLoading}
-              theme="primary"
-            >
-              {loading ? "Checking..." : "Add"}
-            </KeyboardButton>
-            <KeyboardButton
-              onClick={handleAutoSuggest}
-              disabled={loading || autoLoading}
-              theme="success"
-            >
-              {autoLoading ? "..." : "Auto"}
-            </KeyboardButton>
+            <div className="flex gap-2">
+              <KeyboardButton
+                onClick={validateCategory}
+                disabled={loading || autoLoading}
+                theme="primary"
+                className="flex-1 md:flex-none"
+              >
+                {loading ? "Checking..." : "Add"}
+              </KeyboardButton>
+              <KeyboardButton
+                onClick={handleAutoSuggest}
+                disabled={loading || autoLoading}
+                theme="success"
+                className="flex-1 md:flex-none"
+              >
+                {autoLoading ? "..." : "Auto"}
+              </KeyboardButton>
+            </div>
           </div>
           {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
         </div>
