@@ -18,7 +18,7 @@ import { createDevGameState } from "@/lib/dev-game";
 import { KeyboardButton } from "@/components/KeyboardButton";
 import { KeyboardContainer } from "@/components/KeyboardContainer";
 import { LogoText } from "@/components/LogoText/LogoText";
-import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator";
+import { LoadingIndicator, LoadingText } from "@/components/LoadingIndicator/LoadingIndicator";
 import { DebugMenu } from "@/components/DebugMenu/DebugMenu";
 
 export default function Home() {
@@ -294,9 +294,9 @@ export default function Home() {
         <div className="fixed inset-0 flex items-center justify-center z-30 pointer-events-none">
           <div className="text-center">
             <LoadingIndicator />
-            <p className="text-lg mt-64 font-semibold text-white">
-              Generating questions...
-            </p>
+            <LoadingText className="text-lg mt-64 font-semibold text-white">
+              Generating questions
+            </LoadingText>
           </div>
         </div>
       )}

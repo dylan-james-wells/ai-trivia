@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import "./LoadingIndicator.css";
 
 interface LoadingIndicatorProps {
@@ -59,6 +59,30 @@ const icons = [
 const BOX_SIZE = 60;
 // Threshold for overlap detection (distance between centers)
 const OVERLAP_THRESHOLD = BOX_SIZE * 0.7;
+
+interface LoadingTextProps {
+  children: string;
+  className?: string;
+}
+
+export function LoadingText({ children, className = "" }: LoadingTextProps) {
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <p className={`relative inline-block ${className}`}>
+      {children}
+      <span className="absolute left-full bottom-0">{dots}</span>
+    </p>
+  );
+}
 
 export function LoadingIndicator({ className = "" }: LoadingIndicatorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
