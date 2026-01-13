@@ -453,3 +453,17 @@
   animation: moveBox-9 4s infinite;
 }
 
+/* Loading text bounce animation */
+@keyframes loading-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.loading-text-bounce {
+  animation: loading-bounce 2s ease-in-out infinite;
+}
+

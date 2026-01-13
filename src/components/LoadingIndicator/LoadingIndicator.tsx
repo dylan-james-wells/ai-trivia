@@ -77,7 +77,7 @@ export function LoadingText({ children, className = "" }: LoadingTextProps) {
   }, []);
 
   return (
-    <p className={`relative inline-block ${className}`}>
+    <p className={`relative inline-block loading-text-bounce ${className}`}>
       {children}
       <span className="absolute left-full bottom-0">{dots}</span>
     </p>
