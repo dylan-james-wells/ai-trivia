@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import "./SparkleBackground.css";
 
 interface SparkleData {
   x: number;
@@ -9,8 +10,15 @@ interface SparkleData {
   size: number;
 }
 
+interface ShootingStarData {
+  top: number;
+  left: number;
+  visible: boolean;
+}
+
 const SPARKLE_COUNT = 20;
 const DELAY_STEP = 0.15;
+const SHOOTING_STAR_COUNT = 1;
 
 function generateSparkleData(): SparkleData {
   return {
@@ -18,6 +26,23 @@ function generateSparkleData(): SparkleData {
     y: Math.random() * 100,
     scale: 0.8 + Math.random() * 0.45,
     size: 16 + Math.random() * 16,
+  };
+}
+
+function generateShootingStarData(): ShootingStarData {
+  // 10% chance to spawn a shooting star each cycle
+  const visible = Math.random() < 0.1;
+
+  // Avoid center 50% of screen (25-75% range)
+  // So we spawn in 0-25% or 75-100% for top, but limit to 80% max so trail stays visible
+  // For left, spawn in 0-25% or 50-80% (shifted down since star moves right)
+  const topZone = Math.random() < 0.5 ? Math.random() * 25 : 50 + Math.random() * 30;
+  const leftZone = Math.random() < 0.5 ? Math.random() * 25 : 50 + Math.random() * 30;
+
+  return {
+    top: topZone,
+    left: leftZone,
+    visible,
   };
 }
 
@@ -54,7 +79,35 @@ function Sparkle({ delay }: { delay: number }) {
   );
 }
 
-export function SparkleBackground() {
+function ShootingStar({ delay }: { delay: number }) {
+  const [data, setData] = useState<ShootingStarData>(generateShootingStarData);
+
+  const handleAnimationIteration = useCallback((e: React.AnimationEvent) => {
+    // Only update on the 'shooting-move' animation to avoid double-firing
+    if (e.animationName === 'shooting-move') {
+      setData(generateShootingStarData());
+    }
+  }, []);
+
+  return (
+    <div
+      className="shooting-star"
+      style={{
+        top: `${data.top}%`,
+        left: `${data.left}%`,
+        "--shooting-delay": `${delay}ms`,
+        opacity: data.visible ? 1 : 0,
+      } as React.CSSProperties}
+      onAnimationIteration={handleAnimationIteration}
+    />
+  );
+}
+
+interface SparkleBackgroundProps {
+  shootingStarCount?: number;
+}
+
+export function SparkleBackground({ shootingStarCount = SHOOTING_STAR_COUNT }: SparkleBackgroundProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -73,7 +126,16 @@ export function SparkleBackground() {
         }}
       />
 
-      {/* Layer 2: Sparkle Container */}
+      {/* Layer 2: Shooting Stars */}
+      {mounted && shootingStarCount > 0 && (
+        <div className="shooting-stars-container">
+          {Array.from({ length: shootingStarCount }, (_, i) => (
+            <ShootingStar key={i} delay={i * 8000} />
+          ))}
+        </div>
+      )}
+
+      {/* Layer 3: Sparkle Container */}
       <div className="absolute inset-0">
         {mounted &&
           Array.from({ length: SPARKLE_COUNT }, (_, i) => (
@@ -81,7 +143,7 @@ export function SparkleBackground() {
           ))}
       </div>
 
-      {/* Layer 3: Glass Overlay */}
+      {/* Layer 4: Glass Overlay */}
       <div
         className="absolute inset-0"
         style={{
