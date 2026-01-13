@@ -406,8 +406,9 @@ export default function Home() {
 
       {/* Menu Confirmation Modal */}
       {showMenuConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 md:p-8">
           <KeyboardContainer
+            className="!w-[600px] !max-w-full"
             bgColor="#1e3a5f"
             borderColor="#4080c0"
             shadowBgColor="#0f2a4a"
