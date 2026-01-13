@@ -341,7 +341,7 @@ export default function Home() {
           <div className="p-8">
             <h2 className="text-2xl font-bold mb-6">Welcome to TrivAI!</h2>
             <p className="text-blue-200 mb-8">
-              A Jeopardy-style trivia game where AI generates questions and
+              A trivia game where AI generates questions and
               judges your answers.
             </p>
             <KeyboardButton
