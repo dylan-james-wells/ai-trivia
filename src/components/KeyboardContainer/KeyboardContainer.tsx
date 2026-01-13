@@ -16,10 +16,10 @@ interface KeyboardContainerProps {
 export function KeyboardContainer({
   children,
   className = "",
-  bgColor = "#ffffff",
-  borderColor = "#d1d5db",
-  shadowBgColor = "#e5e7eb",
-  shadowColor = "#000000",
+  bgColor = "var(--color-bg-white)",
+  borderColor = "var(--color-gray-200)",
+  shadowBgColor = "var(--color-gray-100)",
+  shadowColor = "var(--color-shadow)",
   shadowOpacity = 0.1,
 }: KeyboardContainerProps) {
   return (

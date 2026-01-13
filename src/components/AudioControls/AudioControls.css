@@ -4,7 +4,7 @@
   appearance: none;
   height: 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--color-slider-track);
   outline: none;
   cursor: pointer;
 }
@@ -15,10 +15,10 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #4080c0;
+  background: var(--color-slider-thumb);
+  border: 2px solid var(--color-slider-thumb-border);
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px var(--color-shadow-medium);
   transition: transform 150ms ease;
 }
 
@@ -30,10 +30,10 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #4080c0;
+  background: var(--color-slider-thumb);
+  border: 2px solid var(--color-slider-thumb-border);
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px var(--color-shadow-medium);
   transition: transform 150ms ease;
 }
 
@@ -44,5 +44,5 @@
 .audio-slider::-moz-range-track {
   height: 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--color-slider-track);
 }

@@ -68,7 +68,7 @@ export function SparkleBackground() {
         className="absolute inset-0 animate-gradient-shift"
         style={{
           background:
-            "linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #1a1a2e 75%, #16213e 100%)",
+            "linear-gradient(135deg, var(--color-bg-dark-1) 0%, var(--color-bg-dark-2) 25%, var(--color-bg-dark-3) 50%, var(--color-bg-dark-1) 75%, var(--color-bg-dark-2) 100%)",
           backgroundSize: "400% 400%",
         }}
       />

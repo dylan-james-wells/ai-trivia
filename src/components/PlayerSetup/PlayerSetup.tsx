@@ -77,11 +77,11 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
           <KeyboardButton
             onClick={addPlayer}
             pressed={addButtonPressed}
-            bgColor="#70c0ff"
-            hoverBgColor="#5090d0"
-            borderColor="#4080c0"
-            shadowBgColor="#3070b0"
-            textColor="#ffffff"
+            bgColor="var(--color-primary)"
+            hoverBgColor="var(--color-primary-hover)"
+            borderColor="var(--color-primary-border)"
+            shadowBgColor="var(--color-primary-shadow)"
+            textColor="var(--color-text-white)"
           >
             Add
           </KeyboardButton>
@@ -99,11 +99,11 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
                   <span className="text-gray-900">{player.name}</span>
                   <KeyboardButton
                     onClick={() => removePlayer(player.id)}
-                    bgColor="#fee2e2"
-                    hoverBgColor="#fecaca"
-                    borderColor="#dc2626"
-                    shadowBgColor="#fca5a5"
-                    textColor="#dc2626"
+                    bgColor="var(--color-destructive-bg)"
+                    hoverBgColor="var(--color-destructive-hover)"
+                    borderColor="var(--color-destructive)"
+                    shadowBgColor="var(--color-destructive-shadow)"
+                    textColor="var(--color-destructive)"
                     fontSize="0.75rem"
                   >
                     Remove
@@ -118,22 +118,22 @@ export function PlayerSetup({ onComplete, onBack }: PlayerSetupProps) {
       <div className="flex gap-4 items-center">
         <KeyboardButton
           onClick={onBack}
-          bgColor="#e5e7eb"
-          hoverBgColor="#d1d5db"
-          borderColor="#9ca3af"
-          shadowBgColor="#d1d5db"
-          textColor="#374151"
+          bgColor="var(--color-gray-100)"
+          hoverBgColor="var(--color-gray-200)"
+          borderColor="var(--color-gray-300)"
+          shadowBgColor="var(--color-gray-200)"
+          textColor="var(--color-gray-700)"
         >
           Back
         </KeyboardButton>
         {players.length >= 2 ? (
           <KeyboardButton
             onClick={handleSubmit}
-            bgColor="#70c0ff"
-            hoverBgColor="#5090d0"
-            borderColor="#4080c0"
-            shadowBgColor="#3070b0"
-            textColor="#ffffff"
+            bgColor="var(--color-primary)"
+            hoverBgColor="var(--color-primary-hover)"
+            borderColor="var(--color-primary-border)"
+            shadowBgColor="var(--color-primary-shadow)"
+            textColor="var(--color-text-white)"
             className="flex-1"
           >
             Continue

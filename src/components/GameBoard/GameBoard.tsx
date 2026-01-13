@@ -33,11 +33,11 @@ function CategoryHeader({ category, index, isOverflowing, onOverflowChange }: Ca
   return (
     <KeyboardButton
       disabled
-      bgColor="#5090d0"
-      hoverBgColor="#5090d0"
-      borderColor="#4080c0"
-      shadowBgColor="#3070b0"
-      textColor="#ffffff"
+      bgColor="var(--color-primary-hover)"
+      hoverBgColor="var(--color-primary-hover)"
+      borderColor="var(--color-primary-border)"
+      shadowBgColor="var(--color-primary-shadow)"
+      textColor="var(--color-text-white)"
       fontSize="1.25rem"
       className="w-full question-cell category-header-btn"
     >
@@ -114,7 +114,7 @@ export function GameBoard({
                 ? "text-white"
                 : "bg-gray-200 text-gray-800"
             }`}
-            style={index === currentPlayerIndex ? { backgroundColor: "#22c55e" } : undefined}
+            style={index === currentPlayerIndex ? { backgroundColor: "var(--color-success)" } : undefined}
           >
             <span className="font-semibold">{player.name}</span>
             <span className="ml-2">${player.score}</span>
@@ -145,43 +145,43 @@ export function GameBoard({
             // Everybody has 0
             title = "Nobody Wins!";
             subtitle = "Everyone finished with $0";
-            bgColor = "#fef3c7";
-            borderColor = "#f59e0b";
-            shadowBgColor = "#fcd34d";
-            textColor = "#92400e";
+            bgColor = "var(--color-question-pending-bg)";
+            borderColor = "var(--color-question-pending-border)";
+            shadowBgColor = "var(--color-question-pending-shadow)";
+            textColor = "var(--color-question-pending-text)";
           } else if (highScore < 0) {
             // Everybody has negative
             title = "Everybody Loses!";
             subtitle = `Everyone finished with $${highScore}`;
-            bgColor = "#fee2e2";
-            borderColor = "#ef4444";
-            shadowBgColor = "#fca5a5";
-            textColor = "#991b1b";
+            bgColor = "var(--color-question-incorrect-bg)";
+            borderColor = "var(--color-question-incorrect-border)";
+            shadowBgColor = "var(--color-question-incorrect-shadow)";
+            textColor = "var(--color-question-incorrect-text)";
           } else {
             // Everybody has positive equal score
             title = "Everybody Wins!";
             subtitle = `Everyone finished with $${highScore}`;
-            bgColor = "#d1fae5";
-            borderColor = "#10b981";
-            shadowBgColor = "#6ee7b7";
-            textColor = "#065f46";
+            bgColor = "var(--color-question-correct-bg)";
+            borderColor = "var(--color-question-correct-border)";
+            shadowBgColor = "var(--color-question-correct-shadow)";
+            textColor = "var(--color-question-correct-text)";
           }
         } else if (winners.length > 1) {
           // Multiple winners (tie for first, but not everyone)
           title = "It's a Tie!";
           subtitle = `Winners: ${winners.map(w => w.name).join(" & ")} with $${highScore}`;
-          bgColor = "#d1fae5";
-          borderColor = "#10b981";
-          shadowBgColor = "#6ee7b7";
-          textColor = "#065f46";
+          bgColor = "var(--color-question-correct-bg)";
+          borderColor = "var(--color-question-correct-border)";
+          shadowBgColor = "var(--color-question-correct-shadow)";
+          textColor = "var(--color-question-correct-text)";
         } else {
           // Single winner
           title = "Game Over!";
           subtitle = `Winner: ${winners[0].name} with $${highScore}`;
-          bgColor = "#d1fae5";
-          borderColor = "#10b981";
-          shadowBgColor = "#6ee7b7";
-          textColor = "#065f46";
+          bgColor = "var(--color-question-correct-bg)";
+          borderColor = "var(--color-question-correct-border)";
+          shadowBgColor = "var(--color-question-correct-shadow)";
+          textColor = "var(--color-question-correct-text)";
         }
 
         return (
@@ -223,11 +223,11 @@ export function GameBoard({
                 key={`${categoryIndex}-${difficultyIndex}`}
                 onClick={() => question && !isAnswered && onSelectQuestion(question)}
                 disabled={isAnswered || !question}
-                bgColor={isAnswered ? "#1e3a5f" : "#70c0ff"}
-                hoverBgColor={isAnswered ? "#1e3a5f" : "#5090d0"}
-                borderColor={isAnswered ? "#172d4d" : "#4080c0"}
-                shadowBgColor={isAnswered ? "#172d4d" : "#3070b0"}
-                textColor={isAnswered ? "#3b5998" : "#1e3a5f"}
+                bgColor={isAnswered ? "var(--color-answered-bg)" : "var(--color-primary)"}
+                hoverBgColor={isAnswered ? "var(--color-answered-bg)" : "var(--color-primary-hover)"}
+                borderColor={isAnswered ? "var(--color-answered-border)" : "var(--color-primary-border)"}
+                shadowBgColor={isAnswered ? "var(--color-answered-border)" : "var(--color-primary-shadow)"}
+                textColor={isAnswered ? "var(--color-answered-text)" : "var(--color-bg-modal)"}
                 fontSize="1.25rem"
                 className="w-full question-cell"
               >

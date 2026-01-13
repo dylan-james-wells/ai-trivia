@@ -273,11 +273,11 @@ export default function Home() {
           <div className="fixed bottom-4 left-4 z-20 md:absolute md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2">
             <KeyboardButton
               onClick={() => setShowMenuConfirm(true)}
-              bgColor="#70c0ff"
-              hoverBgColor="#5090d0"
-              borderColor="#4080c0"
-              shadowBgColor="#3070b0"
-              textColor="#ffffff"
+              bgColor="var(--color-primary)"
+              hoverBgColor="var(--color-primary-hover)"
+              borderColor="var(--color-primary-border)"
+              shadowBgColor="var(--color-primary-shadow)"
+              textColor="var(--color-text-white)"
               fontSize="0.75rem"
             >
               Menu
@@ -303,11 +303,11 @@ export default function Home() {
             </p>
             <KeyboardButton
               onClick={handleStartGame}
-              bgColor="#70c0ff"
-              hoverBgColor="#5090d0"
-              borderColor="#4080c0"
-              shadowBgColor="#3070b0"
-              textColor="#ffffff"
+              bgColor="var(--color-primary)"
+              hoverBgColor="var(--color-primary-hover)"
+              borderColor="var(--color-primary-border)"
+              shadowBgColor="var(--color-primary-shadow)"
+              textColor="var(--color-text-white)"
               className="w-full"
             >
               Start New Game
@@ -315,11 +315,11 @@ export default function Home() {
             {process.env.NEXT_PUBLIC_DEV_MODE === "1" && (
               <KeyboardButton
                 onClick={handleStartDevGame}
-                bgColor="#6b7280"
-                hoverBgColor="#4b5563"
-                borderColor="#374151"
-                shadowBgColor="#1f2937"
-                textColor="#ffffff"
+                bgColor="var(--color-gray-500)"
+                hoverBgColor="var(--color-gray-600)"
+                borderColor="var(--color-gray-700)"
+                shadowBgColor="var(--color-gray-800)"
+                textColor="var(--color-text-white)"
                 className="w-full mt-3"
               >
                 Start Demo Game
@@ -409,9 +409,9 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 md:p-8">
           <KeyboardContainer
             className="!w-[600px] !max-w-full"
-            bgColor="#1e3a5f"
-            borderColor="#4080c0"
-            shadowBgColor="#0f2a4a"
+            bgColor="var(--color-bg-modal)"
+            borderColor="var(--color-primary-border)"
+            shadowBgColor="var(--color-bg-modal-shadow)"
           >
             <div className="p-6 text-center">
               <h3 className="text-xl font-bold text-white mb-4">End Current Game?</h3>
@@ -421,11 +421,11 @@ export default function Home() {
               <div className="flex gap-4 justify-center">
                 <KeyboardButton
                   onClick={() => setShowMenuConfirm(false)}
-                  bgColor="#70c0ff"
-                  hoverBgColor="#5090d0"
-                  borderColor="#4080c0"
-                  shadowBgColor="#3070b0"
-                  textColor="#ffffff"
+                  bgColor="var(--color-primary)"
+                  hoverBgColor="var(--color-primary-hover)"
+                  borderColor="var(--color-primary-border)"
+                  shadowBgColor="var(--color-primary-shadow)"
+                  textColor="var(--color-text-white)"
                 >
                   No, Continue
                 </KeyboardButton>
@@ -434,11 +434,11 @@ export default function Home() {
                     setShowMenuConfirm(false);
                     handleNewGame();
                   }}
-                  bgColor="#ef4444"
-                  hoverBgColor="#dc2626"
-                  borderColor="#b91c1c"
-                  shadowBgColor="#991b1b"
-                  textColor="#ffffff"
+                  bgColor="var(--color-destructive-dark)"
+                  hoverBgColor="var(--color-destructive)"
+                  borderColor="var(--color-destructive-border)"
+                  shadowBgColor="var(--color-destructive-shadow-dark)"
+                  textColor="var(--color-text-white)"
                 >
                   Yes, End Game
                 </KeyboardButton>

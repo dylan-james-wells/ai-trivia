@@ -14,8 +14,8 @@ export function RaisedTextButton({
   children,
   onClick,
   className = "",
-  color = "#facc15", // yellow-400
-  shadowColor = "#a16207", // yellow-800
+  color = "var(--color-yellow)",
+  shadowColor = "var(--color-yellow-shadow)",
 }: RaisedTextButtonProps) {
   return (
     <button

@@ -1,5 +1,113 @@
 @import "tailwindcss";
 
+/* ========================================
+   Global Color Variables
+   ======================================== */
+:root {
+  /* Primary Blue Theme (buttons, actions) */
+  --color-primary: #70c0ff;
+  --color-primary-hover: #5090d0;
+  --color-primary-border: #4080c0;
+  --color-primary-shadow: #3070b0;
+
+  /* Secondary/Neutral Theme (default buttons) */
+  --color-secondary-bg: #fff0f0;
+  --color-secondary-hover: #ffe9e9;
+  --color-secondary-border: #b18597;
+  --color-secondary-shadow: #f9c4d2;
+  --color-secondary-text: #382b22;
+
+  /* Destructive/Red Theme */
+  --color-destructive: #dc2626;
+  --color-destructive-bg: #fee2e2;
+  --color-destructive-hover: #fecaca;
+  --color-destructive-shadow: #fca5a5;
+  --color-destructive-dark: #ef4444;
+  --color-destructive-border: #b91c1c;
+  --color-destructive-shadow-dark: #991b1b;
+
+  /* Success/Green Theme */
+  --color-success: #22c55e;
+  --color-success-hover: #16a34a;
+  --color-success-border: #15803d;
+
+  /* Gray/Neutral Theme */
+  --color-gray-100: #e5e7eb;
+  --color-gray-200: #d1d5db;
+  --color-gray-300: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Text Colors */
+  --color-text-dark: #111827;
+  --color-text-brown: #382b22;
+  --color-text-white: #ffffff;
+
+  /* Background Colors */
+  --color-bg-white: #ffffff;
+  --color-bg-dark-1: #1a1a2e;
+  --color-bg-dark-2: #16213e;
+  --color-bg-dark-3: #0f3460;
+  --color-bg-modal: #1e3a5f;
+  --color-bg-modal-shadow: #0f2a4a;
+
+  /* Shadow Colors */
+  --color-shadow: #000000;
+  --color-shadow-light: rgba(0, 0, 0, 0.1);
+  --color-shadow-medium: rgba(0, 0, 0, 0.2);
+
+  /* Accent Colors */
+  --color-yellow: #facc15;
+  --color-yellow-shadow: #a16207;
+
+  /* Slider/Audio Controls */
+  --color-slider-thumb: #ffffff;
+  --color-slider-thumb-border: #4080c0;
+  --color-slider-track: rgba(255, 255, 255, 0.3);
+
+  /* Submit/Answer Green Theme */
+  --color-submit: #70d090;
+  --color-submit-hover: #50b070;
+  --color-submit-border: #40a060;
+  --color-submit-shadow: #309050;
+
+  /* Warning/Orange Theme */
+  --color-warning: #ffb070;
+  --color-warning-hover: #d09050;
+  --color-warning-border: #c08040;
+  --color-warning-shadow: #b07030;
+
+  /* Question State Colors - Pending */
+  --color-question-pending-bg: #fef3c7;
+  --color-question-pending-border: #f59e0b;
+  --color-question-pending-shadow: #fcd34d;
+  --color-question-pending-text: #92400e;
+
+  /* Question State Colors - Incorrect */
+  --color-question-incorrect-bg: #fee2e2;
+  --color-question-incorrect-border: #ef4444;
+  --color-question-incorrect-shadow: #fca5a5;
+  --color-question-incorrect-text: #991b1b;
+
+  /* Question State Colors - Correct */
+  --color-question-correct-bg: #d1fae5;
+  --color-question-correct-border: #10b981;
+  --color-question-correct-shadow: #6ee7b7;
+  --color-question-correct-text: #065f46;
+
+  /* Answered Question Colors */
+  --color-answered-bg: #1e3a5f;
+  --color-answered-border: #172d4d;
+  --color-answered-text: #3b5998;
+
+  /* Logo/3D Accent Colors */
+  --color-logo-outline: #001a2a;
+  --color-logo-light: #80b0ff;
+}
+
 /* Sparkle Background Animations */
 @keyframes sparkle {
   0% {

@@ -18,14 +18,14 @@ interface KeyboardInputProps
 
 export function KeyboardInput({
   className = "",
-  bgColor = "#ffffff",
-  borderColor = "#d1d5db",
-  shadowBgColor = "#e5e7eb",
-  shadowColor = "#000000",
+  bgColor = "var(--color-bg-white)",
+  borderColor = "var(--color-gray-200)",
+  shadowBgColor = "var(--color-gray-100)",
+  shadowColor = "var(--color-shadow)",
   shadowOpacity = 0.1,
-  textColor = "#111827",
+  textColor = "var(--color-text-dark)",
   fontSize = "1rem",
-  focusRingColor = 'rgba(255,255,255,1)',
+  focusRingColor = "var(--color-text-white)",
   ...inputProps
 }: KeyboardInputProps) {
   return (

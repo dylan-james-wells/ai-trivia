@@ -152,22 +152,22 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
             <KeyboardButton
               onClick={validateCategory}
               disabled={loading || autoLoading}
-              bgColor="#70c0ff"
-              hoverBgColor="#5090d0"
-              borderColor="#4080c0"
-              shadowBgColor="#3070b0"
-              textColor="#ffffff"
+              bgColor="var(--color-primary)"
+              hoverBgColor="var(--color-primary-hover)"
+              borderColor="var(--color-primary-border)"
+              shadowBgColor="var(--color-primary-shadow)"
+              textColor="var(--color-text-white)"
             >
               {loading ? "Checking..." : "Add"}
             </KeyboardButton>
             <KeyboardButton
               onClick={handleAutoSuggest}
               disabled={loading || autoLoading}
-              bgColor="#22c55e"
-              hoverBgColor="#16a34a"
-              borderColor="#15803d"
-              shadowBgColor="#16a34a"
-              textColor="#ffffff"
+              bgColor="var(--color-success)"
+              hoverBgColor="var(--color-success-hover)"
+              borderColor="var(--color-success-border)"
+              shadowBgColor="var(--color-success-hover)"
+              textColor="var(--color-text-white)"
             >
               {autoLoading ? "..." : "Auto"}
             </KeyboardButton>
@@ -190,21 +190,21 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
               <div className="flex gap-2">
                 <KeyboardButton
                   onClick={confirmCategory}
-                  bgColor="#22c55e"
-                  hoverBgColor="#16a34a"
-                  borderColor="#15803d"
-                  shadowBgColor="#16a34a"
-                  textColor="#ffffff"
+                  bgColor="var(--color-success)"
+                  hoverBgColor="var(--color-success-hover)"
+                  borderColor="var(--color-success-border)"
+                  shadowBgColor="var(--color-success-hover)"
+                  textColor="var(--color-text-white)"
                 >
                   Confirm
                 </KeyboardButton>
                 <KeyboardButton
                   onClick={rejectCategory}
-                  bgColor="#70c0ff"
-                  hoverBgColor="#5090d0"
-                  borderColor="#4080c0"
-                  shadowBgColor="#3070b0"
-                  textColor="#ffffff"
+                  bgColor="var(--color-primary)"
+                  hoverBgColor="var(--color-primary-hover)"
+                  borderColor="var(--color-primary-border)"
+                  shadowBgColor="var(--color-primary-shadow)"
+                  textColor="var(--color-text-white)"
                 >
                   Try Again
                 </KeyboardButton>
@@ -231,11 +231,11 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
                   </div>
                   <KeyboardButton
                     onClick={() => removeCategory(index)}
-                    bgColor="#fee2e2"
-                    hoverBgColor="#fecaca"
-                    borderColor="#dc2626"
-                    shadowBgColor="#fca5a5"
-                    textColor="#dc2626"
+                    bgColor="var(--color-destructive-bg)"
+                    hoverBgColor="var(--color-destructive-hover)"
+                    borderColor="var(--color-destructive)"
+                    shadowBgColor="var(--color-destructive-shadow)"
+                    textColor="var(--color-destructive)"
                     fontSize="0.75rem"
                   >
                     Remove
@@ -250,22 +250,22 @@ export function CategorySetup({ onComplete, onBack, isHidden = false }: Category
       <div className="flex gap-4 items-center">
         <KeyboardButton
           onClick={onBack}
-          bgColor="#e5e7eb"
-          hoverBgColor="#d1d5db"
-          borderColor="#9ca3af"
-          shadowBgColor="#d1d5db"
-          textColor="#374151"
+          bgColor="var(--color-gray-100)"
+          hoverBgColor="var(--color-gray-200)"
+          borderColor="var(--color-gray-300)"
+          shadowBgColor="var(--color-gray-200)"
+          textColor="var(--color-gray-700)"
         >
           Back
         </KeyboardButton>
         {categories.length === TOTAL_CATEGORIES ? (
           <KeyboardButton
             onClick={handleComplete}
-            bgColor="#70c0ff"
-            hoverBgColor="#5090d0"
-            borderColor="#4080c0"
-            shadowBgColor="#3070b0"
-            textColor="#ffffff"
+            bgColor="var(--color-primary)"
+            hoverBgColor="var(--color-primary-hover)"
+            borderColor="var(--color-primary-border)"
+            shadowBgColor="var(--color-primary-shadow)"
+            textColor="var(--color-text-white)"
             className="flex-1"
           >
             Generate Questions
