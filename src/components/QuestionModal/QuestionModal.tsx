@@ -341,7 +341,7 @@ export function QuestionModal({
               }`}
             >
               <p className="font-semibold mb-2">
-                AI Says:{" "}
+                <strong>AI Says:</strong>{" "}
                 <span className={evaluation.correct ? "text-green-700" : "text-red-700"}>
                   {evaluation.correct ? "CORRECT" : "INCORRECT"}
                 </span>

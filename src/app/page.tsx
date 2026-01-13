@@ -355,15 +355,7 @@ export default function Home() {
                 }}
               >
                 <LoadingIndicator />
-                <p
-                  className="text-lg mt-24 font-semibold"
-                  style={{
-                    background: 'linear-gradient(135deg, #70c0ff 0%, #5090d0 40%, #22c55e 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
+                <p className="text-lg mt-24 font-semibold text-white">
                   Generating questions...
                 </p>
               </div>
