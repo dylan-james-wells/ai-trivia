@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { GameState, Question } from "@/types/game";
+import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator";
 
 interface DebugMenuProps {
   gameState: GameState;
@@ -10,6 +11,7 @@ interface DebugMenuProps {
 
 export function DebugMenu({ gameState, onUpdateGameState }: DebugMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLoadingPreview, setShowLoadingPreview] = useState(false);
 
   if (process.env.NEXT_PUBLIC_DEV_MODE !== "1") {
     return null;
@@ -74,9 +76,32 @@ export function DebugMenu({ gameState, onUpdateGameState }: DebugMenuProps) {
             >
               Set Current Player: $1000
             </button>
+            <div className="border-t border-gray-600 my-2" />
+            <button
+              onClick={() => setShowLoadingPreview(!showLoadingPreview)}
+              className={`w-full text-left px-3 py-2 text-sm rounded text-white ${
+                showLoadingPreview
+                  ? "bg-blue-600 hover:bg-blue-500"
+                  : "bg-gray-700 hover:bg-gray-600"
+              }`}
+            >
+              {showLoadingPreview ? "✓ " : ""}Show Loading Indicator
+            </button>
           </div>
           <div className="mt-3 pt-2 border-t border-gray-600 text-xs text-gray-400">
             Current: {gameState.players[gameState.currentPlayerIndex]?.name || "N/A"}
+          </div>
+        </div>
+      )}
+
+      {/* Loading Indicator Preview */}
+      {showLoadingPreview && (
+        <div className="fixed inset-0 bg-black/80 flex flex-col items-center justify-center z-40">
+          <div className="relative">
+            <LoadingIndicator />
+            <p className="text-lg mt-24 font-semibold text-white">
+              Generating questions...
+            </p>
           </div>
         </div>
       )}
