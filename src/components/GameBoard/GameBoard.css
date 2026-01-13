@@ -19,6 +19,7 @@
   display: block;
   max-width: 100%;
   pointer-events: auto;
+  font-weight: 400;
 }
 
 /* Use invisible content to maintain height when empty */
