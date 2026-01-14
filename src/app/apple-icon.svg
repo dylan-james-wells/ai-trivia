@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs>
+    <linearGradient id="tGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#70c0ff"/>
+      <stop offset="100%" style="stop-color:#5090d0"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" fill="#1a1a2e"/>
+  <text
+    x="50%"
+    y="50%"
+    dominant-baseline="central"
+    text-anchor="middle"
+    font-family="Arial Black, Arial, sans-serif"
+    font-weight="900"
+    font-size="140"
+    fill="url(#tGradient)"
+    stroke="#001a2a"
+    stroke-width="3"
+  >T</text>
+</svg>
