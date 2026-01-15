@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Play } from "next/font/google";
 import "./globals.css";
 import { SparkleBackground } from "@/components/SparkleBackground";
-
+import { Analytics } from "@vercel/analytics/next";
+ 
 const play = Play({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -29,6 +30,7 @@ export default function RootLayout({
         <SparkleBackground />
         <div className="relative z-10">{children}</div>
       </body>
+      <Analytics />
     </html>
   );
 }

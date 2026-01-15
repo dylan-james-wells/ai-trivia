@@ -19,6 +19,7 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^25.0.6",
     "@types/react": "^19.2.8",
+    "@vercel/analytics": "^1.6.1",
     "autoprefixer": "^10.4.23",
     "fuzzball": "^2.2.3",
     "next": "^16.1.1",
